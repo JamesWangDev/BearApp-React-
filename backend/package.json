@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "dev": "nodemon -r dotenv/config",
-    "start": "node -r dotenv/config"
+    "start": "ts-node -r dotenv/config src/app.ts"
   },
   "keywords": [],
   "author": "",
