@@ -24,13 +24,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn run pretest"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*.js": [
-      "./node_modules/.bin/eslint -fix",
-      "git add"
-    ]
+    "*.js": "eslint --cache --fix"
   }
 }

@@ -21,6 +21,5 @@
   },
   "plugins": ["react"],
   "rules": {
-    "quotes": ["error", "single"]
   }
 }
