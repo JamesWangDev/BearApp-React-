@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api", routes);
 // used to catch any routes not found
 app.use((req, _, next) => {
-  next(createError(404, `Invalid route: ${req.url}`));
+  next(createError(404, `Invalid route!!: ${req.url}`));
 });
 // global error handler
 // access by passing err with the next callback ie) next(err)
