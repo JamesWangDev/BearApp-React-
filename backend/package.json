@@ -5,7 +5,8 @@
   "main": "src/app.ts",
   "scripts": {
     "dev": "nodemon -r dotenv/config",
-    "start": "node -r dotenv/config src/app.ts"
+    "start": "node -r dotenv/config src/app.ts",
+    "postinstall": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -16,16 +17,16 @@
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "mongoose": "^5.8.11",
-    "morgan-body": "^2.4.8"
-  },
-  "devDependencies": {
+    "morgan-body": "^2.4.8",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^8.2.0",
     "@types/eslint": "^6.1.8",
     "@types/express": "^4.17.2",
     "@types/http-errors": "^1.6.3",
     "@types/mongoose": "^5.7.1",
-    "@types/node": "^13.7.1",
+    "@types/node": "^13.7.1"
+  },
+  "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
     "eslint": "^6.8.0",
