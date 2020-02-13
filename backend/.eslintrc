@@ -20,6 +20,17 @@
         "ignoreParameters": true
       }
     ],
-    "@typescript-eslint/no-unused-vars": "warn"
+    // if you have a parameter that isn't used add an underscore ...
+    // ... at the front to ignore it, i.e. (_req, res, next) ...
+    // ... consequently, ESLint will ignore the _req param above
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "all",
+        "ignoreRestSiblings": false,
+        "argsIgnorePattern": "^_"
+      }
+    ]
   }
 }
