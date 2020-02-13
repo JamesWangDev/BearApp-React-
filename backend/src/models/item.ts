@@ -14,6 +14,11 @@ const ItemSchema = new Schema({
     required: [true, "Item price required"],
     min: 0,
   },
+  // UNCOMMENT WHEN REGISTRY MODEL IN CREATED
+  // registryId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Registry",
+  // },
   link: {
     type: String,
   },
