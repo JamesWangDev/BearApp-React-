@@ -3,7 +3,7 @@
     "scope": "typescript",
     "prefix": "newcontrollers",
     "body": [
-      "import { Request, Response, NextFunction } from 'express';",
+      "import { RequestHandler } from 'express';",
       "",
       "${1:controller}"
     ],
@@ -14,7 +14,7 @@
     "scope": "typescript",
     "prefix": "controller",
     "body": [
-      "export async function $1(req: Request, res: Response, next: NextFunction) {",
+      "export const $1: RequestHandler = async (req, res, next) => {",
       "  try {",
       "    $0",
       "  } catch(err){",
