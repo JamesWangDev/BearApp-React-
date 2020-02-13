@@ -36,7 +36,6 @@ app.use(
     error: { status: number; message: string },
     _req: Request,
     res: Response,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _next: NextFunction
   ) => {
     const { status = 400, message } = error;
