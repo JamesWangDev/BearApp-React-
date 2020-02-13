@@ -1,2 +1,4 @@
 .now
-.vscode
+frontend/.vscode/*
+backend/.vscode/*
+!backend/.vscode/typescript.code-snippets
