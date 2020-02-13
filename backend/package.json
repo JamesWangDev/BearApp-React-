@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "13.8.0",
     "yarn": "1.22.0"
   },
   "dependencies": {
