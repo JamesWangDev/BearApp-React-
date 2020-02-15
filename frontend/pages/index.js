@@ -2,41 +2,47 @@ import React from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
 
+
+
 const Home = () => (
   <div>
+
     <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
+    <ul>
+      <li><a href="">Logo</a></li>
+      <li className="rightAlignNavBar" ><a href="">Sign up</a></li>
+      <li className="rightAlignNavBar"><a href="">Login</a></li>
+    </ul>
     </Head>
 
-    <Nav />
+
 
     <div className="hero">
-      <h1 className="title">Welcome to Next.js!!!!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+      <h1 className="title">unbearlievable: Custom registries for everyone</h1>
+
 
       <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
+        <a href="" className="card">
+          <h3>Find a couple</h3>
+          <p>Wedding guests, click above!</p>
         </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
+        <a href="" className="card">
+          <h3>Sign up</h3>
+          <p>Already a member? Login</p>
         </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
+
       </div>
     </div>
 
+
+
+
+
+
     <style jsx>{`
+
+      @import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
+
       .hero {
         width: 100%;
         color: #333;
@@ -47,6 +53,8 @@ const Home = () => (
         padding-top: 80px;
         line-height: 1.15;
         font-size: 48px;
+        font-family: 'Work Sans', sans-serif;
+
       }
       .title,
       .description {
@@ -81,6 +89,51 @@ const Home = () => (
         font-size: 13px;
         color: #333;
       }
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0px;
+        overflow: hidden;
+        background-color: #333;
+        position: fixed;
+        top: 0;
+        width: 100%;
+
+      }
+
+  li {
+    float: left;
+
+  }
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: 'Work Sans', sans-serif;
+  }
+
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color: #111;
+  }
+
+  .rightAlignNavBar{
+
+    float:right;
+  }
+
+  #myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+
     `}</style>
   </div>
 );
