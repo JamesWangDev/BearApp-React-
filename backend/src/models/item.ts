@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+var mongoose = require("../mongo_connection");
 
-const ItemSchema = new Schema({
+const ItemSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Item name required"],
@@ -45,6 +45,6 @@ const ItemSchema = new Schema({
   },
 });
 
-const Item = model("Item", ItemSchema);
+const Item = mongoose.model("Item", ItemSchema);
 
 export default Item;
