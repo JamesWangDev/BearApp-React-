@@ -1,7 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { itemType } from "../pages/items";
 
+const itemType = PropTypes.shape({
+  name: PropTypes.string,
+  description: PropTypes.string,
+  price: PropTypes.string,
+  link: PropTypes.string,
+  image: PropTypes.string,
+  isPurchased: PropTypes.bool,
+  isReserved: PropTypes.bool,
+  addedOn: PropTypes.number,
+  reservedOn: PropTypes.number,
+  purchasedOn: PropTypes.number,
+});
 function Items({ items }) {
   return (
     <div>
@@ -17,3 +28,4 @@ Items.propTypes = {
 };
 
 export default Items;
+export { itemType };

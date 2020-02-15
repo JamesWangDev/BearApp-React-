@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Items from "../components/items";
+import Items, { itemType } from "../components/items";
 
 const fetchItems = () =>
   new Promise(resolve =>
@@ -36,18 +36,6 @@ const fetchItems = () =>
     )
   );
 
-export const itemType = PropTypes.shape({
-  name: PropTypes.string,
-  description: PropTypes.string,
-  price: PropTypes.string,
-  link: PropTypes.string,
-  image: PropTypes.string,
-  isPurchased: PropTypes.bool,
-  isReserved: PropTypes.bool,
-  addedOn: PropTypes.string,
-  reservedOn: PropTypes.string,
-  purchasedOn: PropTypes.string,
-});
 const ItemsPage = ({ items }) => <Items items={items} />;
 
 ItemsPage.getInitialProps = async () => {
