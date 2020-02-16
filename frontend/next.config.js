@@ -1,4 +1,3 @@
-// define(function(require, exports, module) {
 module.exports = {
   publicRuntimeConfig: {
     // Will be available on both server and client
@@ -7,4 +6,3 @@ module.exports = {
     nodeEnv: "development",
   },
 };
-// });
