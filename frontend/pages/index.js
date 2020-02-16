@@ -1,25 +1,24 @@
 import React from "react";
 import Head from "next/head";
-import Nav from "../components/nav";
-
-
 
 const Home = () => (
   <div>
-
     <Head>
-    <ul>
-      <li><a href="">Logo</a></li>
-      <li className="rightAlignNavBar" ><a href="">Sign up</a></li>
-      <li className="rightAlignNavBar"><a href="">Login</a></li>
-    </ul>
+      <ul>
+        <li>
+          <a href="">Logo</a>
+        </li>
+        <li className="rightAlignNavBar">
+          <a href="">Sign up</a>
+        </li>
+        <li className="rightAlignNavBar">
+          <a href="">Login</a>
+        </li>
+      </ul>
     </Head>
-
-
 
     <div className="hero">
       <h1 className="title">unbearlievable: Custom registries for everyone</h1>
-
 
       <div className="row">
         <a href="" className="card">
@@ -30,18 +29,11 @@ const Home = () => (
           <h3>Sign up</h3>
           <p>Already a member? Login</p>
         </a>
-
       </div>
     </div>
 
-
-
-
-
-
     <style jsx>{`
-
-      @import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
+      @import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
 
       .hero {
         width: 100%;
@@ -53,8 +45,7 @@ const Home = () => (
         padding-top: 80px;
         line-height: 1.15;
         font-size: 48px;
-        font-family: 'Work Sans', sans-serif;
-
+        font-family: "Work Sans", sans-serif;
       }
       .title,
       .description {
@@ -98,42 +89,37 @@ const Home = () => (
         position: fixed;
         top: 0;
         width: 100%;
-
       }
 
-  li {
-    float: left;
+      li {
+        float: left;
+      }
 
-  }
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-family: "Work Sans", sans-serif;
+      }
 
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: 'Work Sans', sans-serif;
-  }
+      /* Change the link color to #111 (black) on hover */
+      li a:hover {
+        background-color: #111;
+      }
 
-  /* Change the link color to #111 (black) on hover */
-  li a:hover {
-    background-color: #111;
-  }
+      .rightAlignNavBar {
+        float: right;
+      }
 
-  .rightAlignNavBar{
-
-    float:right;
-  }
-
-  #myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-}
-
-
+      #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+      }
     `}</style>
   </div>
 );

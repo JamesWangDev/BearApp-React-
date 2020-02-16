@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Items, { itemType } from "../components/items";
+import { itemType } from "../types";
+import Items from "../components/items";
 import fetch from "isomorphic-fetch";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
@@ -17,7 +18,8 @@ ItemsPage.getInitialProps = async () => {
 };
 
 ItemsPage.propTypes = {
-  items: PropTypes.arrayOf(itemType),
+  items: PropTypes.arrayOf(PropTypes.shape(itemType)),
 };
 
 export default ItemsPage;
+export { itemType };
