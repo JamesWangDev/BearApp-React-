@@ -9,11 +9,13 @@
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "next": "9.2.1",
     "react": "16.12.0",
     "react-dom": "16.12.0"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
