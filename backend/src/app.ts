@@ -2,9 +2,8 @@ import cors from "cors";
 import express, { ErrorRequestHandler } from "express";
 import createError from "http-errors";
 import morganBody from "morgan-body";
-// needed to connect to DB later
-// import mongoose from "mongoose";
 import routes from "./routes";
+import "./database";
 
 const app = express();
 
