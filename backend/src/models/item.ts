@@ -1,4 +1,4 @@
-var mongoose = require("../mongo_connection");
+import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema({
   name: {
