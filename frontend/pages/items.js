@@ -13,7 +13,7 @@ const ItemsPage = ({ items }) => {
   return (
     <>
       <EditItem />
-      <Items items={items} />;
+      <Items items={items} />
     </>
   );
 };

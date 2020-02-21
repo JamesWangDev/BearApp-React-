@@ -17,6 +17,7 @@
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-hook-form": "^4.9.6",
+    "react-transition-group": "^4.3.0",
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
