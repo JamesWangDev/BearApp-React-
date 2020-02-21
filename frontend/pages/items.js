@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import fetch from "isomorphic-fetch";
 import { itemType } from "../types";
-import Items from "../components/items";
-import EditItem from "../components/editItem";
+import Items from "../components/Items";
+import EditItem from "../components/EditItem";
 import { getBackendAPI } from "../utils";
 
 const ItemsPage = ({ items }) => {
