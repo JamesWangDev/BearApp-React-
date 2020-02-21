@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import fetch from "isomorphic-fetch";
 import PropTypes from "prop-types";
-import Modal from "./modal";
+import Modal from "./Modal";
 import { itemType } from "../types";
 import { getBackendAPI } from "../utils";
 
