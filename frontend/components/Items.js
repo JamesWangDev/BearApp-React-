@@ -5,9 +5,14 @@ import { itemType } from "../types";
 
 function Items({ items }) {
   return (
-    <div>
+    <div className="flex flex-wrap">
       {items.map(item => (
-        <Item key={item._id} {...item} />
+        <div
+          key={item._id}
+          className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 mb-4"
+        >
+          <Item {...item} />
+        </div>
       ))}
     </div>
   );
