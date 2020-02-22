@@ -1,21 +1,22 @@
 import React from "react";
 import Head from "next/head";
+import Link from 'next/link';
+
 
 const Home = () => (
   <div>
-    <Head>
-      <ul>
-        <li>
-          <a href="">Logo</a>
-        </li>
-        <li className="rightAlignNavBar">
-          <a href="">Sign up</a>
-        </li>
-        <li className="rightAlignNavBar">
-          <a href="">Login</a>
-        </li>
-      </ul>
-    </Head>
+    <header>
+    <h1> Logo </h1>
+    <nav>
+    <Link href="/login">
+    <a>Login</a>
+    </Link>
+    <Link href="signup">
+    <a>Signup</a>
+    </Link>
+
+    </nav>
+    </header>
 
     <div className="hero">
       <h1 className="title">unbearlievable: Custom registries for everyone</h1>
@@ -30,10 +31,50 @@ const Home = () => (
           <p>Already a member? Login</p>
         </a>
       </div>
+
+
     </div>
 
     <style jsx>{`
-      @import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
+      @import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap")
+      @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+      body{
+
+        font-size: 16px;
+        line-heigt: 1.5;
+        color: #47353A;
+        font-family: Roboto;
+
+      }
+
+      header{
+        padding: 10px 15px;
+        background-color: white;
+        overflow: hidden;
+        font-family: Roboto;
+
+      }
+
+      header h1{
+
+        float: left;
+
+      }
+
+      header nav{
+        float: right;
+      }
+
+      header nav a{
+        color: #47353A;
+        text-decoration: none;
+        margin-left: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+
+      }
+
 
       .hero {
         width: 100%;
@@ -45,7 +86,7 @@ const Home = () => (
         padding-top: 80px;
         line-height: 1.15;
         font-size: 48px;
-        font-family: "Work Sans", sans-serif;
+        font-family: Roboto, sans-serif;
       }
       .title,
       .description {
@@ -80,34 +121,9 @@ const Home = () => (
         font-size: 13px;
         color: #333;
       }
-      ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0px;
-        overflow: hidden;
-        background-color: #333;
-        position: fixed;
-        top: 0;
-        width: 100%;
-      }
 
-      li {
-        float: left;
-      }
 
-      li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-family: "Work Sans", sans-serif;
-      }
 
-      /* Change the link color to #111 (black) on hover */
-      li a:hover {
-        background-color: #111;
-      }
 
       .rightAlignNavBar {
         float: right;

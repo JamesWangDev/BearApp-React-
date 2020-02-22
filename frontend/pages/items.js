@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import fetch from "isomorphic-fetch";
 import { itemType } from "../types";
 import Items from "../components/Items";
 import EditItem from "../components/EditItem";
-import { getBackendAPI } from "../utils";
+import { fetchIt } from "../utils";
 
 const ItemsPage = ({ items }) => {
   if (items.message) {
@@ -19,8 +18,7 @@ const ItemsPage = ({ items }) => {
 };
 
 ItemsPage.getInitialProps = async () => {
-  const res = await fetch(getBackendAPI("items"));
-  const items = await res.json();
+  const items = await fetchIt("/items");
   return { items };
 };
 

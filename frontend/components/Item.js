@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import fetch from "isomorphic-fetch";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import Modal from "./Modal";
 import { itemType } from "../types";
-import { getBackendAPI } from "../utils";
+import { fetchIt } from "../utils";
 
 const deleteItem = async id => {
-  await fetch(`${getBackendAPI("item")}/${id}`, {
-    method: "DELETE",
-  });
+  await fetchIt(`/item/${id}`, { method: "DELETE" });
 };
 
 const Item = ({
