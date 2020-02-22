@@ -1,19 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import fetch from "isomorphic-fetch";
 import InputText from "./InputText";
 import Button from "./Button";
-import { getBackendAPI } from "../utils";
+import { fetchIt } from "../utils";
 
 const EditItem = () => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = async data => {
     console.log(data);
-    const response = await fetch(getBackendAPI("item"), {
+    const response = await fetchIt("/item", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(data),
     });
     console.log(response);
