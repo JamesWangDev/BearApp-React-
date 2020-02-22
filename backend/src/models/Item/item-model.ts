@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ItemI } from "./item-types";
 
 const ItemSchema = new mongoose.Schema({
   name: {
@@ -45,6 +46,6 @@ const ItemSchema = new mongoose.Schema({
   },
 });
 
-const Item = mongoose.model("Item", ItemSchema);
+const Item = mongoose.model<ItemI>("Item", ItemSchema);
 
 export default Item;

@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import createError from "http-errors";
-import { Item } from "../models";
+import { Item } from "../../models";
 
 export const getOneItem: RequestHandler = async (req, res, next) => {
   try {
@@ -73,8 +73,9 @@ export const updateOneItem: RequestHandler = async (req, res, next) => {
     const updatedItem = await Item.findByIdAndUpdate(itemId, req.body, {
       upsert: true,
       new: true,
+      runValidators: true,
     });
-    if (!updatedItem.ok) {
+    if (!updatedItem) {
       throw createError(400, `Error updating item (${itemId})`);
     }
     res.status(200).json(updatedItem);
