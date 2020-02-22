@@ -1,62 +1,50 @@
 import React from "react";
 import Head from "next/head";
-import Nav from "../components/nav";
 
-
-
-const Home = () => (
+const Signup = () => (
   <div>
-
-    <Head>
-
-    </Head>
-
-
+    <Head></Head>
 
     <div className="hero">
       <h1 className="title">Signup</h1>
 
-
       <div className="row">
-      <form>
-      <label for="email">Email: </label>
-      <input type="email" id="email" name="email"/><br/><br/>
-          <label for="password">Password: </label>
-          <input type="password" name="password" id="password"/><br/><br/>
-          <label for="password">Re-enter Password: </label>
-          <input type="password" name="password" id="password"/><br/><br/>
-
-          <label for="occasion">What's the occasion? (Select one) </label>
-
-          <input list="occasion"/>
+        <form>
+          <label htmlFor="email">Email: </label>
+          <input type="email" id="email" name="email" />
+          <br />
+          <br />
+          <label htmlFor="password">Password: </label>
+          <input type="password" name="password" id="password" />
+          <br />
+          <br />
+          <label htmlFor="password">Re-enter Password: </label>
+          <input type="password" name="password" id="password" />
+          <br />
+          <br />
+          <label htmlFor="occasion">
+            What&apos;s the occasion? (Select one){" "}
+          </label>
+          <input list="occasion" />
           <datalist id="occasion">
-            <option value="Wedding"/>
-            <option value="Registry"/>
-            <option value="Baby Shower"/>
-            <option value="Other"/>
-          </datalist> <br/><br/>
-            <label for="bigday">When is the big day? </label>
-            <input type="date" id="bigday" name="registrydate"/>
-
-
-          <br/><br/>
-
-          <input type="submit" value="Submit"/>
-
+            <option value="Wedding" />
+            <option value="Registry" />
+            <option value="Baby Shower" />
+            <option value="Other" />
+          </datalist>{" "}
+          <br />
+          <br />
+          <label htmlFor="bigday">When is the big day? </label>
+          <input type="date" id="bigday" name="registrydate" />
+          <br />
+          <br />
+          <input type="submit" value="Submit" />
         </form>
       </div>
     </div>
 
-
-
-
-
-
     <style jsx>{`
-
-      @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-
-
+      @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
       .hero {
         width: 100%;
@@ -68,9 +56,7 @@ const Home = () => (
         padding-top: 80px;
         line-height: 1.15;
         font-size: 48px;
-        font-family: Roboto
-, sans-serif;
-
+        font-family: Roboto, sans-serif;
       }
       .title,
       .description {
@@ -107,31 +93,24 @@ const Home = () => (
       }
 
       label {
-
         font-size: 16px;
         line-height: 1.5;
-        color: #47353A;
+        color: #47353a;
         font-family: Roboto;
-
       }
 
       input {
         width: 100%;
-
       }
 
-      input[type=text] {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      box-sizing: border-box;
+      input[type="text"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
       }
-
-
-
-
     `}</style>
   </div>
 );
 
-export default Home;
+export default Signup;
