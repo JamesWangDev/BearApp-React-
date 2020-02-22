@@ -1,16 +1,10 @@
-import supertest from "supertest";
-import app from "./app";
+import { request } from "../test";
 
-const request = supertest(app);
 const invalidRoute = "/noapi";
 
 describe("App Tests", () => {
   test(`expected unsuccessful ${invalidRoute} route`, async () => {
-    const resp = await request
-      .get(invalidRoute)
-      // .set("Accept", "application/json")
-      // .expect("Content-Type", /json/)
-      .expect(404);
+    const resp = await request.get(invalidRoute).expect(404);
     expect(resp.body.message).toBe(`Invalid route: ${invalidRoute}`);
   });
 
