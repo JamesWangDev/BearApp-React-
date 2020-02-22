@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import fetch from "isomorphic-fetch";
 import PropTypes from "prop-types";
+import Button from "./Button";
 import Modal from "./Modal";
 import { itemType } from "../types";
 import { getBackendAPI } from "../utils";
 
-const handleDelete = async id => {
+const deleteItem = async id => {
   await fetch(`${getBackendAPI("item")}/${id}`, {
     method: "DELETE",
   });
@@ -25,22 +26,51 @@ const Item = ({
   const handleOnClick = () => {
     setIsEditing(true);
   };
+  const handleDelete = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    deleteItem(_id);
+  };
   return (
     <>
+      <div
+        className="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer"
+        onClick={handleOnClick}
+      >
+        <img
+          className="w-full h-30 my-0 mx-auto image-height"
+          src={image || "/images/default_gift_image-10.jpg"}
+          alt={`${name} image`}
+        />
+        <div className="px-6 py-4">
+          <div className="font-bold text-xl mb-2">{name}</div>
+          <p className="text-gray-700 text-base">{description}</p>
+        </div>
+        <div className="px-6 py-4">
+          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+            #photography
+          </span>
+          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+            #travel
+          </span>
+          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+            #winter
+          </span>
+          <Button onClick={handleDelete}>Delete</Button>
+        </div>
+        <style jsx>{`
+          image-height {
+            height: 273px;
+          }
+        `}</style>
+      </div>
       <div className="itemContainer" onClick={handleOnClick}>
-        <div>Name: {name}</div>
-        <div>Description: {description}</div>
-        <div>Link: {link}</div>
-        <div>Is Purchased: {isPurchased ? "true" : "false"}</div>
-        <div>Is Reserved: {isReserved ? "true" : "false"}</div>
-        <div>Price: {price}</div>
-        <img alt={`${name} image`} height={100} src={image} />
-        <button className="deleteButton" onClick={() => handleDelete(_id)}>
-          Delete
-        </button>
         <style jsx>{`
           .itemContainer {
             border: 1px solid black;
+          }
+          image-height {
+            height: 273px;
           }
           .deleteButton {
             border: 1px solid black;
