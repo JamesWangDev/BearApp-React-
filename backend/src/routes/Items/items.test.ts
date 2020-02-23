@@ -3,7 +3,7 @@
 // ... controllers still need to still be tested
 
 import { request, dbSetup } from "../../test";
-import { validItem, invalidItem } from "../../models/Item/item-types";
+import { validItem, invalidItem } from "../../models/Item";
 
 dbSetup();
 

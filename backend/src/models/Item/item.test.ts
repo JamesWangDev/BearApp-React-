@@ -1,6 +1,7 @@
 import Item from "./item-model";
-import { validItem, invalidItem } from "./item-types";
+import { validItem, invalidItem } from "./item-examples";
 
+// used to check model validation rules
 async function itemMocker(newItem: {}) {
   let error = "";
   try {
