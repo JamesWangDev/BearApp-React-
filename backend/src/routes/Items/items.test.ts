@@ -21,11 +21,17 @@ const createItem = async (item: {}, status: number) =>
 describe("Item Endpoint Tests", () => {
   describe("Item Creation", () => {
     test("expected to successfully create one item", async () => {
-      await createItem(validItem, 201);
+      const resp = await createItem(validItem, 201);
+      expect(resp.body.name).toBe(validItem.name);
+      expect(resp.body.description).toBe(validItem.description);
+      expect(resp.body.price).toBe(validItem.price);
     });
 
     test("expected to unsuccessfully create one item", async () => {
-      await createItem(invalidItem, 400);
+      const resp = await createItem(invalidItem, 400);
+      expect(resp.body.message).toBe(
+        "Item validation failed: description: Item description required, price: Path `price` (-1) is less than minimum allowed value (0)."
+      );
     });
   });
 
@@ -50,6 +56,7 @@ describe("Item Endpoint Tests", () => {
 
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
+      // could check each field invidiually here
       expect(foundItem.body).toStrictEqual(newItem.body);
     });
 
@@ -69,12 +76,16 @@ describe("Item Endpoint Tests", () => {
 
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
+      // could check each field invidiually here
       expect(foundItem.body).toStrictEqual(newItem.body);
 
       const deletedItem = await request
         .delete(`/api/item/${itemId}`)
         .expect(200);
       expect(deletedItem.body).not.toBeNull();
+
+      const resp = await getItem(itemId, 404);
+      expect(resp.body.message).toBe(`Item (${itemId}) not found`);
     });
 
     test("expected to unsuccessfully delete a single item", async () => {
@@ -83,9 +94,16 @@ describe("Item Endpoint Tests", () => {
 
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
+      // could check each field invidiually here
       expect(foundItem.body).toStrictEqual(newItem.body);
 
-      await request.delete("/api/item/invalid-id-string").expect(400);
+      const resp = await request
+        .delete("/api/item/invalid-id-string")
+        .expect(400);
+      expect(resp.body.message).toBe(
+        // eslint-disable-next-line quotes
+        'Cast to ObjectId failed for value "invalid-id-string" at path "_id" for model "Item"'
+      );
     });
 
     test("expected to successfully update an item", async () => {
@@ -94,16 +112,21 @@ describe("Item Endpoint Tests", () => {
 
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
+      // could check each field invidiually here
       expect(foundItem.body).toStrictEqual(newItem.body);
 
-      await request
+      const updateObj = {
+        name: "New BMW",
+        description: "Gonna be the next transporter",
+        price: 40000,
+      };
+      const updatedItem = await request
         .put(`/api/item/${itemId}`)
-        .send({
-          name: "New BMW",
-          description: "Gonna be the next transporter",
-          price: 40000,
-        })
+        .send(updateObj)
         .expect(200);
+      expect(updatedItem.body.name).toBe(updateObj.name);
+      expect(updatedItem.body.description).toBe(updateObj.description);
+      expect(updatedItem.body.price).toBe(updateObj.price);
     });
 
     test("expected to unsuccessfully update an item", async () => {
@@ -112,12 +135,18 @@ describe("Item Endpoint Tests", () => {
 
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
+      // could check each field invidiually here
       expect(foundItem.body).toStrictEqual(newItem.body);
 
-      await request
+      const error = await request
         .put(`/api/item/${itemId}`)
-        .send({ name: -1, price: "BMW" })
+        .send({ price: "BMW" })
         .expect(400);
+
+      expect(error.body.message).toBe(
+        // eslint-disable-next-line quotes
+        'Cast to number failed for value "BMW" at path "price"'
+      );
     });
   });
 });
