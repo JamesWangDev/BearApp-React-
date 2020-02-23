@@ -53,8 +53,12 @@ describe("Item Endpoint Tests", () => {
       expect(foundItem.body).toStrictEqual(newItem.body);
     });
 
-    test("expected to not find a single item", async () => {
-      await getItem("invalid-id-string", 400);
+    test("expected to not find a single invalid item", async () => {
+      const item = await getItem("invalid-id-string", 400);
+      expect(item.body.message).toBe(
+        // eslint-disable-next-line quotes
+        'Cast to ObjectId failed for value "invalid-id-string" at path "_id" for model "Item"'
+      );
     });
   });
 
