@@ -2,21 +2,17 @@ import cors from "cors";
 import express, { ErrorRequestHandler } from "express";
 import createError from "http-errors";
 import morganBody from "morgan-body";
-import routes from "./routes";
-import "./database";
+import routes from "../routes";
 
 const app = express();
 
 // ENVIRONMENT VARIABLES GO HERE
-const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV;
 
 // BEAUTIFIES REQUEST AND RESPONSE BODIES
-morganBody(app, {
-  prettify: NODE_ENV !== "production",
-  theme: "darkened",
-  dateTimeFormat: "utc",
-});
+if (NODE_ENV === "dev" || NODE_ENV === "test:withLogs") {
+  morganBody(app, { theme: "darkened", dateTimeFormat: "utc" });
+}
 
 // EXPRESS MIDDLEWARES
 app.use(cors());
@@ -42,4 +38,4 @@ const GlobalErrorHandler: ErrorRequestHandler = (
 };
 app.use(GlobalErrorHandler);
 
-app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+export default app;
