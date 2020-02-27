@@ -29,7 +29,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  submit: "button",
+  type: "button",
   onClick: () => {},
 };
 

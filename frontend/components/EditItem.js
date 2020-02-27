@@ -49,7 +49,7 @@ const EditItem = () => {
       <InputText id="image" error={errors.image} ref={register}>
         Image
       </InputText>
-      <Button>Submit</Button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 };
