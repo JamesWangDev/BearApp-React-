@@ -1,90 +1,70 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Button from "./Button";
 import Modal from "./Modal";
 import { itemType } from "../types";
-import { fetchIt } from "../utils";
+import PurchaseItem from "./PurchaseItem";
 
-const deleteItem = async id => {
-  await fetchIt(`/item/${id}`, { method: "DELETE" });
-};
+const classItem = `
+group
+w-full
+sm:w-1/2
+md:w-1/3
+lg:w-1/4
+xl:w-1/6
+mb-4
+p-2
+transform
+hover:scale-105
+transition-transform
+duration-100
+cursor-pointer
+`;
 
-const Item = ({
-  _id,
-  name,
-  description,
-  link,
-  isPurchased,
-  isReserved,
-  price,
-  image,
-}) => {
+const Item = props => {
+  const {
+    // _id,
+    name,
+    // description,
+    // link,
+    // isPurchased,
+    // isReserved,
+    price,
+    image,
+  } = props;
   const [isEditing, setIsEditing] = useState(false);
   const handleOnClick = () => {
     setIsEditing(true);
   };
-  const handleDelete = e => {
-    e.preventDefault();
-    e.stopPropagation();
-    deleteItem(_id);
+  const handleClose = () => {
+    setIsEditing(false);
   };
   return (
     <>
-      <div
-        className="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer"
-        onClick={handleOnClick}
-      >
-        <img
-          className="w-full h-30 my-0 mx-auto image-height"
-          src={image || "/images/default_gift_image-10.jpg"}
-          alt={`${name} image`}
-        />
-        <div className="px-6 py-4">
-          <div className="font-bold text-xl mb-2">{name}</div>
-          <p className="text-gray-700 text-base">{description}</p>
+      <div className={classItem} onClick={handleOnClick}>
+        <div className="max-w-sm rounded overflow-hidden shadow-lg relative bg-green group-hover:bg-red">
+          <div className="image-height">
+            <img
+              className="max-h-full max-w-full my-0 mx-auto"
+              src={image || "/images/default_gift_image-10.jpg"}
+              alt={`${name} image`}
+            />
+          </div>
+          <div className="px-6 py-2">
+            <div className="font-bold text-xl mb-2 text-center">{name}</div>
+            <p className="text-gray-700 text-base text-center">${price}</p>
+          </div>
+          <style jsx>{`
+            .image-height {
+              height: 208px;
+            }
+          `}</style>
         </div>
-        <div className="px-6 py-4">
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-            #photography
-          </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-            #travel
-          </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
-            #winter
-          </span>
-          <Button onClick={handleDelete}>Delete</Button>
+        <div className="bg-white absolute inset-0 m-2 opacity-0 flex items-center justify-center transition-opacity duration-100 group-hover:opacity-75">
+          Click to purchase
         </div>
-        <style jsx>{`
-          image-height {
-            height: 273px;
-          }
-        `}</style>
+        <div className="border-solid border border-black" />
       </div>
-      <div className="itemContainer" onClick={handleOnClick}>
-        <style jsx>{`
-          .itemContainer {
-            border: 1px solid black;
-          }
-          image-height {
-            height: 273px;
-          }
-          .deleteButton {
-            border: 1px solid black;
-          }
-        `}</style>
-      </div>
-      <Modal isOpen={isEditing} onClose={() => setIsEditing(false)}>
-        <Item
-          _id={_id}
-          name={name}
-          description={description}
-          link={link}
-          isPurchased={isPurchased}
-          isReserved={isReserved}
-          price={price}
-          image={image}
-        />
+      <Modal isOpen={isEditing} handleClose={handleClose}>
+        <PurchaseItem handleClose={handleClose} {...props} />
       </Modal>
     </>
   );
@@ -92,15 +72,6 @@ const Item = ({
 
 Item.propTypes = {
   ...itemType,
-};
-
-const ItemModal = ({ isOpen, onClose }) => (
-  <Modal isOpen={isOpen} onClose={onClose}></Modal>
-);
-
-ItemModal.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
 };
 
 export default Item;
