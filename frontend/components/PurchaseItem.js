@@ -65,7 +65,7 @@ const PurchaseItem = ({
             Name
           </InputText>
           <InputText
-            id="name"
+            id="email"
             error={errors.email}
             ref={register({ required: "Email is required" })}
           >

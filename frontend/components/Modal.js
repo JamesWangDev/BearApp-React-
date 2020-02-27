@@ -13,7 +13,14 @@ const Modal = props => {
           classNames="modal-transition"
           unmountOnExit
         >
-          <InnerModal {...props} />
+          <div
+            className="modal fixed inset-0"
+            role="dialog"
+            aria-modal="true"
+            onClick={props.handleClose}
+          >
+            <InnerModal {...props} />
+          </div>
         </CSSTransition>
       </Portal>
       <style jsx>{`
@@ -86,21 +93,14 @@ const InnerModal = ({ children, handleClose }) => {
 
   return (
     <div
-      className="modal fixed inset-0"
-      role="dialog"
-      aria-modal="true"
-      onClick={handleClose}
+      ref={modalRef}
+      className="w-600 bg-white shadow-lg border-solid rounded-lg h-auto mx-auto my-0 mt-4 overflow-hidden"
+      onClick={e => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
     >
-      <div
-        ref={modalRef}
-        className="w-600 bg-white shadow-lg border-solid rounded-lg h-auto mx-auto my-0 mt-4 overflow-hidden"
-        onClick={e => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        {children}
-      </div>
+      {children}
     </div>
   );
 };
