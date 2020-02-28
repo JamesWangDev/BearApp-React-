@@ -44,20 +44,12 @@ export default function Home() {
       </div>
 
       <div className="hero">
-        <h1 className="title">
-          unbearlievable: Custom registries for everyone
-        </h1>
+        <video id="background-video" muted loop autoPlay>
+          <source src="./videos/backgroundvideo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-        <div className="row">
-          <a href="" className="card">
-            <h3>Find a couple</h3>
-            <p>Wedding guests, click above!</p>
-          </a>
-          <a href="" className="card">
-            <h3>Sign up</h3>
-            <p>Already a member? Login</p>
-          </a>
-        </div>
+        <h1 className="title">A gift registry for every occasion.</h1>
       </div>
 
       <style jsx>{`
@@ -76,6 +68,16 @@ export default function Home() {
           background-color: white;
           overflow: hidden;
           font-family: Roboto;
+        }
+
+        #background-video {
+          height: 100%;
+          width: 100%;
+          float: left;
+          top: 0;
+          padding: none;
+          position: fixed;
+          z-index: -1;
         }
 
         header h1 {
@@ -98,17 +100,20 @@ export default function Home() {
           color: #333;
         }
         .title {
-          margin: 0;
-          width: 100%;
-          padding-top: 80px;
           line-height: 1.15;
           font-size: 48px;
           font-family: Roboto, sans-serif;
-        }
-        .title,
-        .description {
+          color: white;
+
+          left: 0;
+          line-height: 200px;
+          margin-top: -100px;
+          position: absolute;
           text-align: center;
+          top: 50%;
+          width: 100%;
         }
+
         .row {
           max-width: 880px;
           margin: 80px auto 40px;
