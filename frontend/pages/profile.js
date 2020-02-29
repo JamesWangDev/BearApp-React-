@@ -1,10 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { withAuth, withLoginRequired } from "use-auth0-hooks";
+import { useAuth, withAuth, withLoginRequired } from "use-auth0-hooks";
 
 function Profile({ auth }) {
   const { user } = auth;
+
+  const { accessToken } = useAuth(true);
+
+  console.log(accessToken);
+
   return (
     <div>
       <h1>Profile</h1>
