@@ -12,7 +12,7 @@ export default function Home() {
       <div>
         <ul>
           <li>
-            <a href="">Logo</a>
+            <a href=""></a>
           </li>
 
           {!isLoading &&
@@ -36,7 +36,7 @@ export default function Home() {
                     login({ appState: { returnTo: { pathname, query } } })
                   }
                 >
-                  Log in
+                  Log in / Sign up
                 </button>
               </li>
             ))}
@@ -44,20 +44,12 @@ export default function Home() {
       </div>
 
       <div className="hero">
-        <h1 className="title">
-          unbearlievable: Custom registries for everyone
-        </h1>
+        <video id="background-video" muted loop autoPlay>
+          <source src="./videos/backgroundvideo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-        <div className="row">
-          <a href="" className="card">
-            <h3>Find a couple</h3>
-            <p>Wedding guests, click above!</p>
-          </a>
-          <a href="" className="card">
-            <h3>Sign up</h3>
-            <p>Already a member? Login</p>
-          </a>
-        </div>
+        <h1 className="title">A gift registry for every occasion.</h1>
       </div>
 
       <style jsx>{`
@@ -76,6 +68,15 @@ export default function Home() {
           background-color: white;
           overflow: hidden;
           font-family: Roboto;
+        }
+
+        #background-video {
+          min-width: 100%;
+          min-height: 100%;
+          position: fixed;
+          z-index: -1;
+          right: 0;
+          bottom: 0;
         }
 
         header h1 {
@@ -98,17 +99,20 @@ export default function Home() {
           color: #333;
         }
         .title {
-          margin: 0;
-          width: 100%;
-          padding-top: 80px;
           line-height: 1.15;
           font-size: 48px;
           font-family: Roboto, sans-serif;
-        }
-        .title,
-        .description {
+          color: white;
+
+          left: 0;
+          line-height: 200px;
+          margin-top: -100px;
+          position: absolute;
           text-align: center;
+          top: 50%;
+          width: 100%;
         }
+
         .row {
           max-width: 880px;
           margin: 80px auto 40px;
@@ -116,34 +120,13 @@ export default function Home() {
           flex-direction: row;
           justify-content: space-around;
         }
-        .card {
-          padding: 18px 18px 24px;
-          width: 220px;
-          text-align: left;
-          text-decoration: none;
-          color: #434343;
-          border: 1px solid #9b9b9b;
-        }
-        .card:hover {
-          border-color: #067df7;
-        }
-        .card h3 {
-          margin: 0;
-          color: #067df7;
-          font-size: 18px;
-        }
-        .card p {
-          margin: 0;
-          padding: 12px 0 0;
-          font-size: 13px;
-          color: #333;
-        }
+
         ul {
           list-style-type: none;
           margin: 0;
           padding: 0px;
           overflow: hidden;
-          background-color: #333;
+          background-color: #000000;
           position: fixed;
           top: 0;
           width: 100%;
