@@ -71,13 +71,12 @@ export default function Home() {
         }
 
         #background-video {
-          height: 100%;
-          width: 100%;
-          float: left;
-          top: 0;
-          padding: none;
+          min-width: 100%;
+          min-height: 100%;
           position: fixed;
           z-index: -1;
+          right: 0;
+          bottom: 0;
         }
 
         header h1 {
