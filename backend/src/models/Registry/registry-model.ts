@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-//import { ItemI } from "./item-types";
+import { RegistryI } from "./registry-types";
 
 const RegistrySchema = new mongoose.Schema({
   title: {
@@ -10,46 +10,48 @@ const RegistrySchema = new mongoose.Schema({
     type: String,
     required: [true, "Registry description required"],
   },
-  tyMessage : {
-      type: String,
+  tyMessage: {
+    type: String,
   },
-  p1FullName : {
+  p1FullName: {
     type: String,
     required: [true, "Partner 1 full Name required"],
   },
-  p2FullName : {
+  p2FullName: {
     type: String,
     required: [true, "Partner 2 full Name required"],
   },
-  weddingDate : {
-      type: Date,
+  weddingDate: {
+    type: Date,
   },
-  phoneNumber : {
-      type: Number,
+  phoneNumber: {
+    type: Number,
   },
-  email : {
-      type: String,
-      required: [true, "Email is required"],
+  email: {
+    type: String,
+    required: [true, "Email is required"],
   },
   userId: {
-      type: String,
-      required: [true, "UserId is required"],
+    type: String,
+    required: [true, "UserId is required"],
   },
   customUrl: {
-      type: String,
-      required: [true, "Custom URL is required"],
-      unique: true
+    type: String,
+    required: [true, "Custom URL is required"],
+    unique: true,
   },
-  items : [{
+  items: [
+    {
       type: mongoose.Types.ObjectId,
-      ref: "Item"
-  }],
+      ref: "Item",
+    },
+  ],
   coverImage: {
-      type: String,
-      default: "https://bit.ly/2Pr0xeQ"
-  }
+    type: String,
+    default: "https://bit.ly/2Pr0xeQ",
+  },
 });
 
-const Registry = mongoose.model("Registry", RegistrySchema);
+const Registry = mongoose.model<RegistryI>("Registry", RegistrySchema);
 
 export default Registry;
