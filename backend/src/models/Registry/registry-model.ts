@@ -15,11 +15,11 @@ const RegistrySchema = new mongoose.Schema({
   },
   p1FullName: {
     type: String,
-    required: [true, "Partner 1 full Name required"],
+    required: [true, "Registry p1FullName required"],
   },
   p2FullName: {
     type: String,
-    required: [true, "Partner 2 full Name required"],
+    required: [true, "Registry p2FullName required"],
   },
   weddingDate: {
     type: Date,
@@ -29,15 +29,15 @@ const RegistrySchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "Email is required"],
+    required: [true, "Registry email required"],
   },
   userId: {
     type: String,
-    required: [true, "UserId is required"],
+    required: [true, "Registry userId required"],
   },
   customUrl: {
     type: String,
-    required: [true, "Custom URL is required"],
+    required: [true, "Registry customUrl required"],
     unique: true,
   },
   items: [
