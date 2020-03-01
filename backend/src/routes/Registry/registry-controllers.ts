@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
 import { Registry } from "../../models";
-import createHttpError from "http-errors";
+import createError from "http-errors";
 
-export const getEveryRegistry: RequestHandler = async (req, res, next) => {
+export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   try {
     const registry = await Registry.find();
     res.status(200).json(registry);
@@ -24,6 +24,7 @@ export const getOneRegistry: RequestHandler = async (req, res, next) => {
   try {
     const { customUrl } = req.params;
     const registry = await Registry.findOne({ customUrl });
+    if (!registry) throw createError(404, `Registry (${customUrl}) not found`);
     res.status(200).json(registry);
   } catch (err) {
     next(err);
@@ -43,7 +44,7 @@ export const updateOneRegistry: RequestHandler = async (req, res, next) => {
       }
     );
     if (!updatedRegistry) {
-      throw createHttpError(400, `Error updating Registry (${registryId})`);
+      throw createError(400, `Error updating Registry (${registryId})`);
     }
     res.status(200).json(updatedRegistry);
   } catch (err) {
@@ -56,7 +57,7 @@ export const deleteOneRegistry: RequestHandler = async (req, res, next) => {
     const { registryId } = req.params;
     const deletedRegistry = await Registry.findByIdAndDelete(registryId);
     if (!deletedRegistry)
-      throw createHttpError(400, `Error removing registry (${registryId})`);
+      throw createError(400, `Error removing registry (${registryId})`);
     res.status(200).json(deletedRegistry);
   } catch (err) {
     next(err);
