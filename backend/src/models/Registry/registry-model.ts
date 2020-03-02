@@ -39,6 +39,10 @@ const RegistrySchema = new mongoose.Schema({
     type: String,
     required: [true, "Registry customUrl required"],
     unique: true,
+    validate: {
+      validator: (url: string) => url.split(" ").length === 1,
+      message: () => "Registry customUrl cannot contain spaces",
+    },
   },
   items: [
     {
