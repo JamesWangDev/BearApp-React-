@@ -4,9 +4,9 @@ import * as Registry from "./registry-controllers";
 const router = Router();
 
 router.get("/", Registry.getEveryRegistry);
-router.post("/", Registry.createRegistry);
+router.post("/", Registry.createRegistry); // isUser
 router.get("/:customUrl", Registry.getOneRegistry);
-router.put("/:registryId", Registry.updateOneRegistry);
-router.delete("/:registryId", Registry.deleteOneRegistry);
+router.put("/:registryId", Registry.updateOneRegistry); // isOwner _ isAdmin
+router.delete("/:registryId", Registry.deleteOneRegistry); // isOwner _ isAdmin
 
 export default router;
