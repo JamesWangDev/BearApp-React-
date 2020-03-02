@@ -74,7 +74,7 @@ export const deleteOneRegistry: RequestHandler = async (req, res, next) => {
       },
     });
     const message = `Deleted registry and ${deletedCount}/${n} item${
-      typeof n === "number" && n > 1 ? "s" : ""
+      n === 1 ? "" : "s"
     }`;
 
     res.status(200).json({ message });
