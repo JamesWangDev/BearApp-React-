@@ -4,3 +4,4 @@ export const REDIRECTURI =
   process.env.NODE_ENV === "production"
     ? "https://bears04.now.sh/"
     : "http://localhost:3000/";
+export const AUTH0_API_IDENTIFIER = "https://api/registry";

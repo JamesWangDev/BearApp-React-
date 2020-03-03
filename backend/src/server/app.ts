@@ -3,6 +3,7 @@ import express, { ErrorRequestHandler } from "express";
 import createError from "http-errors";
 import morganBody from "morgan-body";
 import routes from "../routes";
+// import { requireAuth } from "../middleware";
 
 const app = express();
 
@@ -15,9 +16,11 @@ if (NODE_ENV === "development" || NODE_ENV === "test:withLogs") {
 }
 
 // EXPRESS MIDDLEWARES
+//Allow all CORS, not recommended for production
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 // use all routes exported from the routes folder
 app.use("/api", routes);
 
