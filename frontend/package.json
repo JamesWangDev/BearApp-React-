@@ -21,6 +21,7 @@
     "react-hook-form": "^4.9.6",
     "react-transition-group": "^4.3.0",
     "react-use-auth": "^0.5.3",
+    "swr": "^0.1.18",
     "tailwindcss": "^1.2.0",
     "use-auth0-hooks": "^0.7.0"
   },
