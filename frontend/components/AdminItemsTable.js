@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { itemType } from "../types";
 import { fetchIt } from "../utils";
-import Button from "../components/Button";
+import Button from "./Button";
 
 const handleDelete = id => {
   deleteItem(id);
@@ -12,12 +12,12 @@ const deleteItem = async id => {
   await fetchIt(`/item/${id}`, { method: "DELETE" });
 };
 
-const AdminPortal = ({ items }) => {
+const AdminItemsTable = ({ items }) => {
   if (items.message) {
     return <div>{items.message}</div>;
   }
   return (
-    <div>
+    <>
       <table>
         <thead>
           <tr>
@@ -69,7 +69,7 @@ const AdminPortal = ({ items }) => {
           margin: 5px;
         }
         table {
-          width: 90%;
+          width: 100%;
         }
         th {
           background-color: #f4f4f4;
@@ -79,18 +79,13 @@ const AdminPortal = ({ items }) => {
           background-color: #f2f2f2;
         }
       `}</style>
-    </div>
+    </>
   );
 };
 
-AdminPortal.getInitialProps = async () => {
-  const items = await fetchIt("/items");
-  return { items };
-};
-
-AdminPortal.propTypes = {
+AdminItemsTable.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape(itemType)),
 };
 
-export default AdminPortal;
+export default AdminItemsTable;
 export { itemType };
