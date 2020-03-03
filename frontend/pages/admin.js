@@ -1,12 +1,14 @@
 import React from "react";
+import useSWR from "swr";
 import PropTypes from "prop-types";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-schedule";
 import AdminPage from "../components/AdminPage";
 import AdminItemsTable from "../components/AdminItemsTable";
-
+import EditItem from "../components/EditItem";
 import { fetchIt } from "../utils";
 
 const Admin = ({ items }) => {
+  const { data } = useSWR("/items", { initalData: items });
   return (
     <AdminPage>
       <header className="header flex py-10 px-5 text-size text-xl">
@@ -18,8 +20,9 @@ const Admin = ({ items }) => {
         </div>
       </header>
       <div className="flex items-center px-5">
-        <AdminItemsTable items={items} />
+        <AdminItemsTable items={data} />
       </div>
+      <EditItem />
       <style jsx>{`
         .header .header__icon {
           display: flex;
@@ -40,6 +43,8 @@ const Admin = ({ items }) => {
 };
 
 Admin.getInitialProps = async () => {
+  // const items = await fetchIt("/items");
+  // return { items };
   const items = await fetchIt("/items");
   return { items };
 };
