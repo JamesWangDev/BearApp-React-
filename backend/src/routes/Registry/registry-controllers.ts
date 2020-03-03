@@ -42,7 +42,6 @@ export const updateOneRegistry: RequestHandler = async (req, res, next) => {
       registryId,
       req.body,
       {
-        upsert: true,
         new: true,
         runValidators: true,
       }
