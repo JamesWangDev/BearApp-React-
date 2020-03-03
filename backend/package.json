@@ -31,7 +31,9 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
     "http-errors": "^1.7.3",
+    "jwks-rsa": "^1.7.0",
     "mongoose": "^5.8.11",
     "morgan-body": "^2.4.8"
   },

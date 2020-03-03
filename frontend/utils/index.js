@@ -1,5 +1,5 @@
 import fetchIt from "./fetch";
-import { DOMAIN, CLIENTID, REDIRECTURI } from "./config";
+import { DOMAIN, CLIENTID, REDIRECTURI, AUTH0_API_IDENTIFIER } from "./config";
 
 export { fetchIt };
-export { DOMAIN, CLIENTID, REDIRECTURI };
+export { DOMAIN, CLIENTID, REDIRECTURI, AUTH0_API_IDENTIFIER };

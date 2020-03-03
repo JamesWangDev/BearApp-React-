@@ -2,7 +2,7 @@ import React from "react";
 import App from "next/app";
 import { Auth0Provider } from "use-auth0-hooks";
 import { SWRConfig } from "swr";
-import { DOMAIN, CLIENTID, REDIRECTURI } from "../utils";
+import { DOMAIN, CLIENTID, REDIRECTURI, AUTH0_API_IDENTIFIER } from "../utils";
 import { fetchIt } from "../utils";
 import "../css/tailwind.css";
 
@@ -15,6 +15,7 @@ class MyApp extends App {
         domain={DOMAIN}
         clientId={CLIENTID}
         redirectUri={REDIRECTURI}
+        audience={AUTH0_API_IDENTIFIER}
       >
         <SWRConfig value={swrConfigValue}>
           <Component {...pageProps} />

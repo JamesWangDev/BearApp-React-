@@ -6,7 +6,10 @@ import { useAuth, withAuth, withLoginRequired } from "use-auth0-hooks";
 function Profile({ auth }) {
   const { user } = auth;
 
-  const { accessToken } = useAuth(true);
+  const { accessToken } = useAuth({
+    audience: "http://localhost:5000/api",
+    prompt,
+  });
 
   console.log(accessToken);
 

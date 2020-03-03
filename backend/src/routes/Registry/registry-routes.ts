@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as Registry from "./registry-controllers";
+//import { requireAuth } from "../../server/app";
 
 const router = Router();
 

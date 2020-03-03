@@ -20,6 +20,10 @@ export default function Home() {
             <a href=""></a>
           </li>
 
+          <Link href="/items">
+            <a>Go to Items</a>
+          </Link>
+
           {!isLoading &&
             (isAuthenticated ? (
               <>

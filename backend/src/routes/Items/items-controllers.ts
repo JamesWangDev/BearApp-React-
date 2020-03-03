@@ -16,12 +16,6 @@ export const getOneItem: RequestHandler = async (req, res, next) => {
 
 export const getEveryItem: RequestHandler = async (_req, res, next) => {
   try {
-    const items = await Item.find();
-    res.status(200).json(items);
-  } catch (err) {
-    next(err);
-  }
-};
 
 export const createItem: RequestHandler = async (req, res, next) => {
   try {
