@@ -1,15 +1,15 @@
 import React from "react";
+import { mutate } from "swr";
 import PropTypes from "prop-types";
 import { itemType } from "../types";
 import { fetchIt } from "../utils";
 import Button from "./Button";
 
 const handleDelete = id => {
-  deleteItem(id);
-};
-
-const deleteItem = async id => {
-  await fetchIt(`/item/${id}`, { method: "DELETE" });
+  mutate("/items", async items => {
+    await fetchIt(`/item/${id}`, { method: "DELETE" });
+    return items.filter(item => item.id === id);
+  });
 };
 
 const AdminItemsTable = ({ items }) => {
@@ -85,6 +85,10 @@ const AdminItemsTable = ({ items }) => {
 
 AdminItemsTable.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape(itemType)),
+};
+
+AdminItemsTable.defaultProps = {
+  items: [],
 };
 
 export default AdminItemsTable;
