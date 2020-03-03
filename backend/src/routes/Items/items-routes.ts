@@ -3,11 +3,11 @@ import * as Item from "./items-controllers";
 
 const router = Router();
 
-router.get("/items", Item.getEveryItem);
-router.post("/item", Item.createItem);
-router.get("/item/:itemId", Item.getOneItem);
-router.put("/item/:itemId", Item.updateOneItem);
-router.delete("/item/:itemId", Item.deleteOneItem);
-router.delete("/item/:registryId", Item.deleteRegistryItems); // not tested
+router.get("/all", Item.getEveryItem);
+router.get("/:itemId", Item.getOneItem);
+router.put("/:itemId", Item.updateOneItem); // isOwner _ isAdmin
+router.delete("/:itemId/registry/:registryId", Item.deleteOneItem); // isOwner _ isAdmin
+router.post("/registry/:registryId", Item.createItem); // isUser
+router.delete("/registry/:registryId", Item.deleteMultipleItems); // isOwner _ isAdmin // not tested
 
 export default router;
