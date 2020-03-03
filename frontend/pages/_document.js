@@ -6,7 +6,7 @@ class MyDocument extends Document {
     return (
       <html>
         <Head />
-        <body>
+        <body className="text-gray-800">
           <Main />
           {/* Here we will mount our modal portal */}
           <div id="modal" />

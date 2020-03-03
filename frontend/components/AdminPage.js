@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import MenuIcon from "@iconscout/react-unicons/icons/uil-bars";
+import CloseMenuIcon from "@iconscout/react-unicons/icons/uil-multiply";
+import SearchIcon from "@iconscout/react-unicons/icons/uil-search";
 import colors from "../css/colors";
 
 const AdminPage = ({ children }) => {
@@ -8,18 +11,23 @@ const AdminPage = ({ children }) => {
   return (
     <div className="grid-container">
       <div className="menu-icon" onClick={() => setIsNavOpen(true)}>
-        Icon
+        <MenuIcon />
       </div>
       <header>
-        <div className="header__search">Search...</div>
-        <div className="header__avatar">Your face</div>
+        <div className="header__search">
+          <SearchIcon />
+          Search...
+        </div>
+        <div className="header__avatar">
+          <img src="/images/default_profile_image.jpg" alt="Profile image" />
+        </div>
       </header>
       <aside className={isNavOpen ? "active" : ""}>
         <div
           className="sidenav__close-icon"
           onClick={() => setIsNavOpen(false)}
         >
-          Close
+          <CloseMenuIcon />
         </div>
         <ul>
           <li>Registry details</li>
@@ -48,7 +56,7 @@ const AdminPage = ({ children }) => {
         .menu-icon {
           position: fixed;
           display: flex;
-          top: 5px;
+          top: 25px;
           left: 10px;
           align-items: center;
           justify-content: center;
@@ -67,7 +75,14 @@ const AdminPage = ({ children }) => {
         }
 
         header .header__search {
+          display: flex;
           margin-left: 62px;
+        }
+
+        header .header__avatar img {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
         }
 
         aside {
@@ -97,7 +112,6 @@ const AdminPage = ({ children }) => {
           right: 12px;
           cursor: pointer;
           font-size: 20px;
-          color: #ddd;
         }
 
         aside ul {
@@ -108,11 +122,10 @@ const AdminPage = ({ children }) => {
 
         aside li {
           padding: 20px 20px 20px 40px;
-          color: #ddd;
         }
 
         aside li:hover {
-          background-color: rgba(255, 255, 2555, 0.2);
+          background-color: rgba(0, 0, 0, 0.2);
           cursor: pointer;
         }
 
