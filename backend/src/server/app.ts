@@ -10,7 +10,7 @@ const app = express();
 const NODE_ENV = process.env.NODE_ENV;
 
 // BEAUTIFIES REQUEST AND RESPONSE BODIES
-if (NODE_ENV === "dev" || NODE_ENV === "test:withLogs") {
+if (NODE_ENV === "development" || NODE_ENV === "test:withLogs") {
   morganBody(app, { theme: "darkened", dateTimeFormat: "utc" });
 }
 

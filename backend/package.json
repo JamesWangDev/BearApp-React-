@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server/index.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev nodemon -r dotenv/config",
+    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config",
     "start": "node -r dotenv/config dist/server/index.js",
     "test": "jest --runInBand",
     "test:watch": "jest --runInBand --watch",
