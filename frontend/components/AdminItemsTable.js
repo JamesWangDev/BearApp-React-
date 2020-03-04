@@ -1,18 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { mutate } from "swr";
 import PropTypes from "prop-types";
 import { itemType } from "../types";
 import { fetchIt } from "../utils";
 import Button from "./Button";
+import Modal from "./Modal";
 
-const handleDelete = id => {
+/*const handleDelete = id => {
   mutate("/items", async items => {
     await fetchIt(`/item/${id}`, { method: "DELETE" });
     return items.filter(item => item.id === id);
   });
+  setIsConfirmingDelete(false);
 };
 
+const handleClose = () => {
+  setIsConfirmingDelete(false);
+};
+
+const confirmDelete = id => {
+  setDeleteId(id);
+  setIsConfirmingDelete(true);
+};*/
+
 const AdminItemsTable = ({ items }) => {
+  const handleDelete = id => {
+    mutate("/items", async items => {
+      await fetchIt(`/item/${id}`, { method: "DELETE" });
+      return items.filter(item => item.id === id);
+    });
+    setIsConfirmingDelete(false);
+  };
+
+  const handleClose = () => {
+    setIsConfirmingDelete(false);
+  };
+
+  const confirmDelete = (id, itemName) => {
+    setDeleteId(id);
+    setDeleteItemName(itemName);
+    setIsConfirmingDelete(true);
+  };
+
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState(false);
+  const [deleteItemName, setDeleteItemName] = useState(false);
+
   if (items.message) {
     return <div>{items.message}</div>;
   }
@@ -41,7 +74,10 @@ const AdminItemsTable = ({ items }) => {
                 <td>
                   <Button type="button">Edit</Button>
                   {` `}
-                  <Button type="button" onClick={() => handleDelete(item._id)}>
+                  <Button
+                    type="button"
+                    onClick={() => confirmDelete(item._id, item.name)}
+                  >
                     Delete
                   </Button>
                 </td>
@@ -50,6 +86,31 @@ const AdminItemsTable = ({ items }) => {
           })}
         </tbody>
       </table>
+      <Modal isOpen={isConfirmingDelete} handleClose={handleClose}>
+        <div className="delete-modal">
+          <p>
+            Are you sure that you want to remove {deleteItemName} from this
+            list?
+          </p>
+          <Button
+            type="button"
+            onClick={() => {
+              handleDelete(deleteId);
+            }}
+          >
+            Delete
+          </Button>{" "}
+          {` `}
+          <Button
+            type="button"
+            onClick={() => {
+              setIsConfirmingDelete(false);
+            }}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Modal>
       <style jsx>{`
         table,
         td,
