@@ -7,6 +7,10 @@ import Button from "./Button";
 import Modal from "./Modal";
 
 const AdminItemsTable = ({ items }) => {
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [deleteItemName, setDeleteItemName] = useState();
+
   const handleDelete = id => {
     mutate("/items", async items => {
       await fetchIt(`/item/${id}`, { method: "DELETE" });
@@ -24,10 +28,6 @@ const AdminItemsTable = ({ items }) => {
     setDeleteItemName(itemName);
     setIsConfirmingDelete(true);
   };
-
-  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-  const [deleteId, setDeleteId] = useState(false);
-  const [deleteItemName, setDeleteItemName] = useState(false);
 
   if (items.message) {
     return <div>{items.message}</div>;
@@ -83,11 +83,12 @@ const AdminItemsTable = ({ items }) => {
           >
             Delete
           </Button>{" "}
-          {` `}
           <Button
             type="button"
             onClick={() => {
               setIsConfirmingDelete(false);
+              setDeleteItemName();
+              setDeleteId();
             }}
           >
             Cancel
