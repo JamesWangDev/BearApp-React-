@@ -1,15 +1,25 @@
 import { Router } from "express";
-import * as Item from "./items-controllers";
-import { verifyToken } from "../../middleware";
+import { verifyToken, checkPaidUser, checkOwnership } from "../../middleware";
+import {
+  getEveryItem,
+  getOneItem,
+  updateOneItem,
+  deleteOneItem,
+  createItem,
+  deleteMultipleItems,
+} from "./items-controllers";
 
 const router = Router();
 
-router.use(verifyToken);
-router.get("/all", Item.getEveryItem);
-router.get("/:itemId", Item.getOneItem);
-router.put("/:itemId/registry/:registryId", Item.updateOneItem); // isOwner _ isAdmin
-router.delete("/:itemId/registry/:registryId", Item.deleteOneItem); // isOwner _ isAdmin
-router.post("/registry/:registryId", Item.createItem); // isUser
-router.delete("/registry/:registryId", Item.deleteMultipleItems); // isOwner _ isAdmin
+router.get("/all", getEveryItem);
+router.get("/:itemId", getOneItem);
+router
+  .route("/:itemId/registry/:registryId")
+  .put(verifyToken, checkOwnership, updateOneItem)
+  .delete(verifyToken, checkOwnership, deleteOneItem);
+router
+  .route("/registry/:registryId")
+  .post(verifyToken, checkPaidUser, createItem)
+  .delete(verifyToken, checkOwnership, deleteMultipleItems);
 
 export default router;
