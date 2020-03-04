@@ -1,13 +1,16 @@
 import React from "react";
 import useSWR from "swr";
+import { withAuth, withLoginRequired } from "use-auth0-hooks";
 import PropTypes from "prop-types";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
 import AdminPage from "../components/AdminPage";
 import { fetchIt } from "../utils";
+import { authType } from "../types";
 
-const Admin = ({ registry }) => {
-  const { data } = useSWR("/registry", { initalData: registry });
-  console.log(data);
+const Admin = ({ registry, auth }) => {
+  const { data } = useSWR("/registry", { initialData: registry });
+  console.log("data: ", data);
+  console.log("auth: ", auth);
   return (
     <AdminPage>
       <header className="header flex py-10 px-5 text-size text-xl">
@@ -44,6 +47,7 @@ Admin.getInitialProps = async () => {
 
 Admin.propTypes = {
   registry: PropTypes.any,
+  auth: authType,
 };
 
-export default Admin;
+export default withLoginRequired(withAuth(Admin));

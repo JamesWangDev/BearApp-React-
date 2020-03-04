@@ -1,14 +1,18 @@
 import React from "react";
 import useSWR from "swr";
+import { withAuth, withLoginRequired } from "use-auth0-hooks";
 import PropTypes from "prop-types";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-gift";
 import AdminPage from "../../components/AdminPage";
 import AdminItemsTable from "../../components/AdminItemsTable";
 import EditItem from "../../components/EditItem";
 import { fetchIt } from "../../utils";
+import { authType } from "../../types";
 
-const Admin = ({ items }) => {
+const Admin = ({ items, auth }) => {
   const { data } = useSWR("/items", { initalData: items });
+  const { user } = auth;
+  console.log(user);
   return (
     <AdminPage>
       <header className="header flex py-10 px-5 text-size text-xl">
@@ -43,14 +47,13 @@ const Admin = ({ items }) => {
 };
 
 Admin.getInitialProps = async () => {
-  // const items = await fetchIt("/items");
-  // return { items };
   const items = await fetchIt("/items");
   return { items };
 };
 
 Admin.propTypes = {
   items: PropTypes.any,
+  auth: authType,
 };
 
-export default Admin;
+export default withLoginRequired(withAuth(Admin));
