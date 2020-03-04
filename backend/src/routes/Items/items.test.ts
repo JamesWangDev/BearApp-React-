@@ -245,7 +245,7 @@ describe("Item Endpoint Tests", () => {
         price: 40000,
       };
       const updatedItem = await request
-        .put(`/api/item/${itemId}`)
+        .put(`/api/item/${itemId}/registry/${registryId}`)
         .send(updateObj)
         .expect(200);
       expect(updatedItem.body.name).toBe(updateObj.name);
@@ -266,7 +266,7 @@ describe("Item Endpoint Tests", () => {
       expect(foundItem.body).toStrictEqual(newItem.body);
 
       const error = await request
-        .put(`/api/item/${itemId}`)
+        .put(`/api/item/${itemId}/registry/${registryId}`)
         .send({ price: "BMW" })
         .expect(400);
 
