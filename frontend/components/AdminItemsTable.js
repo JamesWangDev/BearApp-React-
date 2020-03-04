@@ -6,23 +6,6 @@ import { fetchIt } from "../utils";
 import Button from "./Button";
 import Modal from "./Modal";
 
-/*const handleDelete = id => {
-  mutate("/items", async items => {
-    await fetchIt(`/item/${id}`, { method: "DELETE" });
-    return items.filter(item => item.id === id);
-  });
-  setIsConfirmingDelete(false);
-};
-
-const handleClose = () => {
-  setIsConfirmingDelete(false);
-};
-
-const confirmDelete = id => {
-  setDeleteId(id);
-  setIsConfirmingDelete(true);
-};*/
-
 const AdminItemsTable = ({ items }) => {
   const handleDelete = id => {
     mutate("/items", async items => {
