@@ -1,7 +1,7 @@
 export const validRegistry = {
   title: "Rose and Mel's Wedding",
   description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -15,7 +15,7 @@ export const validRegistry = {
 export const invalidRegistry = {
   //title: "Rose and Mel's Wedding",
   // description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -29,7 +29,7 @@ export const invalidRegistry = {
 export const invalidTitle = {
   //title: "Rose and Mel's Wedding",
   description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -43,7 +43,7 @@ export const invalidTitle = {
 export const invalidDescription = {
   title: "Rose and Mel's Wedding",
   // description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -57,7 +57,7 @@ export const invalidDescription = {
 export const invalidP1FullName = {
   title: "Rose and Mel's Wedding",
   description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -71,7 +71,7 @@ export const invalidP1FullName = {
 export const invalidP2FullName = {
   title: "Rose and Mel's Wedding",
   description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -85,7 +85,7 @@ export const invalidP2FullName = {
 export const invalidEmail = {
   title: "Rose and Mel's Wedding",
   description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -99,7 +99,7 @@ export const invalidEmail = {
 export const invalidUserId = {
   title: "Rose and Mel's Wedding",
   description: "Come celebrate",
-  // userId: "qqqq",
+  // userId: "1234567890",
   customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",
@@ -113,7 +113,7 @@ export const invalidUserId = {
 export const invalidCustomUrl = {
   title: "Rose and Mel's Wedding",
   description: "Come celebrate",
-  userId: "qqqq",
+  userId: "1234567890",
   // customUrl: "RoseAndMel",
   weddingDate: "2020-02-26T09:42:50.667Z",
   tyMessage: "Thanks for the Gift",

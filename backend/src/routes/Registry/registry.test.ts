@@ -1,24 +1,22 @@
-import { request, dbSetup } from "../../test";
+import { setup, mockControllers } from "../../test";
 import { validRegistry, invalidRegistry } from "../../models/Registry";
 
-dbSetup();
-
-const getAllRegistries = async () =>
-  await request.get("/api/registry").expect(200);
-
-const getRegistrybyUrl = async (customUrl: string, status: number) =>
-  await request.get(`/api/registry/${customUrl}`).expect(status);
-
-const createRegistry = async (registry: {}, status: number) =>
-  await request
-    .post("/api/registry")
-    .send(registry)
-    .expect(status);
+const {
+  getAllRegistries,
+  getRegistrybyUrl,
+  createRegistry,
+  deleteRegistry,
+  updateOneRegistry,
+} = mockControllers;
 
 describe("Registry Endpoint Test", () => {
+  const tokens = setup();
+
   describe("Registry Creation", () => {
     test("expected to successfully create one registry", async () => {
-      const resp = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const resp = await createRegistry(validRegistry, 201, token);
       expect(resp.body.title).toBe(validRegistry.title);
       expect(resp.body.description).toBe(validRegistry.description);
       expect(resp.body.p1FullName).toBe(validRegistry.p1FullName);
@@ -29,15 +27,19 @@ describe("Registry Endpoint Test", () => {
     });
 
     test("expected to unsuccessfully create one registry", async () => {
-      const resp = await createRegistry(invalidRegistry, 400);
+      const token = tokens.validTokenPaidUser;
+
+      const resp = await createRegistry(invalidRegistry, 400, token);
       expect(resp.body.message).toBe(
         "Registry validation failed: p1FullName: Registry p1FullName required, description: Registry description required, title: Registry title required"
       );
     });
 
     test("expected to unsuccessfully create a registry with the same customUrl", async () => {
-      const newRegistry1 = await createRegistry(validRegistry, 201);
-      const newRegistry2 = await createRegistry(validRegistry, 400);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry1 = await createRegistry(validRegistry, 201, token);
+      const newRegistry2 = await createRegistry(validRegistry, 400, token);
       expect(newRegistry2.body.message).toBe(
         `E11000 duplicate key error dup key: { : \"${newRegistry1.body.customUrl}"\ }`
       );
@@ -46,10 +48,13 @@ describe("Registry Endpoint Test", () => {
 
   describe("Get Registry/s", () => {
     test("Expected to get all items in DB", async () => {
-      const newRegistry1 = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry1 = await createRegistry(validRegistry, 201, token);
       const newRegistry2 = await createRegistry(
         { ...validRegistry, customUrl: "newRegistry2" },
-        201
+        201,
+        token
       );
 
       const allRegistries = await getAllRegistries();
@@ -66,7 +71,9 @@ describe("Registry Endpoint Test", () => {
     });
 
     test("expected to get a single registry by customUrl", async () => {
-      const newRegistry = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry = await createRegistry(validRegistry, 201, token);
       const customUrl = newRegistry.body.customUrl;
 
       const foundRegistry = await getRegistrybyUrl(customUrl, 200);
@@ -76,7 +83,9 @@ describe("Registry Endpoint Test", () => {
     });
 
     test("expected to not find a single invalid registry", async () => {
-      const newRegistry = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry = await createRegistry(validRegistry, 201, token);
       const customUrl = newRegistry.body.customUrl + "invalid";
 
       const foundRegistry = await getRegistrybyUrl(customUrl, 404);
@@ -88,7 +97,9 @@ describe("Registry Endpoint Test", () => {
 
   describe("Update/Delete Registry", () => {
     test("expected to successfully delete a single registry", async () => {
-      const newRegistry = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry = await createRegistry(validRegistry, 201, token);
       const registryId = newRegistry.body._id;
       const customUrl = newRegistry.body.customUrl;
 
@@ -97,9 +108,7 @@ describe("Registry Endpoint Test", () => {
       // could check each field invidiually here
       expect(foundRegistry.body).toStrictEqual(newRegistry.body);
 
-      const deletedRegistry = await request
-        .delete(`/api/registry/${registryId}`)
-        .expect(200);
+      const deletedRegistry = await deleteRegistry(registryId, 200, token);
       expect(deletedRegistry.body).not.toBeNull();
 
       const resp = await getRegistrybyUrl(customUrl, 404);
@@ -107,7 +116,9 @@ describe("Registry Endpoint Test", () => {
     });
 
     test("expected to unsuccessfully delete a single registry", async () => {
-      const newRegistry = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry = await createRegistry(validRegistry, 201, token);
       const customUrl = newRegistry.body.customUrl;
 
       const foundRegistry = await getRegistrybyUrl(customUrl, 200);
@@ -115,9 +126,11 @@ describe("Registry Endpoint Test", () => {
       // could check each field invidiually here
       expect(foundRegistry.body).toStrictEqual(newRegistry.body);
 
-      const deletedRegistry = await request
-        .delete("/api/registry/invalid-id-string")
-        .expect(400);
+      const deletedRegistry = await deleteRegistry(
+        "invalid-id-string",
+        400,
+        token
+      );
       expect(deletedRegistry.body.message).toBe(
         // eslint-disable-next-line quotes
         'Cast to ObjectId failed for value "invalid-id-string" at path "_id" for model "Registry"'
@@ -125,7 +138,9 @@ describe("Registry Endpoint Test", () => {
     });
 
     test("expected to successfully update a single registry", async () => {
-      const newRegistry = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry = await createRegistry(validRegistry, 201, token);
       const registryId = newRegistry.body._id;
       const customUrl = newRegistry.body.customUrl;
 
@@ -139,17 +154,22 @@ describe("Registry Endpoint Test", () => {
         description: "New Description",
         customUrl: "coolNewUrl",
       };
-      const updatedRegistry = await request
-        .put(`/api/registry/${registryId}`)
-        .send(updateObj)
-        .expect(200);
+      const updatedRegistry = await updateOneRegistry(
+        registryId,
+        updateObj,
+        200,
+        token
+      );
+
       expect(updatedRegistry.body.title).toBe(updateObj.title);
       expect(updatedRegistry.body.description).toBe(updateObj.description);
       expect(updatedRegistry.body.customUrl).toBe(updateObj.customUrl);
     });
 
     test("expected to unsuccessfully update a single registry", async () => {
-      const newRegistry = await createRegistry(validRegistry, 201);
+      const token = tokens.validTokenPaidUser;
+
+      const newRegistry = await createRegistry(validRegistry, 201, token);
       const invalidRegistryId = newRegistry.body._id + "-invalid";
       const customUrl = newRegistry.body.customUrl;
 
@@ -163,10 +183,12 @@ describe("Registry Endpoint Test", () => {
         description: "New Description",
         customUrl: "coolNewUrl",
       };
-      const error = await request
-        .put(`/api/registry/${invalidRegistryId}`)
-        .send(updateObj)
-        .expect(400);
+      const error = await updateOneRegistry(
+        invalidRegistryId,
+        updateObj,
+        400,
+        token
+      );
 
       expect(error.body.message).toBe(
         `Cast to ObjectId failed for value "${invalidRegistryId}" at path "_id" for model "Registry"`
