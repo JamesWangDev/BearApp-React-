@@ -6,10 +6,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config",
     "start": "node -r dotenv/config dist/server/index.js",
-    "test": "jest --runInBand",
-    "test:watch": "jest --runInBand --watch",
-    "test:withLogs": "cross-env NODE_ENV=test:withLogs jest --runInBand",
-    "test:withLogs:watch": "yarn test:withLogs --watch",
+    "test": "jest --setupFiles dotenv/config --runInBand",
+    "test:watch": "yarn test --watch",
     "postinstall": "tsc"
   },
   "keywords": [],
@@ -47,7 +45,9 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^25.1.0",
+    "mock-jwks": "^0.3.0",
     "mongodb-memory-server": "^6.2.4",
+    "nock": "^12.0.2",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
