@@ -1,30 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { withAuth, withLoginRequired } from "use-auth0-hooks";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
 import AdminPage from "../components/AdminPage";
 import InputText from "../components/InputText";
 import Button from "../components/Button";
+import { fetchIt } from "../utils";
 import { authType } from "../types";
 
 const Admin = ({ auth }) => {
-  const { data } = useSWR("/registry/RoseAndMel", { initialData: {} });
   console.log("auth: ", auth);
-  // console.log("data: ", data);
-  const { register, handleSubmit, errors } = useForm({
-    defaultValues: {
-      ...data,
-      "p1-full-name": data.p1FullName,
-      "p2-full-name": data.p2FullName,
-      "phone-number": data.phoneNumber,
-      "ty-message": data.tyMessage,
-      "custom-url": data.customUrl,
-    },
-  });
+  const { register, handleSubmit, errors, reset, formState } = useForm();
+  const { data } = useSWR("/registry/RoseAndMel");
+
+  useEffect(() => {
+    if (!formState.dirty) {
+      reset(data);
+    }
+  }, [data]);
+
   const onSubmit = formData => {
-    console.log("formData: ", formData);
+    mutate("/registry/RoseAndMel", async () => {
+      const registry = await fetchIt(`/registry/${data._id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          ...data,
+          ...formData,
+        }),
+      });
+      return registry;
+    });
   };
+
   return (
     <AdminPage>
       <header className="header flex py-10 px-5 text-size text-xl">
