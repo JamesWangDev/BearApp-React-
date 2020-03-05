@@ -1,9 +1,16 @@
 import createError = require("http-errors");
 
-// formats error authorizations
+const PERMISSIONS_ADMIN = process.env.PERMISSIONS_ADMIN;
+const PERMISSIONS_PAIDUSER = process.env.PERMISSIONS_PAIDUSER;
+
+// formats error authorizations messages
 function createErrMsg(re: string) {
   return createError(401, `Authorization Failed (re: ${re})`);
 }
+
+// creates array of permissions
+export const permissionsAdmin = JSON.parse(PERMISSIONS_ADMIN || "[]");
+export const permissionsPaidUser = JSON.parse(PERMISSIONS_PAIDUSER || "[]");
 
 // throws an error if unsuccessful
 export function checkPermissions(

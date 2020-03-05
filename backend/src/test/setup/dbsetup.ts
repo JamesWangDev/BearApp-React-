@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { mongoOpts } from "../server/database";
+import { mongoOpts } from "../../server/database";
 
 const mongod = new MongoMemoryServer();
 
