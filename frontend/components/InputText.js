@@ -20,7 +20,7 @@ const WrappedComponent = React.forwardRef(function TextInput(
     >
       <div className="md:w-1/3">
         <label
-          htmlFor={label}
+          htmlFor={id}
           className={`
             block
             text-gray-500
@@ -34,11 +34,11 @@ const WrappedComponent = React.forwardRef(function TextInput(
           {children}
         </label>
       </div>
-      <div>
+      <div className="md:w-2/3">
         <input
           ref={ref}
-          id={label}
-          name={label}
+          id={id}
+          name={id}
           type={type}
           className={`
             gb-gray-200

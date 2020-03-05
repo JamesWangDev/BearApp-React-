@@ -92,7 +92,6 @@ const PurchaseItem = ({
           >
             Amount ($)
           </InputText>
-          <input type="submit" value="submit" />
           <div className="flex justify-around">
             <Button onClick={onSubmit}>Checkout</Button>
             <Button onClick={handleClose}>Cancel</Button>
