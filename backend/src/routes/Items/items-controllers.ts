@@ -148,3 +148,28 @@ export const deleteMultipleItems: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const madeItemPurchase: RequestHandler = async (req, res, next) => {
+  try {
+    const { itemId } = req.params;
+
+    if (!req.body.pricePaid) {
+      throw createError(400, "You forgot to pass in the pricePaid");
+    }
+
+    const item = await Item.findById(itemId);
+    if (!item) throw createError(404, `Item (${itemId}) not found`);
+
+    if (item.purchasers) {
+      item.purchasers.push(req.body);
+    } else {
+      item.purchasers = [req.body];
+    }
+
+    await item.save();
+
+    res.status(200).json(item);
+  } catch (err) {
+    next(err);
+  }
+};
