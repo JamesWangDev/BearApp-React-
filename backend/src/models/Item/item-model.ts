@@ -21,10 +21,6 @@ const ItemSchema = new mongoose.Schema({
   image: {
     type: String,
   },
-  isPurchased: {
-    type: Boolean,
-    default: false,
-  },
   isReserved: {
     type: Boolean,
     default: false,
@@ -36,9 +32,22 @@ const ItemSchema = new mongoose.Schema({
   reservedOn: {
     type: Date,
   },
-  purchasedOn: {
-    type: Date,
-  },
+  purchasers: [
+    {
+      name: String,
+      email: String,
+      message: String,
+      purchasedOn: {
+        type: Date,
+        default: Date.now,
+      },
+      pricePaid: {
+        type: Number,
+        required: [true, "Item pricePaid required"],
+        min: 0,
+      },
+    },
+  ],
 });
 
 const Item = mongoose.model<ItemI>("Item", ItemSchema);
