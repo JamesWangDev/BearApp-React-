@@ -1,13 +1,40 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import MenuIcon from "@iconscout/react-unicons/icons/uil-bars";
 import CloseMenuIcon from "@iconscout/react-unicons/icons/uil-multiply";
 import SearchIcon from "@iconscout/react-unicons/icons/uil-search";
 import colors from "../css/colors";
 
+// Used by ActiveLink to determine the class names for the Link
+const getActiveLinkClass = (className = "", pathname, href) => {
+  const isActive = pathname === href ? "active" : "";
+  return `${className} ${isActive}`.trim();
+};
+
+/* Uses the Next.js Link component but adds an 'active' class
+ * if the current url matches the href
+ */
+const ActiveLink = ({ children, ...props }) => {
+  const router = useRouter();
+  const child = React.Children.only(children);
+  const className = getActiveLinkClass(
+    child.props.className,
+    router.pathname,
+    props.href
+  );
+
+  return <Link {...props}>{React.cloneElement(child, { className })}</Link>;
+};
+
+ActiveLink.propTypes = {
+  children: PropTypes.node.isRequired,
+  href: PropTypes.string.isRequired,
+};
+
 const AdminPage = ({ children }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
-
   return (
     <div className="grid-container">
       <div className="menu-icon" onClick={() => setIsNavOpen(true)}>
@@ -30,8 +57,16 @@ const AdminPage = ({ children }) => {
           <CloseMenuIcon />
         </div>
         <ul>
-          <li>Registry details</li>
-          <li>Gifts</li>
+          <li>
+            <ActiveLink href="/admin">
+              <a>Registry details</a>
+            </ActiveLink>
+          </li>
+          <li>
+            <ActiveLink href="/admin/gifts">
+              <a>Gifts</a>
+            </ActiveLink>
+          </li>
         </ul>
       </aside>
       <main>{children}</main>
@@ -116,17 +151,29 @@ const AdminPage = ({ children }) => {
 
         aside ul {
           padding: 0;
-          margin-top: 85px;
+          margin-top: 100px;
           list-style-type: none;
         }
 
         aside li {
-          padding: 20px 20px 20px 40px;
+          height: 64px;
+          display: flex;
+          align-items: center;
         }
 
         aside li:hover {
           background-color: rgba(0, 0, 0, 0.2);
           cursor: pointer;
+        }
+
+        aside a {
+          padding: 20px 20px 20px 40px;
+          width: 100%;
+          height: 100%;
+        }
+
+        aside a.active {
+          background-color: rgba(0, 0, 0, 0.2);
         }
 
         main {
