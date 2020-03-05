@@ -7,12 +7,16 @@ import {
   deleteOneItem,
   createItem,
   deleteMultipleItems,
+  madeItemPurchase,
 } from "./items-controllers";
 
 const router = Router();
 
 router.get("/all", getEveryItem);
-router.get("/:itemId", getOneItem);
+router
+  .route("/:itemId")
+  .get(getOneItem)
+  .post(madeItemPurchase);
 router
   .route("/:itemId/registry/:registryId")
   .put(verifyToken, checkOwnership, updateOneItem)
