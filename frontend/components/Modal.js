@@ -14,7 +14,7 @@ const Modal = props => {
           unmountOnExit
         >
           <div
-            className="modal fixed inset-0"
+            className="modal fixed inset-0 z-10"
             role="dialog"
             aria-modal="true"
             onClick={props.handleClose}

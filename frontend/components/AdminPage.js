@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useAuth } from "use-auth0-hooks";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import MenuIcon from "@iconscout/react-unicons/icons/uil-bars";
 import CloseMenuIcon from "@iconscout/react-unicons/icons/uil-multiply";
 import SearchIcon from "@iconscout/react-unicons/icons/uil-search";
+import AccountIcon from "@iconscout/react-unicons/icons/uil-invoice";
+import ProfileIcon from "@iconscout/react-unicons/icons/uil-user-circle";
+import LogoutIcon from "@iconscout/react-unicons/icons/uil-sign-out-alt";
 import colors from "../css/colors";
 
 // Used by ActiveLink to determine the class names for the Link
@@ -35,6 +39,11 @@ ActiveLink.propTypes = {
 
 const AdminPage = ({ children }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const { logout } = useAuth();
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  };
   return (
     <div className="grid-container">
       <div className="menu-icon" onClick={() => setIsNavOpen(true)}>
@@ -46,7 +55,37 @@ const AdminPage = ({ children }) => {
           Search...
         </div>
         <div className="header__avatar">
-          <img src="/images/default_profile_image.jpg" alt="Profile image" />
+          <img
+            src="/images/default_profile_image.jpg"
+            alt="Profile image"
+            onClick={toggleProfileDropdown}
+          />
+          <div
+            className={`dropdown shadow${
+              isProfileDropdownOpen ? " dropdown-active" : ""
+            }`}
+          >
+            <ul className="dropdown__list">
+              <li className="dropdown__list-item">
+                <span className="dropdown__icon">
+                  <ProfileIcon />
+                </span>
+                <span className="dropdown__title ml-2">my profile</span>
+              </li>
+              <li className="dropdown__list-item">
+                <span className="dropdown__icon">
+                  <AccountIcon />
+                </span>
+                <span className="dropdown__title ml-2">my account</span>
+              </li>
+              <li className="dropdown__list-item" onClick={logout}>
+                <span className="dropdown__icon">
+                  <LogoutIcon />
+                </span>
+                <span className="dropdown__title ml-2">logout</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </header>
       <aside className={isNavOpen ? "active" : ""}>
@@ -118,6 +157,44 @@ const AdminPage = ({ children }) => {
           width: 44px;
           height: 44px;
           border-radius: 50%;
+          cursor: pointer;
+        }
+
+        header .header__avatar .dropdown {
+          position: absolute;
+          top: 84px;
+          right: 4px;
+          width: 220px;
+          height: auto;
+          background-color ${colors.backgroundPrimary};
+          border-radius: 4px;
+          visibility: hidden;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: all .3s;
+        }
+
+        header .header__avatar .dropdown-active {
+          visibility: visible;
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        header .header__avatar .dropdown .dropdown__list {
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
+        }
+
+        header .header__avatar .dropdown .dropdown__list-item {
+          padding: 12px 24px;
+          text-transform: capitalize;
+          cursor: pointer;
+          display: flex;
+        }
+
+        header .header__avatar .dropdown .dropdown__list-item:hover {
+          background-color: rgba(0, 0, 0, 0.2);
         }
 
         aside {
