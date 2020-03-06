@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "use-auth0-hooks";
 import { REDIRECTURI } from "../utils";
 
 export default function Home() {
-  const { pathname, query } = useRouter();
+  const { pathname, query, replace } = useRouter();
   const { isAuthenticated, isLoading, login, logout } = useAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      replace("/admin");
+    }
+  }, [isAuthenticated]);
   return (
     <div>
       <div>
