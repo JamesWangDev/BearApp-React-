@@ -5,6 +5,8 @@ import Button from "../components/Button";
 import { fetchIt } from "../utils";
 import AdminPage from "../components/AdminPage";
 import PropTypes from "prop-types";
+import { itemType } from "../types";
+import Link from "next/link";
 
 const AdminEditItem = ({ item }) => {
   const { register, handleSubmit, errors } = useForm({
@@ -40,7 +42,7 @@ const AdminEditItem = ({ item }) => {
           id="description"
           error={errors.description}
           type="textarea"
-          ref={register}
+          ref={register({ required: "Description is required" })}
         >
           Description
         </InputText>
@@ -63,9 +65,9 @@ const AdminEditItem = ({ item }) => {
           Image
         </InputText>
         <Button type="submit">Save</Button> {` `}
-        <a href="/admin">
+        <Link href="/admin">
           <Button type="button">Back</Button>
-        </a>
+        </Link>
       </form>
     </AdminPage>
   );
@@ -77,7 +79,7 @@ AdminEditItem.getInitialProps = async ({ query }) => {
 };
 
 AdminEditItem.propTypes = {
-  item: PropTypes.any,
+  item: PropTypes.shape(itemType),
 };
 
 export default AdminEditItem;

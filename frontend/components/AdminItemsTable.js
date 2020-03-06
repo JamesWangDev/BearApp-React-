@@ -5,6 +5,7 @@ import { itemType } from "../types";
 import { fetchIt } from "../utils";
 import Button from "./Button";
 import Modal from "./Modal";
+import Link from "next/link";
 
 const AdminItemsTable = ({ items }) => {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
@@ -55,9 +56,9 @@ const AdminItemsTable = ({ items }) => {
                 <td>{item.description}</td>
                 <td>{item.price}</td>
                 <td>
-                  <a href={`/admin-edit-item?id=${item._id}`}>
+                  <Link href={`/admin-edit-item?id=${item._id}`}>
                     <Button type="button">Edit</Button>
-                  </a>
+                  </Link>
                   {` `}
                   <Button
                     type="button"
