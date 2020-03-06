@@ -15,6 +15,6 @@ export interface ItemI extends Document {
     email?: string;
     message?: string;
     purchasedOn: Date;
-    pricePaid: Number;
+    pricePaid: number;
   }[];
 }
