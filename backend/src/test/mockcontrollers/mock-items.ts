@@ -59,3 +59,14 @@ export async function updateItem(
     .set("Authorization", `Bearer ${token}`)
     .expect(status);
 }
+
+export async function purchaseItem(
+  itemId: string,
+  purchaseInfo: {},
+  status: number
+) {
+  return await request
+    .post(`/api/item/${itemId}`)
+    .send(purchaseInfo)
+    .expect(status);
+}
