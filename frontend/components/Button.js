@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Button = ({ type, onClick, children }) => (
+const Button = ({ type, onClick, children, additionalStyles }) => (
   <button
     className={`
 			shadow
@@ -13,7 +13,8 @@ const Button = ({ type, onClick, children }) => (
 			font-bold
 			py-2
 			px-4
-			rounded
+      rounded
+      ${additionalStyles}
 		`}
     type={type}
     onClick={onClick}
@@ -26,6 +27,7 @@ Button.propTypes = {
   type: PropTypes.oneOf(["submit", "button"]),
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func,
+  additionalStyles: PropTypes.string,
 };
 
 Button.defaultProps = {
