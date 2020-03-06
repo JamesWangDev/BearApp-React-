@@ -1,6 +1,7 @@
 import { setup, mockControllers } from "../../test";
 import { validItem, invalidItem } from "../../models/Item";
 import { validRegistry } from "../../models/Registry";
+import { purchaseItem } from "../../test/mockcontrollers";
 
 const {
   createItem,
@@ -288,6 +289,56 @@ describe("Item Endpoint Tests", () => {
       expect(error.body.message).toBe(
         // eslint-disable-next-line quotes
         'Cast to number failed for value "BMW" at path "price"'
+      );
+    });
+
+    test("expected to successfully make an item 'purchase'", async () => {
+      const token = tokens.validTokenPaidUser;
+
+      const registry = await createRegistry(validRegistry, 201, token);
+      const registryId = registry.body._id;
+
+      const newItem = await createItem(registryId, validItem, 201, token);
+      const itemId = newItem.body._id;
+
+      const foundItem = await getItem(itemId, 200);
+      expect(foundItem.body).not.toBeNull();
+      // could check each field invidiually here
+      expect(foundItem.body).toStrictEqual(newItem.body);
+
+      const purchaseInfo = {
+        name: "Mr Bean",
+        pricePaid: 100,
+      };
+
+      const updatedItem = await purchaseItem(itemId, purchaseInfo, 200);
+      expect(updatedItem.body.purchasers[0].name).toBe(purchaseInfo.name);
+      expect(updatedItem.body.purchasers[0].pricePaid).toBe(
+        purchaseInfo.pricePaid
+      );
+    });
+
+    test("expected to unsuccessfully make an item 'purchase' - pricePaid", async () => {
+      const token = tokens.validTokenPaidUser;
+
+      const registry = await createRegistry(validRegistry, 201, token);
+      const registryId = registry.body._id;
+
+      const newItem = await createItem(registryId, validItem, 201, token);
+      const itemId = newItem.body._id;
+
+      const foundItem = await getItem(itemId, 200);
+      expect(foundItem.body).not.toBeNull();
+      // could check each field invidiually here
+      expect(foundItem.body).toStrictEqual(newItem.body);
+
+      const purchaseInfo = {
+        name: "Mr Bean",
+      };
+
+      const updatedItem = await purchaseItem(itemId, purchaseInfo, 400);
+      expect(updatedItem.body.message).toBe(
+        "You forgot to pass in the pricePaid"
       );
     });
   });
