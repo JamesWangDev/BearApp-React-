@@ -9,6 +9,7 @@ import SearchIcon from "@iconscout/react-unicons/icons/uil-search";
 import AccountIcon from "@iconscout/react-unicons/icons/uil-invoice";
 import ProfileIcon from "@iconscout/react-unicons/icons/uil-user-circle";
 import LogoutIcon from "@iconscout/react-unicons/icons/uil-sign-out-alt";
+import { userType } from "../types";
 import colors from "../css/colors";
 
 // Used by ActiveLink to determine the class names for the Link
@@ -37,7 +38,7 @@ ActiveLink.propTypes = {
   href: PropTypes.string.isRequired,
 };
 
-const AdminPage = ({ children }) => {
+const AdminPage = ({ children, user }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const { logout } = useAuth();
@@ -56,7 +57,7 @@ const AdminPage = ({ children }) => {
         </div>
         <div className="header__avatar">
           <img
-            src="/images/default_profile_image.jpg"
+            src={user.picture || "/images/default_profile_image.jpg"}
             alt="Profile image"
             onClick={toggleProfileDropdown}
           />
@@ -300,6 +301,45 @@ const AdminPage = ({ children }) => {
 };
 
 AdminPage.propTypes = {
+  children: PropTypes.node.isRequired,
+  user: userType,
+};
+
+AdminPage.Header = ({ icon, title }) => {
+  const Icon = React.cloneElement(icon, { color: "#fff", size: 30 });
+  return (
+    <header className="header flex py-10 px-5 text-size text-xl">
+      <div className="header__icon">{Icon}</div>
+      <div className="pl-5">
+        <h1>{title}</h1>
+      </div>
+      <style jsx>{`
+        .header .header__icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 49px;
+          height: 49px;
+          border-radius: 8px;
+          background-image: linear-gradient(180deg, #6fe3ff 0%, #2fc7f5 100%);
+        }
+
+        .header h1 {
+          line-height: 49px;
+        }
+      `}</style>
+    </header>
+  );
+};
+AdminPage.Header.displayName = "AdminPage__Header";
+AdminPage.Header.propTypes = {
+  icon: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+};
+
+AdminPage.Main = ({ children }) => <div className="px-5">{children}</div>;
+AdminPage.Main.displayName = "AdminPage__Main";
+AdminPage.Main.propTypes = {
   children: PropTypes.node.isRequired,
 };
 

@@ -5,6 +5,7 @@ import { itemType } from "../types";
 import { fetchIt } from "../utils";
 import Button from "./Button";
 import Modal from "./Modal";
+import Link from "./Link";
 
 const AdminItemsTable = ({ items }) => {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
@@ -14,7 +15,9 @@ const AdminItemsTable = ({ items }) => {
   const handleDelete = id => {
     mutate("/items", async items => {
       await fetchIt(`/item/${id}`, { method: "DELETE" });
-      return items.filter(item => item.id === id);
+      return items && items.length > 0
+        ? items.filter(item => item.id === id)
+        : [];
     });
     setIsConfirmingDelete(false);
   };
@@ -55,7 +58,9 @@ const AdminItemsTable = ({ items }) => {
                 <td>{item.description}</td>
                 <td>{item.price}</td>
                 <td>
-                  <Button type="button">Edit</Button>
+                  <Link href={`/admin/gifts/${item._id}`}>
+                    <a>Edit</a>
+                  </Link>
                   {` `}
                   <Button
                     type="button"
@@ -137,4 +142,3 @@ AdminItemsTable.defaultProps = {
 };
 
 export default AdminItemsTable;
-export { itemType };
