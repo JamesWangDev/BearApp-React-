@@ -39,3 +39,19 @@ export const authType = shape({
   login: func.isRequired,
   logout: func.isRequired,
 });
+
+export const fakeAuthObj = {
+  user: {
+    nickname: "Matt",
+    name: "Matthew Burfield",
+    picture: "",
+    updated_at: "",
+    email: "burfie@hotmail.com",
+    email_verified: true,
+    sub: "",
+  },
+  isAuthenticated: true,
+  isLoading: false,
+  login: () => {},
+  logout: () => {},
+};

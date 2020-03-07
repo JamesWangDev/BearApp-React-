@@ -1,23 +1,21 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { withAuth, withLoginRequired } from "use-auth0-hooks";
+// import { withAuth, withLoginRequired } from "use-auth0-hooks";
 import useSWR, { mutate } from "swr";
 import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
 import InputText from "../../../components/InputText";
 import Button from "../../../components/Button";
 import { fetchIt } from "../../../utils";
 import AdminPage from "../../../components/AdminPage";
-import { authType } from "../../../types";
+import { authType, fakeAuthObj } from "../../../types";
 import Link from "../../../components/Link";
 
 const AdminEditItem = ({ auth }) => {
   const router = useRouter();
-  console.log("AdminEditItem: ", router);
   const { register, handleSubmit, errors, reset, formState } = useForm();
   const { data } = useSWR(`/item/${router.query.gift_id}`);
 
-  console.log("AdminEditItem: ", data);
   useEffect(() => {
     if (!formState.dirty) {
       reset(data);
@@ -99,4 +97,9 @@ AdminEditItem.propTypes = {
   auth: authType,
 };
 
-export default withLoginRequired(withAuth(AdminEditItem));
+AdminEditItem.defaultProps = {
+  auth: fakeAuthObj,
+};
+
+// export default withLoginRequired(withAuth(AdminEditItem));
+export default AdminEditItem;

@@ -1,12 +1,12 @@
 import React from "react";
 import useSWR from "swr";
-import { withAuth, withLoginRequired } from "use-auth0-hooks";
+// import { withAuth, withLoginRequired } from "use-auth0-hooks";
 import PropTypes from "prop-types";
 import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
 import AdminPage from "../../components/AdminPage";
 import AdminItemsTable from "../../components/AdminItemsTable";
 import { fetchIt } from "../../utils";
-import { authType } from "../../types";
+import { authType, fakeAuthObj } from "../../types";
 
 const Gifts = ({ items, auth }) => {
   const { data } = useSWR("/items", { initalData: items });
@@ -30,4 +30,9 @@ Gifts.propTypes = {
   auth: authType,
 };
 
-export default withLoginRequired(withAuth(Gifts));
+Gifts.defaultProps = {
+  auth: fakeAuthObj,
+};
+
+export default Gifts;
+// export default withLoginRequired(withAuth(Gifts));
