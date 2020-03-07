@@ -10,7 +10,6 @@ import { fetchIt } from "../utils";
 import { authType } from "../types";
 
 const Admin = ({ auth }) => {
-  console.log("auth: ", auth);
   const { register, handleSubmit, errors, reset, formState } = useForm();
   const { data } = useSWR("/registry/RoseAndMel");
 
@@ -34,16 +33,9 @@ const Admin = ({ auth }) => {
   };
 
   return (
-    <AdminPage>
-      <header className="header flex py-10 px-5 text-size text-xl">
-        <div className="header__icon">
-          <RegistryIcon color="#fff" size={30} />
-        </div>
-        <div className="pl-5">
-          <h1>Registry details</h1>
-        </div>
-      </header>
-      <div className="p-10">
+    <AdminPage user={auth.user}>
+      <AdminPage.Header icon={<RegistryIcon />} title="Registry details" />
+      <AdminPage.Main>
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputText
             id="title"
@@ -101,22 +93,7 @@ const Admin = ({ auth }) => {
           </InputText>
           <Button type="submit">Submit</Button>
         </form>
-      </div>
-      <style jsx>{`
-        .header .header__icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 49px;
-          height: 49px;
-          border-radius: 8px;
-          background-image: linear-gradient(180deg, #6fe3ff 0%, #2fc7f5 100%);
-        }
-
-        .header h1 {
-          line-height: 49px;
-        }
-      `}</style>
+      </AdminPage.Main>
     </AdminPage>
   );
 };
