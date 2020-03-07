@@ -1,35 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { withAuth, withLoginRequired } from "use-auth0-hooks";
+import useSWR, { mutate } from "swr";
 import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
 import InputText from "../../../components/InputText";
 import Button from "../../../components/Button";
 import { fetchIt } from "../../../utils";
 import AdminPage from "../../../components/AdminPage";
-import PropTypes from "prop-types";
-import { itemType } from "../../../types";
+import { authType } from "../../../types";
 import Link from "../../../components/Link";
 
-const AdminEditItem = ({ item }) => {
+const AdminEditItem = ({ auth }) => {
   const router = useRouter();
-  console.log("router", router);
-  const { register, handleSubmit, errors } = useForm({
-    defaultValues: {
-      name: item.name,
-      description: item.description,
-      link: item.link,
-      price: item.price,
-      image: item.image,
-    },
-  });
-  const onSubmit = async formData => {
-    await fetchIt(`/item/${item._id}`, {
-      method: "PUT",
-      body: JSON.stringify(formData),
+  console.log("AdminEditItem: ", router);
+  const { register, handleSubmit, errors, reset, formState } = useForm();
+  const { data } = useSWR(`/item/${router.query.gift_id}`);
+
+  console.log("AdminEditItem: ", data);
+  useEffect(() => {
+    if (!formState.dirty) {
+      reset(data);
+    }
+  }, [data]);
+
+  const onSubmit = formData => {
+    mutate("/items", async items => {
+      const newItem = await fetchIt(`/item/${data._id}`, {
+        method: "PUT",
+        body: JSON.stringify(formData),
+      });
+      console.log(newItem, items);
+      return items && items.length > 0
+        ? items.map(item => {
+            if (item._id === newItem._id) {
+              return newItem;
+            }
+            return item;
+          })
+        : [newItem];
     });
+    reset();
+    router.push("/admin/gifts");
   };
+
   return (
-    <AdminPage>
+    <AdminPage user={auth.user}>
       <AdminPage.Header icon={<GiftIcon />} title="Edit Item" />
       <AdminPage.Main>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,13 +90,13 @@ const AdminEditItem = ({ item }) => {
   );
 };
 
-AdminEditItem.getInitialProps = async ({ query }) => {
-  const item = await fetchIt(`/item/${query.id}`, { method: "GET" });
-  return { item };
-};
+// AdminEditItem.getInitialProps = async ({ query }) => {
+//   const item = await fetchIt(`/item/${query.id}`, { method: "GET" });
+//   return { item };
+// };
 
 AdminEditItem.propTypes = {
-  item: PropTypes.shape(itemType),
+  auth: authType,
 };
 
-export default AdminEditItem;
+export default withLoginRequired(withAuth(AdminEditItem));

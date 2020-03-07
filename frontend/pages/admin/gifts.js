@@ -8,12 +8,10 @@ import AdminItemsTable from "../../components/AdminItemsTable";
 import { fetchIt } from "../../utils";
 import { authType } from "../../types";
 
-const Admin = ({ items, auth }) => {
+const Gifts = ({ items, auth }) => {
   const { data } = useSWR("/items", { initalData: items });
-  const { user } = auth;
-  console.log(user);
   return (
-    <AdminPage>
+    <AdminPage user={auth.user}>
       <AdminPage.Header icon={<GiftIcon />} title="New title" />
       <AdminPage.Main>
         <AdminItemsTable items={data} />
@@ -22,14 +20,14 @@ const Admin = ({ items, auth }) => {
   );
 };
 
-Admin.getInitialProps = async () => {
+Gifts.getInitialProps = async () => {
   const items = await fetchIt("/items");
   return { items };
 };
 
-Admin.propTypes = {
+Gifts.propTypes = {
   items: PropTypes.any,
   auth: authType,
 };
 
-export default withLoginRequired(withAuth(Admin));
+export default withLoginRequired(withAuth(Gifts));

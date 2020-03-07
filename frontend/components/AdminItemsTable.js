@@ -15,7 +15,9 @@ const AdminItemsTable = ({ items }) => {
   const handleDelete = id => {
     mutate("/items", async items => {
       await fetchIt(`/item/${id}`, { method: "DELETE" });
-      return items.filter(item => item.id === id);
+      return items && items.length > 0
+        ? items.filter(item => item.id === id)
+        : [];
     });
     setIsConfirmingDelete(false);
   };
@@ -56,7 +58,9 @@ const AdminItemsTable = ({ items }) => {
                 <td>{item.description}</td>
                 <td>{item.price}</td>
                 <td>
-                  <Link href={`gifts/${item._id}?id=${item._id}`}>Edit</Link>
+                  <Link href={`/admin/gifts/${item._id}`}>
+                    <a>Edit</a>
+                  </Link>
                   {` `}
                   <Button
                     type="button"
@@ -138,4 +142,3 @@ AdminItemsTable.defaultProps = {
 };
 
 export default AdminItemsTable;
-export { itemType };

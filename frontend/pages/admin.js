@@ -10,7 +10,6 @@ import { fetchIt } from "../utils";
 import { authType } from "../types";
 
 const Admin = ({ auth }) => {
-  console.log("auth: ", auth);
   const { register, handleSubmit, errors, reset, formState } = useForm();
   const { data } = useSWR("/registry/RoseAndMel");
 
@@ -34,7 +33,7 @@ const Admin = ({ auth }) => {
   };
 
   return (
-    <AdminPage>
+    <AdminPage user={auth.user}>
       <AdminPage.Header icon={<RegistryIcon />} title="Registry details" />
       <AdminPage.Main>
         <form onSubmit={handleSubmit(onSubmit)}>
