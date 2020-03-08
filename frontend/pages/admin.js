@@ -17,7 +17,6 @@ const Admin = ({ auth }) => {
   //const { data } = useSWR("/registry");
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
-  console.log(accessToken);
   // useEffect(() => {
   //   if (!formState.dirty) {
   //     reset(data);

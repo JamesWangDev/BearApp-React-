@@ -92,14 +92,12 @@ export const getItemsByRegistry: RequestHandler = async (req, res, next) => {
     if (!registry) throw createError(404, `Registry (${registryId}) not found`);
 
     const itemIds = registry.items;
-    console.log(itemIds);
 
-    const items = itemIds.map(async itemId => {
-      const item = await Item.findById(itemId);
-      console.log("______ITEM________");
-      console.log(item);
-      console.log("_____________");
-      return item;
+    // show all the items passed in array Of Items
+    const items = await Item.find({
+      _id: {
+        $in: itemIds,
+      },
     });
 
     res.status(200).json(items);
