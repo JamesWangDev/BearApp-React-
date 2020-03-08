@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-//import { ItemI } from "./item-types";
+import { RegistryI } from "./registry-types";
 
 const RegistrySchema = new mongoose.Schema({
   title: {
@@ -10,46 +10,52 @@ const RegistrySchema = new mongoose.Schema({
     type: String,
     required: [true, "Registry description required"],
   },
-  tyMessage : {
-      type: String,
-  },
-  p1FullName : {
+  tyMessage: {
     type: String,
-    required: [true, "Partner 1 full Name required"],
   },
-  p2FullName : {
+  p1FullName: {
     type: String,
-    required: [true, "Partner 2 full Name required"],
+    required: [true, "Registry p1FullName required"],
   },
-  weddingDate : {
-      type: Date,
+  p2FullName: {
+    type: String,
+    required: [true, "Registry p2FullName required"],
   },
-  phoneNumber : {
-      type: Number,
+  weddingDate: {
+    type: Date,
   },
-  email : {
-      type: String,
-      required: [true, "Email is required"],
+  phoneNumber: {
+    type: Number,
+  },
+  email: {
+    type: String,
+    required: [true, "Registry email required"],
   },
   userId: {
-      type: String,
-      required: [true, "UserId is required"],
+    type: String,
+    required: [true, "Registry userId required"],
   },
   customUrl: {
-      type: String,
-      required: [true, "Custom URL is required"],
-      unique: true
+    type: String,
+    required: [true, "Registry customUrl required"],
+    unique: true,
+    validate: {
+      validator: (url: string) => url.split(" ").length === 1,
+      message: () => "Registry customUrl cannot contain spaces",
+    },
   },
-  items : [{
+  items: [
+    {
       type: mongoose.Types.ObjectId,
-      ref: "Item"
-  }],
+      ref: "Item",
+    },
+  ],
   coverImage: {
-      type: String,
-      default: "https://bit.ly/2Pr0xeQ"
-  }
+    type: String,
+    default: "https://bit.ly/2Pr0xeQ",
+  },
 });
 
-const Registry = mongoose.model("Registry", RegistrySchema);
+const Registry = mongoose.model<RegistryI>("Registry", RegistrySchema);
 
 export default Registry;

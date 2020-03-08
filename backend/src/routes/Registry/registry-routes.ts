@@ -1,12 +1,19 @@
 import { Router } from "express";
-import * as Registry from "./registry-controllers";
+import { verifyToken, checkPaidUser, checkOwnership } from "../../middleware";
+import {
+  getEveryRegistry,
+  createRegistry,
+  getOneRegistry,
+  updateOneRegistry,
+  deleteOneRegistry,
+} from "./registry-controllers";
 
 const router = Router();
 
-router.get("/", Registry.getEveryRegistry);
-router.post("/", Registry.createRegistry);
-router.get("/:customUrl", Registry.getOneRegistry);
-router.put("/:registryId", Registry.updateOneRegistry);
-router.delete("/:registryId", Registry.deleteOneRegistry);
+router.get("/", getEveryRegistry);
+router.post("/", verifyToken, checkPaidUser, createRegistry);
+router.get("/:customUrl", getOneRegistry);
+router.put("/:registryId", verifyToken, checkOwnership, updateOneRegistry);
+router.delete("/:registryId", verifyToken, checkOwnership, deleteOneRegistry);
 
 export default router;

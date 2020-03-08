@@ -1,6 +1,16 @@
 import PropTypes from "prop-types";
 
-const { string, number, bool, func, oneOfType, any, shape } = PropTypes;
+const {
+  string,
+  number,
+  bool,
+  func,
+  oneOfType,
+  any,
+  shape,
+  instanceOf,
+  arrayOf,
+} = PropTypes;
 
 export const itemType = {
   name: string.isRequired,
@@ -15,12 +25,6 @@ export const itemType = {
   purchasedOn: string,
 };
 
-export const formErrorType = shape({
-  type: string.isRequired,
-  message: string,
-  ref: oneOfType([func, shape({ current: any })]).isRequired,
-});
-
 export const userType = shape({
   nickname: string.isRequired,
   name: string.isRequired,
@@ -31,6 +35,27 @@ export const userType = shape({
   sub: string.isRequired,
 });
 
+export const registryType = {
+  title: string.isRequired,
+  description: string.isRequired,
+  tyMessage: string,
+  p1FullName: string.isRequired,
+  p2FullName: string.isRequired,
+  weddingDate: instanceOf(Date),
+  phoneNumber: number,
+  email: string,
+  userId: string.isRequired,
+  customUrl: string.isRequired,
+  items: arrayOf(shape(itemType)),
+  coverImage: string,
+};
+
+export const formErrorType = shape({
+  type: string.isRequired,
+  message: string,
+  ref: oneOfType([func, shape({ current: any })]).isRequired,
+});
+
 export const authType = shape({
   user: userType.isRequired,
   error: string,
@@ -39,19 +64,3 @@ export const authType = shape({
   login: func.isRequired,
   logout: func.isRequired,
 });
-
-export const fakeAuthObj = {
-  user: {
-    nickname: "Matt",
-    name: "Matthew Burfield",
-    picture: "",
-    updated_at: "",
-    email: "burfie@hotmail.com",
-    email_verified: true,
-    sub: "",
-  },
-  isAuthenticated: true,
-  isLoading: false,
-  login: () => {},
-  logout: () => {},
-};
