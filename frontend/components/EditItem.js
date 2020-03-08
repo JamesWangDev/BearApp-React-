@@ -1,18 +1,21 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 import InputText from "./InputText";
 import Button from "./Button";
 import { fetchIt } from "../utils";
 
 const EditItem = () => {
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = async data => {
-    console.log(data);
-    const response = await fetchIt("/item", {
-      method: "POST",
-      body: JSON.stringify(data),
+  const { register, handleSubmit, errors, reset } = useForm();
+  const onSubmit = async formData => {
+    mutate("/items", async items => {
+      const newItem = await fetchIt("/item", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+      return [...items, newItem];
     });
-    console.log(response);
+    reset();
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,7 +52,7 @@ const EditItem = () => {
       <InputText id="image" error={errors.image} ref={register}>
         Image
       </InputText>
-      <Button>Submit</Button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 };

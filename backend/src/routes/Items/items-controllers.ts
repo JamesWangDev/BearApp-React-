@@ -82,6 +82,32 @@ export const updateOneItem: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getItemsByRegistry: RequestHandler = async (req, res, next) => {
+  try {
+    const { registryId } = req.params;
+    console.log(registryId);
+
+    // find the target registry
+    const registry = await Registry.findById(registryId);
+    if (!registry) throw createError(404, `Registry (${registryId}) not found`);
+
+    const itemIds = registry.items;
+    console.log(itemIds);
+
+    const items = itemIds.map(async itemId => {
+      const item = await Item.findById(itemId);
+      console.log("______ITEM________");
+      console.log(item);
+      console.log("_____________");
+      return item;
+    });
+
+    res.status(200).json(items);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteMultipleItems: RequestHandler = async (req, res, next) => {
   try {
     const { registryId } = req.params;

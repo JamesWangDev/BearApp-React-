@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useRouter } from "next/router";
 import { itemType } from "../types";
 import Items from "../components/Items";
-import EditItem from "../components/EditItem";
 import { fetchIt } from "../utils";
 import { useAuth } from "use-auth0-hooks";
 import { AUTH0_API_IDENTIFIER } from "../utils";
 
 const ItemsPage = () => {
   const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  //const [isLoading, setIsLoading] = useState(true);
 
-  const router = useRouter();
+  //const router = useRouter();
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
   // if the user isn't logged in direct to homepage
-  useEffect(() => {
-    if (!accessToken) {
-      // reroute to login page
-      router.push("/");
-    }
-  }, [accessToken]);
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     // reroute to login page
+  //     router.push("/");
+  //   }
+  // }, [accessToken]);
 
   // loads items
   useEffect(() => {
@@ -31,10 +29,11 @@ const ItemsPage = () => {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         console.log("ITEMS: ", items);
+        console.log(accessToken);
         setItems(items);
-        setIsLoading(false);
+        //setIsLoading(false);
       } catch (err) {
-        setIsLoading(false);
+        //setIsLoading(false);
         console.log(err.message);
       }
     };
@@ -42,16 +41,23 @@ const ItemsPage = () => {
     getItems();
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!accessToken) return <div>Not Authorized</div>;
+  // if (isLoading) return <div>Loading...</div>;
+  // if (!accessToken) return <div>Not Authorized</div>;
 
   return (
     <>
-      <EditItem />
+      {/* <EditItem /> */}
       <Items items={items} />
     </>
   );
 };
+
+// const ItemsPage = ({ items }) => {
+//   if (items.message) {
+//     return <div>{items.message}</div>;
+//   }
+//   return <Items items={items} />;
+// };
 
 // ItemsPage.getInitialProps = async () => {
 //   try {
@@ -72,5 +78,5 @@ ItemsPage.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape(itemType)),
 };
 
-export default ItemsPage;
 export { itemType };
+export default ItemsPage;

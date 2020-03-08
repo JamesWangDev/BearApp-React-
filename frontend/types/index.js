@@ -1,38 +1,56 @@
 import PropTypes from "prop-types";
 
+const { string, number, bool, func, oneOfType, any, shape, date } = PropTypes;
+
 export const itemType = {
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  link: PropTypes.string.isRequired,
-  image: PropTypes.string,
-  isPurchased: PropTypes.bool.isRequired,
-  isReserved: PropTypes.bool.isRequired,
-  addedOn: PropTypes.string,
-  reservedOn: PropTypes.string,
-  purchasedOn: PropTypes.string,
+  name: string.isRequired,
+  description: string.isRequired,
+  price: number.isRequired,
+  link: string.isRequired,
+  image: string,
+  isPurchased: bool.isRequired,
+  isReserved: bool.isRequired,
+  addedOn: string,
+  reservedOn: string,
+  purchasedOn: string,
 };
+
+export const formErrorType = shape({
+  type: string.isRequired,
+  message: string,
+  ref: oneOfType([func, shape({ current: any })]).isRequired,
+});
+
+export const userType = shape({
+  nickname: string.isRequired,
+  name: string.isRequired,
+  picture: string.isRequired,
+  updated_at: string.isRequired,
+  email: string.isRequired,
+  email_verified: bool.isRequired,
+  sub: string.isRequired,
+});
+
+export const authType = shape({
+  user: userType.isRequired,
+  error: string,
+  isAuthenticated: bool.isRequired,
+  isLoading: bool.isRequired,
+  login: func.isRequired,
+  logout: func.isRequired,
+});
 
 export const registryType = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  tyMessage: PropTypes.string,
-  p1FullName: PropTypes.string.isRequired,
-  p2FullName: PropTypes.string.isRequired,
-  weddingDate: PropTypes.instanceOf(Date),
-  phoneNumber: PropTypes.number,
-  email: PropTypes.email,
-  userId: PropTypes.string.isRequired,
-  customUrl: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape(itemType)),
-  coverImage: PropTypes.string,
+  title: string.isRequired,
+  description: string.isRequired,
+  p1FullName: string.isRequired,
+  p2FullName: string.isRequired,
+  email: string.isRequired,
+  customUrl: string.isRequired,
+  items: [string],
+  coverImage: string.isRequired,
+  userId: string.isRequired,
+  tyMessage: string,
+  weddingDate: date,
+  phoneNumber: number,
 };
-
-export const formErrorType = PropTypes.shape({
-  type: PropTypes.string.isRequired,
-  message: PropTypes.string,
-  ref: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.any }),
-  ]).isRequired,
-});
