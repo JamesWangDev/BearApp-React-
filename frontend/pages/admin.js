@@ -106,9 +106,4 @@ Admin.propTypes = {
   auth: authType,
 };
 
-Admin.getInitialProps = ({ auth }) => {
-  console.log("gIP: ", auth);
-  return {};
-};
-
 export default withAuth(Admin);
