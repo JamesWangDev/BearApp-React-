@@ -24,7 +24,7 @@ router
   .delete(verifyToken, checkOwnership, deleteOneItem);
 router
   .route("/registry/:registryId")
-  .get(getItemsByRegistry) //verify Tokens
+  .get(verifyToken, checkOwnership, getItemsByRegistry)
   .post(verifyToken, checkPaidUser, createItem)
   .delete(verifyToken, checkOwnership, deleteMultipleItems);
 // router
