@@ -30,6 +30,7 @@ const ItemsPage = () => {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         console.log("ITEMS: ", items);
+        console.log(accessToken);
         setItems(items);
         setIsLoading(false);
       } catch (err) {
@@ -39,7 +40,7 @@ const ItemsPage = () => {
     };
 
     getItems();
-  }, []);
+  }, [items]);
 
   if (isLoading) return <div>Loading...</div>;
 

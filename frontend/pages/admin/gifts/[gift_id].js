@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-// import { withAuth, withLoginRequired } from "use-auth0-hooks";
+import { withAuth, withLoginRequired } from "use-auth0-hooks";
 import useSWR, { mutate } from "swr";
 import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
 import InputText from "../../../components/InputText";
 import Button from "../../../components/Button";
 import { fetchIt } from "../../../utils";
 import AdminPage from "../../../components/AdminPage";
-import { authType, fakeAuthObj } from "../../../types";
+import { authType } from "../../../types";
 import Link from "../../../components/Link";
 
 const AdminEditItem = ({ auth }) => {
@@ -97,9 +97,4 @@ AdminEditItem.propTypes = {
   auth: authType,
 };
 
-AdminEditItem.defaultProps = {
-  auth: fakeAuthObj,
-};
-
-// export default withLoginRequired(withAuth(AdminEditItem));
-export default AdminEditItem;
+export default withLoginRequired(withAuth(AdminEditItem));

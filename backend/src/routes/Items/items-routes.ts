@@ -8,6 +8,7 @@ import {
   createItem,
   deleteMultipleItems,
   madeItemPurchase,
+  getItemsByRegistry,
 } from "./items-controllers";
 
 const router = Router();
@@ -23,7 +24,10 @@ router
   .delete(verifyToken, checkOwnership, deleteOneItem);
 router
   .route("/registry/:registryId")
+  .get(getItemsByRegistry) //verify Tokens
   .post(verifyToken, checkPaidUser, createItem)
   .delete(verifyToken, checkOwnership, deleteMultipleItems);
+// router
+//   .route("/registry/:registryId")
 
 export default router;

@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
-// import { withAuth, withLoginRequired } from "use-auth0-hooks";
+import { withAuth, useAuth } from "use-auth0-hooks";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
 import AdminPage from "../components/AdminPage";
 import InputText from "../components/InputText";
 import Button from "../components/Button";
 import { fetchIt } from "../utils";
-import { authType, fakeAuthObj } from "../types";
+import { authType } from "../types";
+import { AUTH0_API_IDENTIFIER } from "../utils";
 
 const Admin = ({ auth }) => {
   const { register, handleSubmit, errors, reset, formState } = useForm();
   const { data } = useSWR("/registry/RoseAndMel");
+  const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
   useEffect(() => {
     if (!formState.dirty) {
@@ -98,25 +100,8 @@ const Admin = ({ auth }) => {
   );
 };
 
-// weddingDate : {
-//     type: Date,
-// },
-// userId: {
-//     type: String,
-//     required: [true, "UserId is required"],
-// },
-// coverImage: {
-//     type: String,
-//     default: "https://bit.ly/2Pr0xeQ"
-// }
-
 Admin.propTypes = {
   auth: authType,
 };
 
-Admin.defaultProps = {
-  auth: fakeAuthObj,
-};
-
-export default Admin;
-// export default withLoginRequired(withAuth(Admin));
+export default withAuth(Admin);

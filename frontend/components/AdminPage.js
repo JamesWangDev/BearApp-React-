@@ -126,6 +126,7 @@ const AdminPage = ({ children, user }) => {
             "main"
             "footer";
           height: 100vh;
+          z-index: 2;
         }
 
         .menu-icon {
