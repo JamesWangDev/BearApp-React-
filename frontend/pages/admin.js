@@ -12,9 +12,10 @@ import { AUTH0_API_IDENTIFIER } from "../utils";
 
 const Admin = ({ auth }) => {
   const { register, handleSubmit, errors, reset, formState } = useForm();
-  const { data } = useSWR("/registry/RoseAndMel");
+  const { data } = useSWR("/registry");
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
+  console.log("auth: ", auth);
   useEffect(() => {
     if (!formState.dirty) {
       reset(data);
@@ -22,8 +23,9 @@ const Admin = ({ auth }) => {
   }, [data]);
 
   const onSubmit = formData => {
-    mutate("/registry/RoseAndMel", async () => {
-      const registry = await fetchIt(`/registry/${data._id}`, {
+    mutate("/registry", async () => {
+      const registry = await fetchIt(`/registry`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
         method: "PUT",
         body: JSON.stringify({
           ...data,
@@ -102,6 +104,11 @@ const Admin = ({ auth }) => {
 
 Admin.propTypes = {
   auth: authType,
+};
+
+Admin.getInitialProps = ({ auth }) => {
+  console.log("gIP: ", auth);
+  return {};
 };
 
 export default withAuth(Admin);

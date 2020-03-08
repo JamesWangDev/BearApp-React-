@@ -15,10 +15,6 @@ const NavBar = () => {
             <a href=""></a>
           </li>
 
-          <Link href="/items">
-            <a>Go to Items</a>
-          </Link>
-
           {!isLoading &&
             (isAuthenticated ? (
               <>
@@ -50,44 +46,6 @@ const NavBar = () => {
       <style jsx>{`
         @import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
         @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
-
-        body {
-          font-size: 16px;
-          line-heigt: 1.5;
-          color: #47353a;
-          font-family: Roboto;
-        }
-
-        header {
-          padding: 10px 15px;
-          background-color: white;
-          overflow: hidden;
-          font-family: Roboto;
-        }
-
-        header h1 {
-          float: left;
-        }
-
-        header nav {
-          float: right;
-        }
-
-        header nav a {
-          color: #47353a;
-          text-decoration: none;
-          margin-left: 12px;
-          text-transform: uppercase;
-          font-weight: 700;
-        }
-
-        .row {
-          max-width: 880px;
-          margin: 80px auto 40px;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-around;
-        }
 
         ul {
           list-style-type: none;

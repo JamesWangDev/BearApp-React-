@@ -45,6 +45,9 @@ const AdminPage = ({ children, user }) => {
   const toggleProfileDropdown = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
+
+  if (user === null) return null;
+
   return (
     <div className="grid-container">
       <div className="menu-icon" onClick={() => setIsNavOpen(true)}>
