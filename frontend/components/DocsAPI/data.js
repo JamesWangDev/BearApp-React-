@@ -155,6 +155,17 @@ export const docs = {
         },
         {
           method: "GET",
+          url: "api/item/registry/:registryId",
+          description: "Get all item's for the Registry",
+          body: "No body needed",
+          protectedAs: "registry owners or admins",
+          responses: {
+            success: `An array of item objects`,
+            fail: "{ message: 'A detailed error message here' }",
+          },
+        },
+        {
+          method: "GET",
           url: "api/item/:itemId",
           description: "Get a single item by it's id",
           body: "No body needed",
