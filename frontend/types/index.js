@@ -1,6 +1,16 @@
 import PropTypes from "prop-types";
 
-const { string, number, bool, func, oneOfType, any, shape } = PropTypes;
+const {
+  string,
+  number,
+  bool,
+  func,
+  oneOfType,
+  any,
+  shape,
+  instanceOf,
+  arrayOf,
+} = PropTypes;
 
 export const itemType = {
   name: string.isRequired,
@@ -15,12 +25,6 @@ export const itemType = {
   purchasedOn: string,
 };
 
-export const formErrorType = shape({
-  type: string.isRequired,
-  message: string,
-  ref: oneOfType([func, shape({ current: any })]).isRequired,
-});
-
 export const userType = shape({
   nickname: string.isRequired,
   name: string.isRequired,
@@ -29,6 +33,27 @@ export const userType = shape({
   email: string.isRequired,
   email_verified: bool.isRequired,
   sub: string.isRequired,
+});
+
+export const registryType = {
+  title: string.isRequired,
+  description: string.isRequired,
+  tyMessage: string,
+  p1FullName: string.isRequired,
+  p2FullName: string.isRequired,
+  weddingDate: instanceOf(Date),
+  phoneNumber: number,
+  email: string,
+  userId: string.isRequired,
+  customUrl: string.isRequired,
+  items: arrayOf(shape(itemType)),
+  coverImage: string,
+};
+
+export const formErrorType = shape({
+  type: string.isRequired,
+  message: string,
+  ref: oneOfType([func, shape({ current: any })]).isRequired,
 });
 
 export const authType = shape({
