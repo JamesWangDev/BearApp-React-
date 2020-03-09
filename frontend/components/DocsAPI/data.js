@@ -87,6 +87,17 @@ export const docs = {
           },
         },
         {
+          method: "GET",
+          url: "api/registry/admin",
+          description: "Get the registry of the current logged in user",
+          body: "No body needed",
+          protectedAs: "registry owner or admin",
+          responses: {
+            success: `A registry object`,
+            fail: "{ message: 'A detailed error message here' }",
+          },
+        },
+        {
           method: "POST",
           url: "api/registry",
           description: "Create a single registry",
