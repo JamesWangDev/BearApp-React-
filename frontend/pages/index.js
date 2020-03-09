@@ -7,10 +7,10 @@ export default function Home() {
       <NavBar />
 
       <div className="hero">
-        <video id="background-video" muted loop autoPlay>
+        {/* <video id="background-video" muted loop autoPlay>
           <source src="./videos/backgroundvideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
-        </video>
+        </video> */}
 
         <h1 className="title">A gift registry for every occasion.</h1>
       </div>

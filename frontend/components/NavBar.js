@@ -1,89 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "use-auth0-hooks";
+
+import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
+import BarsIcon from "@iconscout/react-unicons/icons/uil-bars";
+import TimesIcon from "@iconscout/react-unicons/icons/uil-times";
 import { REDIRECTURI } from "../utils";
 
-const NavBar = () => {
+const StyledItem = ({ children }) => (
+  <li className="list-none p-1 mx-2 my-1 text-xl hover:opacity-75 transition-opacity duration-150">
+    {children}
+  </li>
+);
+
+StyledItem.propTypes = {
+  children: PropTypes.node,
+};
+
+const StyledLink = ({ text, ...props }) => (
+  <StyledItem>
+    <Link {...props}>
+      <a>{text}</a>
+    </Link>
+  </StyledItem>
+);
+
+StyledLink.propTypes = {
+  text: PropTypes.string,
+  href: PropTypes.string,
+};
+
+export default function NavBar() {
+  const [isMenuOpen, setIsOpenMenu] = useState(false);
   const { pathname, query } = useRouter();
   const { isAuthenticated, isLoading, login, logout } = useAuth();
-  return (
-    <div>
-      <div>
-        <ul>
-          <li>
-            <a href=""></a>
-          </li>
 
-          {!isLoading &&
-            (isAuthenticated ? (
-              <>
-                <li>
-                  <Link href="/admin">
-                    <a>Admin</a>
-                  </Link>
-                </li>
-                <li className="rightAlignNavBar">
-                  <button onClick={() => logout({ returnTo: { REDIRECTURI } })}>
-                    Log out
-                  </button>
-                </li>
-              </>
-            ) : (
-              <li className="rightAlignNavBar">
-                <button
-                  onClick={() =>
-                    login({ appState: { returnTo: { pathname, query } } })
-                  }
-                >
-                  Log in / Sign up
-                </button>
-              </li>
-            ))}
+  const menuIconProps = {
+    size: "45",
+    color: "#9f7aea",
+    className: `md:hidden cursor-pointer p-1 rounded-full hover:bg-white transition-all duration-150`,
+    onClick: () => setIsOpenMenu(state => !state),
+  };
+
+  return (
+    <nav className="bg-gray-200 px-3 py-2 text-gray-800">
+      <div className="flex flex-col md:flex-row justify-between mx-auto max-w-screen-lg">
+        <div className="flex flex-row items-center justify-between text-2xl sm:text-3xl">
+          {/* LOGO */}
+          <Link href="/">
+            <a className="flex items-center">
+              <GiftIcon size="40" color="#9f7aea" className="mr-1" />
+              Gift Registry
+            </a>
+          </Link>
+          {/* OPEN/CLOSE MENU ON MOBILE/TABLET */}
+          {isMenuOpen ? (
+            <TimesIcon {...menuIconProps} />
+          ) : (
+            <BarsIcon {...menuIconProps} />
+          )}
+        </div>
+
+        {/* SEARCH BAR WOULD GO HERE */}
+
+        {/* LINKS */}
+        <ul
+          className={`${
+            isMenuOpen ? "flex" : "hidden"
+          } md:flex flex flex-col md:flex-row items-center mt-3 md:mt-0 p-2 md:p-0 bg-purple-100 md:bg-gray-200`}
+        >
+          <StyledLink href="/items" text="View All Registries" />
+          <StyledLink href="/admin" text="Admin" />
+          <StyledLink href="/docs/api" text="API" />
+          {!isLoading && (
+            <StyledItem>
+              <button
+                onClick={() =>
+                  isAuthenticated
+                    ? logout({ returnTo: { REDIRECTURI } })
+                    : login({ appState: { returnTo: { pathname, query } } })
+                }
+              >
+                {isAuthenticated ? "Log Out" : "Register"}
+              </button>
+            </StyledItem>
+          )}
         </ul>
       </div>
 
       <style jsx>{`
-        @import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
-        @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
-
-        ul {
-          list-style-type: none;
-          margin: 0;
-          padding: 0px;
-          overflow: hidden;
-          background-color: #000000;
-          position: fixed;
-          top: 0;
-          width: 100%;
+        nav {
+          font-family: "Roboto", sans-serif;
+          font-variant: small-caps;
         }
 
-        li {
-          float: left;
-        }
-
-        li a {
-          display: block;
-          color: white;
-          text-align: center;
-          padding: 14px 16px;
-          text-decoration: none;
-          font-family: "Work Sans", sans-serif;
-        }
-
-        /* Change the link color to #111 (black) on hover */
-        li a:hover {
-          background-color: #111;
-        }
-
-        .rightAlignNavBar {
-          float: right;
-          color: white;
-          padding: 1em;
+        button {
+          font-variant: small-caps;
         }
       `}</style>
-    </div>
+    </nav>
   );
-};
-
-export default NavBar;
+}
