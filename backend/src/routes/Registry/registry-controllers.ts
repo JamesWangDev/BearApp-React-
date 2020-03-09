@@ -5,7 +5,6 @@ import { Registry, Item } from "../../models";
 export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   try {
     const registry = await Registry.find();
-    console.log("getEveryRegisty", registry);
     res.status(200).json(registry);
   } catch (err) {
     next(err);
