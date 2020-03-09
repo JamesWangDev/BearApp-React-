@@ -16,9 +16,6 @@ export default function Home() {
       </div>
 
       <style jsx>{`
-        @import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
-        @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
-
         #background-video {
           min-width: 100%;
           min-height: 100%;
