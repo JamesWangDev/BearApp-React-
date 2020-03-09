@@ -5,6 +5,7 @@ import {
   checkPermissions,
   permissionsAdmin,
   permissionsPaidUser,
+  getUserId,
 } from "../utils";
 
 // checks if the verified user has the paid user permissions
@@ -31,14 +32,11 @@ export const checkAdmin: AuthHandler = async (req, _res, next) => {
 // any routes that uses this NEEDS a registryId param
 export const checkOwnership: AuthHandler = async (req, _res, next) => {
   try {
-    const { registryId } = req.params;
+    const userId = getUserId(req.user?.sub);
 
     // find the registry
-    const registry = await Registry.findById(registryId);
-    if (!registry) throw createError(404, `Registry (${registryId}) not found`);
-
-    // check if user is the owner
-    if (registry.userId === req.user?.sub) return next();
+    const registry = await Registry.findOne({ userId });
+    if (!registry) throw createError(404, "Registry not found");
 
     // check if the user is an admin
     checkPermissions(req.user?.permissions, permissionsAdmin, "ownership");
