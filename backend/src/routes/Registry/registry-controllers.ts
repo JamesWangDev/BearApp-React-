@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import createError from "http-errors";
 import { Registry, Item } from "../../models";
-import { AuthHandler, getUserId } from "../../utils";
+import { AuthHandler } from "../../utils";
 
 export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   try {
@@ -23,9 +23,9 @@ export const createRegistry: RequestHandler = async (req, res, next) => {
 
 export const getMyRegistry: AuthHandler = async (req, res, next) => {
   try {
-    const userId = getUserId(req.user?.sub);
+    const userId = req.user?.sub;
     const registry = await Registry.findOne({ userId });
-    if (!registry) throw createError(500, "You don't have a registry");
+    if (!registry) throw createError(404, "You don't have a registry");
     res.status(200).json(registry);
   } catch (err) {
     next(err);
