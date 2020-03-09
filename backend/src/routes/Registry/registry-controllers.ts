@@ -25,10 +25,6 @@ export const getOneRegistry: RequestHandler = async (req, res, next) => {
   try {
     const { customUrl } = req.params;
     const registry = await Registry.findOne({ customUrl }).populate("items");
-<<<<<<< HEAD
-    console.log("getOneRegistry", registry, customUrl);
-=======
->>>>>>> f63be65a0accb31df72f5a2498eab4e29558c25c
     if (!registry) throw createError(404, `Registry (${customUrl}) not found`);
     res.status(200).json(registry);
   } catch (err) {
