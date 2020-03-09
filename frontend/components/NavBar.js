@@ -46,13 +46,13 @@ export default function NavBar() {
 
   return (
     <nav className="bg-gray-200 px-3 py-2 text-gray-800">
-      <div className="flex flex-col md:flex-row justify-between mx-auto max-w-screen-lg">
+      <div className="flex flex-col md:flex-row justify-between mx-auto max-w-screen-xl">
         <div className="flex flex-row items-center justify-between text-2xl sm:text-3xl">
           {/* LOGO */}
           <Link href="/">
             <a className="flex items-center">
               <GiftIcon size="40" color="#9f7aea" className="mr-1" />
-              Gift Registry
+              Chingu Registry
             </a>
           </Link>
           {/* OPEN/CLOSE MENU ON MOBILE/TABLET */}
