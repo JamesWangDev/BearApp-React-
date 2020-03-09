@@ -25,7 +25,7 @@ const Admin = ({ auth }) => {
 
   const onSubmit = formData => {
     mutate("/registry", async () => {
-      const registry = await fetchIt(`/registry`, {
+      const registry = await fetchIt(`/registry/${data._id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         method: "PUT",
         body: JSON.stringify({
