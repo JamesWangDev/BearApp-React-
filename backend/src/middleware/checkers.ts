@@ -39,6 +39,7 @@ export const checkOwnership: AuthHandler = async (req, _res, next) => {
 
     // check if user is the owner
     if (registry.userId === req.user?.sub) return next();
+
     // check if the user is an admin
     checkPermissions(req.user?.permissions, permissionsAdmin, "ownership");
 
