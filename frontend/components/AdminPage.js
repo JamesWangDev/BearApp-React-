@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useAuth } from "use-auth0-hooks";
+import { useAuth, withAuth, withLoginRequired } from "use-auth0-hooks";
+import useSWR from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import MenuIcon from "@iconscout/react-unicons/icons/uil-bars";
@@ -9,8 +10,9 @@ import SearchIcon from "@iconscout/react-unicons/icons/uil-search";
 import AccountIcon from "@iconscout/react-unicons/icons/uil-invoice";
 import ProfileIcon from "@iconscout/react-unicons/icons/uil-user-circle";
 import LogoutIcon from "@iconscout/react-unicons/icons/uil-sign-out-alt";
-import { userType } from "../types";
+import { authType } from "../types";
 import colors from "../css/colors";
+import { AUTH0_API_IDENTIFIER, adminFetchIt } from "../utils";
 
 // Used by ActiveLink to determine the class names for the Link
 const getActiveLinkClass = (className = "", pathname, href) => {
@@ -38,88 +40,110 @@ ActiveLink.propTypes = {
   href: PropTypes.string.isRequired,
 };
 
-const AdminPage = ({ children, user }) => {
-  const [isNavOpen, setIsNavOpen] = useState(false);
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const { logout } = useAuth();
-  const toggleProfileDropdown = () => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
-  };
+const AdminPage = withLoginRequired(
+  withAuth(({ auth, children, isCreating }) => {
+    const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
+    const [isNavOpen, setIsNavOpen] = useState(false);
+    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
-  if (user === null) return null;
+    const { data } = useSWR(
+      isCreating ? null : ["/registry/admin", accessToken],
+      {
+        fetcher: adminFetchIt,
+      }
+    );
+    const { logout } = useAuth();
 
-  return (
-    <div className="grid-container">
-      <div className="menu-icon" onClick={() => setIsNavOpen(true)}>
-        <MenuIcon />
-      </div>
-      <header>
-        <div className="header__search">
-          <SearchIcon />
-          Search...
+    const toggleProfileDropdown = () => {
+      setIsProfileDropdownOpen(!isProfileDropdownOpen);
+    };
+
+    const user = auth.user;
+
+    if (user === null) return null;
+
+    return (
+      <div className="grid-container">
+        <div className="menu-icon" onClick={() => setIsNavOpen(true)}>
+          <MenuIcon />
         </div>
-        <div className="header__avatar">
-          <img
-            src={user.picture || "/images/default_profile_image.jpg"}
-            alt="Profile image"
-            onClick={toggleProfileDropdown}
-          />
-          <div
-            className={`dropdown shadow${
-              isProfileDropdownOpen ? " dropdown-active" : ""
-            }`}
-          >
-            <ul className="dropdown__list">
-              <li className="dropdown__list-item">
-                <span className="dropdown__icon">
-                  <ProfileIcon />
-                </span>
-                <span className="dropdown__title ml-2">my profile</span>
-              </li>
-              <li className="dropdown__list-item">
-                <span className="dropdown__icon">
-                  <AccountIcon />
-                </span>
-                <span className="dropdown__title ml-2">my account</span>
-              </li>
-              <li className="dropdown__list-item" onClick={logout}>
-                <span className="dropdown__icon">
-                  <LogoutIcon />
-                </span>
-                <span className="dropdown__title ml-2">logout</span>
-              </li>
-            </ul>
+        <header>
+          <div className="header__search">
+            <SearchIcon />
+            Search...
           </div>
-        </div>
-      </header>
-      <aside className={isNavOpen ? "active" : ""}>
-        <div
-          className="sidenav__close-icon"
-          onClick={() => setIsNavOpen(false)}
-        >
-          <CloseMenuIcon />
-        </div>
-        <ul>
-          <li>
-            <ActiveLink href="/admin">
-              <a>Registry details</a>
-            </ActiveLink>
-          </li>
-          <li>
-            <ActiveLink href="/admin/gifts">
-              <a>Gifts</a>
-            </ActiveLink>
-          </li>
-        </ul>
-      </aside>
-      <main>{children}</main>
-      <footer>
-        <div className="footer__copyright">&copy; 2020 Bears Team 04</div>
-        <div className="footer__signature">
-          Made with love for Chingu Voyage 16
-        </div>
-      </footer>
-      <style jsx>{`
+          <div className="header__avatar">
+            <img
+              src={user.picture || "/images/default_profile_image.jpg"}
+              alt="Profile image"
+              onClick={toggleProfileDropdown}
+            />
+            <div
+              className={`dropdown shadow${
+                isProfileDropdownOpen ? " dropdown-active" : ""
+              }`}
+            >
+              <ul className="dropdown__list">
+                <li className="dropdown__list-item">
+                  <span className="dropdown__icon">
+                    <ProfileIcon />
+                  </span>
+                  <span className="dropdown__title ml-2">my profile</span>
+                </li>
+                <li className="dropdown__list-item">
+                  <span className="dropdown__icon">
+                    <AccountIcon />
+                  </span>
+                  <span className="dropdown__title ml-2">my account</span>
+                </li>
+                <li className="dropdown__list-item" onClick={logout}>
+                  <span className="dropdown__icon">
+                    <LogoutIcon />
+                  </span>
+                  <span className="dropdown__title ml-2">logout</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+        <aside className={isNavOpen ? "active" : ""}>
+          <div
+            className="sidenav__close-icon"
+            onClick={() => setIsNavOpen(false)}
+          >
+            <CloseMenuIcon />
+          </div>
+          <ul>
+            {isCreating ? (
+              <li>
+                <ActiveLink href="/create">
+                  <a>Create registry</a>
+                </ActiveLink>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <ActiveLink href="/admin">
+                    <a>Registry details</a>
+                  </ActiveLink>
+                </li>
+                <li>
+                  <ActiveLink href="/admin/gifts">
+                    <a>Gifts</a>
+                  </ActiveLink>
+                </li>
+              </>
+            )}
+          </ul>
+        </aside>
+        <main>{children(data)}</main>
+        <footer>
+          <div className="footer__copyright">&copy; 2020 Bears Team 04</div>
+          <div className="footer__signature">
+            Made with love for Chingu Voyage 16
+          </div>
+        </footer>
+        <style jsx>{`
         .grid-container {
           display: grid;
           grid-template-columns: 1fr; /* Side nav is hidden on mobile */
@@ -300,13 +324,14 @@ const AdminPage = ({ children, user }) => {
           }
         }
       `}</style>
-    </div>
-  );
-};
+      </div>
+    );
+  })
+);
 
 AdminPage.propTypes = {
-  children: PropTypes.node.isRequired,
-  user: userType,
+  auth: authType,
+  children: PropTypes.func.isRequired,
 };
 
 AdminPage.Header = ({ icon, title }) => {
