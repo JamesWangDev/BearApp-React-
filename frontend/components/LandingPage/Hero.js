@@ -1,5 +1,5 @@
 import React from "react";
-import GiftWishesSVG from "./GiftWishesSVG";
+import { GiftWishesSVG } from "./svgs";
 
 export default function Hero() {
   return (

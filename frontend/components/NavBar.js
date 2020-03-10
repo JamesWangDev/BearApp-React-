@@ -73,13 +73,12 @@ export default function NavBar() {
         >
           <StyledLink href="/items" text="View All Registries" />
           <StyledLink href="/admin" text="Admin" />
-          <StyledLink href="/docs/api" text="API" />
           {!isLoading && (
             <StyledItem>
               <button
                 onClick={() =>
                   isAuthenticated
-                    ? logout({ returnTo: { REDIRECTURI } })
+                    ? logout({ appState: { returnTo: { REDIRECTURI } } })
                     : login({ appState: { returnTo: { pathname, query } } })
                 }
               >
