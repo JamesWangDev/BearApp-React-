@@ -27,7 +27,6 @@
     "use-auth0-hooks": "^0.7.0"
   },
   "devDependencies": {
-    "@svgr/webpack": "^5.2.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
