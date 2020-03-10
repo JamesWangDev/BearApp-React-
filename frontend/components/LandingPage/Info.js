@@ -41,14 +41,14 @@ export default function Info() {
         {data.map(({ svg, heading, subheading, description }, i) => (
           <div
             key={heading}
-            className={`max-w-screen-md mx-auto mb-8 flex flex-col md:${
-              i % 2 ? "flex-row-reverse" : "flex-row"
+            className={`max-w-screen-md mx-auto mb-8 flex flex-col ${
+              i % 2 ? "md:flex-row-reverse" : "md:flex-row"
             } justify-center items-center`}
           >
             {svg}
             <div
-              className={`max-w-lg flex flex-col text-center md:${
-                i % 2 ? "mr-3" : "ml-3"
+              className={`max-w-lg flex flex-col text-center ${
+                i % 2 ? "md:mr-3" : "md:ml-3"
               } md:p-4`}
             >
               <h1 className="text-4xl text-gray-900">{heading}</h1>
