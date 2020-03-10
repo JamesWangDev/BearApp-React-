@@ -16,7 +16,7 @@ export const itemType = {
   name: string.isRequired,
   description: string.isRequired,
   price: number.isRequired,
-  link: string.isRequired,
+  link: string,
   image: string,
   isPurchased: bool.isRequired,
   isReserved: bool.isRequired,
