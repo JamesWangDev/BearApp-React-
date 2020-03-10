@@ -55,7 +55,7 @@ const AdminPage = withLoginRequired(
     const { logout } = useAuth();
 
     const toggleProfileDropdown = () => {
-      setIsProfileDropdownOpen(!isProfileDropdownOpen);
+      setIsProfileDropdownOpen(state => !state);
     };
 
     const user = auth.user;

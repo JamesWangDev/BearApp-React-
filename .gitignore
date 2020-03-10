@@ -1,4 +1,6 @@
 .now
 frontend/.vscode/*
+frontend/.eslintcache
 backend/.vscode/*
 !backend/.vscode/typescript.code-snippets
+

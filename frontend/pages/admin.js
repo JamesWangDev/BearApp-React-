@@ -11,14 +11,18 @@ const Admin = () => {
 
   const submitFunc = registry => formData => {
     mutate("/registry/admin", async () => {
-      const updatedRegistry = await fetchIt(`/registry/${registry._id}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-        method: "PUT",
-        body: JSON.stringify({
-          ...formData,
-        }),
-      });
-      return updatedRegistry;
+      try {
+        const updatedRegistry = await fetchIt(`/registry/${registry._id}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          method: "PUT",
+          body: JSON.stringify({
+            ...formData,
+          }),
+        });
+        return updatedRegistry;
+      } catch (err) {
+        console.error(err);
+      }
     });
   };
 

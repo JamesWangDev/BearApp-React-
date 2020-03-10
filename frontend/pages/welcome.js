@@ -11,10 +11,8 @@ const Welcome = () => {
   useEffect(() => {
     const checkUsersRegistry = async () => {
       try {
-        const data = await adminFetchIt("/registry/admin", accessToken);
-        if (!data) {
-          throw Error("No data");
-        }
+        await adminFetchIt("/registry/admin", accessToken);
+
         // send user to their registry page
         push(`/admin`);
       } catch (err) {

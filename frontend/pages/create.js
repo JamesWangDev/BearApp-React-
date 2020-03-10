@@ -12,14 +12,18 @@ const Create = () => {
   const { push } = useRouter();
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
-  const onSubmit = formData => {
-    mutate("/registry/admin", async () => {
-      const registry = await fetchIt(`/registry`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
-      return registry;
+  const onSubmit = async formData => {
+    await mutate("/registry/admin", async () => {
+      try {
+        const registry = await fetchIt(`/registry`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          method: "POST",
+          body: JSON.stringify(formData),
+        });
+        return registry;
+      } catch (err) {
+        console.error(err);
+      }
     });
     push("/admin");
   };
