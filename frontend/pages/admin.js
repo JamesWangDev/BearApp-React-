@@ -1,21 +1,22 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
-import { withAuth, useAuth } from "use-auth0-hooks";
+import { withAuth, useAuth, withLoginRequired } from "use-auth0-hooks";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
 import AdminPage from "../components/AdminPage";
 import InputText from "../components/InputText";
 import Button from "../components/Button";
-import { fetchIt } from "../utils";
+import { fetchIt, adminFetchIt } from "../utils";
 import { authType } from "../types";
 import { AUTH0_API_IDENTIFIER } from "../utils";
 
 const Admin = ({ auth }) => {
   const { register, handleSubmit, errors, reset, formState } = useForm();
-  const { data } = useSWR("/registry");
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
+  const { data } = useSWR(["/registry/admin", accessToken], {
+    fetcher: adminFetchIt,
+  });
 
-  console.log("auth: ", auth);
   useEffect(() => {
     if (!formState.dirty) {
       reset(data);
@@ -24,7 +25,7 @@ const Admin = ({ auth }) => {
 
   const onSubmit = formData => {
     mutate("/registry", async () => {
-      const registry = await fetchIt(`/registry`, {
+      const registry = await fetchIt(`/registry/${data._id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         method: "PUT",
         body: JSON.stringify({
@@ -106,4 +107,4 @@ Admin.propTypes = {
   auth: authType,
 };
 
-export default withAuth(Admin);
+export default withLoginRequired(withAuth(Admin));
