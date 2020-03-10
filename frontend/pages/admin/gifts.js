@@ -1,6 +1,6 @@
 import React from "react";
 import useSWR from "swr";
-import { withAuth } from "use-auth0-hooks";
+import { withAuth, withLoginRequired } from "use-auth0-hooks";
 import PropTypes from "prop-types";
 import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
 import AdminPage from "../../components/AdminPage";
@@ -30,4 +30,4 @@ Gifts.propTypes = {
   auth: authType,
 };
 
-export default withAuth(Gifts);
+export default withLoginRequired(withAuth(Gifts));
