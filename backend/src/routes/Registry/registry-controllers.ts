@@ -24,6 +24,9 @@ export const createRegistry: RequestHandler = async (req, res, next) => {
 export const getMyRegistry: AuthHandler = async (req, res, next) => {
   try {
     const userId = req.user?.sub;
+
+    if (!userId) throw createError(404, "User is not valid");
+
     const registry = await Registry.findOne({ userId });
     if (!registry) throw createError(404, "You don't have a registry");
     res.status(200).json(registry);
