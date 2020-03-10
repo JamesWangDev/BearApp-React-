@@ -58,9 +58,7 @@ const AdminItemsTable = ({ items }) => {
                 <td>{item.description}</td>
                 <td>{item.price}</td>
                 <td>
-                  <Link href={`/admin/gifts/${item._id}`}>
-                    <a>Edit</a>
-                  </Link>
+                  <Link href={`/admin/gifts/${item._id}`}>Edit</Link>
                   {` `}
                   <Button
                     type="button"
