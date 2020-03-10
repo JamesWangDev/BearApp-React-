@@ -72,7 +72,7 @@ export default function NavBar() {
           } md:flex flex flex-col md:flex-row items-center mt-3 md:mt-0 p-2 md:p-0 bg-purple-100 md:bg-gray-200`}
         >
           <StyledLink href="/items" text="View All Registries" />
-          <StyledLink href="/admin" text="Admin" />
+          <StyledLink href="/welcome" text="Admin" />
           {!isLoading && (
             <StyledItem>
               <button
