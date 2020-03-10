@@ -12,9 +12,16 @@ export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   }
 };
 
-export const createRegistry: RequestHandler = async (req, res, next) => {
+export const createRegistry: AuthHandler = async (req, res, next) => {
   try {
-    const newRegistry = await Registry.create(req.body);
+    const userId = req.user?.sub;
+
+    if (!userId) throw createError(404, "User is not valid");
+
+    const newRegistry = await Registry.create({
+      ...req.body,
+      userId,
+    });
     res.status(201).json(newRegistry);
   } catch (err) {
     next(err);
@@ -29,6 +36,7 @@ export const getMyRegistry: AuthHandler = async (req, res, next) => {
 
     const registry = await Registry.findOne({ userId });
     if (!registry) throw createError(404, "You don't have a registry");
+
     res.status(200).json(registry);
   } catch (err) {
     next(err);

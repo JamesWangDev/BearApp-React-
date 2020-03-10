@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 import { withAuth, useAuth, withLoginRequired } from "use-auth0-hooks";
@@ -10,31 +10,68 @@ import { fetchIt, adminFetchIt } from "../utils";
 import { authType } from "../types";
 import { AUTH0_API_IDENTIFIER } from "../utils";
 
+const REGISTRY_STATUS = {
+  CREATED: "CREATED",
+  DOES_NOT_EXIST: "DOES_NOT_EXIST",
+};
+
 const Admin = ({ auth }) => {
   const { register, handleSubmit, errors, reset, formState } = useForm();
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
-  const { data } = useSWR(["/registry/admin", accessToken], {
-    fetcher: adminFetchIt,
-  });
+  const [registryStatus, setRegistryStatus] = useState();
+  const { data, error } = useSWR(
+    registryStatus === REGISTRY_STATUS.DOES_NOT_EXIST
+      ? null
+      : ["/registry/admin", accessToken],
+    {
+      fetcher: adminFetchIt,
+    }
+  );
+
+  // Prevent useSWR from trying to refetch the registry if it is not yet created
+  useEffect(() => {
+    if (
+      error &&
+      error.message === "You don't have a registry" &&
+      registryStatus !== REGISTRY_STATUS.CREATED
+    ) {
+      setRegistryStatus(REGISTRY_STATUS.DOES_NOT_EXIST);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!formState.dirty) {
       reset(data);
     }
+    if (data && data._id) {
+      setRegistryStatus(REGISTRY_STATUS.CREATED);
+    }
   }, [data]);
 
   const onSubmit = formData => {
-    mutate("/registry", async () => {
-      const registry = await fetchIt(`/registry`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-        method: "PUT",
-        body: JSON.stringify({
-          ...data,
-          ...formData,
-        }),
+    if (registryStatus === REGISTRY_STATUS.DOES_NOT_EXIST) {
+      mutate("/registry/admin", async () => {
+        const registry = await fetchIt(`/registry`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          method: "POST",
+          body: JSON.stringify(formData),
+        });
+        setRegistryStatus(REGISTRY_STATUS.CREATED);
+        return registry;
       });
-      return registry;
-    });
+    } else {
+      mutate("/registry/admin", async () => {
+        const registry = await fetchIt(`/registry/${data._id}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          method: "PUT",
+          body: JSON.stringify({
+            ...data,
+            ...formData,
+          }),
+        });
+        return registry;
+      });
+    }
   };
 
   return (
