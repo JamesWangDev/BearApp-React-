@@ -1,4 +1,5 @@
 import request from "./request";
-import dbSetup from "./dbsetup";
+import setup from "./setup";
+import * as mockControllers from "./mockcontrollers";
 
-export { request, dbSetup };
+export { request, setup, mockControllers };

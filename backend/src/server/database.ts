@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 
+const NODE_ENV = process.env.NODE_ENV;
 const password = process.env.DB_PASSWORD;
 const user = process.env.DB_USER;
 const url = process.env.DB_URL;
 
-const mongoURL = `mongodb+srv://${user}:${password}@${url}?retryWrites=true&w=majority`;
+const mongoURL = `mongodb+srv://${user}:${password}@${url}${NODE_ENV}?retryWrites=true&w=majority`;
 const mongoMsg = (msg: string) => console.log(`DB connection ${msg}`);
 const mongoOpts = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
+  useCreateIndex: true,
 };
 
 function connectToDB() {

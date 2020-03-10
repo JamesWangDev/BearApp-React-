@@ -7,9 +7,14 @@ export interface ItemI extends Document {
   price: number;
   link?: string;
   image?: string;
-  isPurchased?: boolean;
   isReserved?: boolean;
   addedOn?: Date;
   reservedOn?: Date;
-  purchasedOn?: Date;
+  purchasers?: {
+    name?: string;
+    email?: string;
+    message?: string;
+    purchasedOn: Date;
+    pricePaid: number;
+  }[];
 }

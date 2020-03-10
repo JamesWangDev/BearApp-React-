@@ -1,8 +1,9 @@
 import { RequestHandler } from "express";
-import { Registry } from "../../models";
-import createHttpError from "http-errors";
+import createError from "http-errors";
+import { Registry, Item } from "../../models";
+import { AuthHandler } from "../../utils";
 
-export const getEveryRegistry: RequestHandler = async (req, res, next) => {
+export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   try {
     const registry = await Registry.find();
     res.status(200).json(registry);
@@ -11,10 +12,32 @@ export const getEveryRegistry: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const createRegistry: RequestHandler = async (req, res, next) => {
+export const createRegistry: AuthHandler = async (req, res, next) => {
   try {
-    const newRegistry = await Registry.create(req.body);
+    const userId = req.user?.sub;
+
+    if (!userId) throw createError(404, "User is not valid");
+
+    const newRegistry = await Registry.create({
+      ...req.body,
+      userId,
+    });
     res.status(201).json(newRegistry);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getMyRegistry: AuthHandler = async (req, res, next) => {
+  try {
+    const userId = req.user?.sub;
+
+    if (!userId) throw createError(404, "User is not valid");
+
+    const registry = await Registry.findOne({ userId });
+    if (!registry) throw createError(404, "You don't have a registry");
+
+    res.status(200).json(registry);
   } catch (err) {
     next(err);
   }
@@ -23,7 +46,8 @@ export const createRegistry: RequestHandler = async (req, res, next) => {
 export const getOneRegistry: RequestHandler = async (req, res, next) => {
   try {
     const { customUrl } = req.params;
-    const registry = await Registry.findOne({ customUrl });
+    const registry = await Registry.findOne({ customUrl }).populate("items");
+    if (!registry) throw createError(404, `Registry (${customUrl}) not found`);
     res.status(200).json(registry);
   } catch (err) {
     next(err);
@@ -33,18 +57,22 @@ export const getOneRegistry: RequestHandler = async (req, res, next) => {
 export const updateOneRegistry: RequestHandler = async (req, res, next) => {
   try {
     const { registryId } = req.params;
+
+    // update a registry based on it's _id
+    // anything sent in the body will overwrite the given values
+    // will throw an error if validations don't succeed
     const updatedRegistry = await Registry.findByIdAndUpdate(
       registryId,
       req.body,
       {
-        upsert: true,
         new: true,
         runValidators: true,
       }
     );
     if (!updatedRegistry) {
-      throw createHttpError(400, `Error updating Registry (${registryId})`);
+      throw createError(400, `Error updating Registry (${registryId})`);
     }
+
     res.status(200).json(updatedRegistry);
   } catch (err) {
     next(err);
@@ -54,10 +82,24 @@ export const updateOneRegistry: RequestHandler = async (req, res, next) => {
 export const deleteOneRegistry: RequestHandler = async (req, res, next) => {
   try {
     const { registryId } = req.params;
+
+    // delete the given registry based on it's _id
     const deletedRegistry = await Registry.findByIdAndDelete(registryId);
-    if (!deletedRegistry)
-      throw createHttpError(400, `Error removing registry (${registryId})`);
-    res.status(200).json(deletedRegistry);
+    if (!deletedRegistry) {
+      throw createError(400, `Error removing registry (${registryId})`);
+    }
+
+    // delete all the items that are inside the recently deleted registry
+    const { deletedCount, n } = await Item.deleteMany({
+      _id: {
+        $in: deletedRegistry.items,
+      },
+    });
+    const message = `Deleted registry and ${deletedCount}/${n} item${
+      n === 1 ? "" : "s"
+    }`;
+
+    res.status(200).json({ message });
   } catch (err) {
     next(err);
   }

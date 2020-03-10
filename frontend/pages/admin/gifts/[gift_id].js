@@ -13,11 +13,9 @@ import Link from "../../../components/Link";
 
 const AdminEditItem = ({ auth }) => {
   const router = useRouter();
-  console.log("AdminEditItem: ", router);
   const { register, handleSubmit, errors, reset, formState } = useForm();
   const { data } = useSWR(`/item/${router.query.gift_id}`);
 
-  console.log("AdminEditItem: ", data);
   useEffect(() => {
     if (!formState.dirty) {
       reset(data);
