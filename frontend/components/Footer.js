@@ -2,11 +2,11 @@ import React from "react";
 import Link from "next/link";
 import GithubIcon from "@iconscout/react-unicons/icons/uil-github";
 import DocumentIcon from "@iconscout/react-unicons/icons/uil-document";
-import { GiftSVG } from "./svgs";
+import { GiftSVG } from "./LandingPage/svgs";
 
 export default function Footer() {
   return (
-    <div className="bg-gray-700 text-gray-200">
+    <footer className="bg-gray-700 text-gray-200">
       <div className="max-w-screen-md mx-auto p-8">
         <Link href="/">
           <a>
@@ -37,6 +37,6 @@ export default function Footer() {
 
         <p className="text-sm text-center">Made with ❤️ and ☕ by five 🧸</p>
       </div>
-    </div>
+    </footer>
   );
 }
