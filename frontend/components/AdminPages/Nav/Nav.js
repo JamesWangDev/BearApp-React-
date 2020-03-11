@@ -6,7 +6,7 @@ import NavMenu from "./NavMenu";
 export default function Header() {
   return (
     <header>
-      <div className="header__search">
+      <div className="header__search md:ml-0">
         <SearchIcon className="mr-2" />
         Search...
       </div>

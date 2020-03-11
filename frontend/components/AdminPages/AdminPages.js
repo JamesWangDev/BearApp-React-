@@ -72,10 +72,6 @@ const AdminPage = withLoginRequired(({ children }) => {
               "sidenav main"
               "sidenav footer";
           }
-
-          header .header__search {
-            margin-left: 0;
-          }
         }
       `}</style>
     </div>
