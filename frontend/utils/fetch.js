@@ -30,8 +30,9 @@ const fetchIt = async (route, givenOptions = {}) => {
   return data;
 };
 
-const adminFetchIt = async (route, accessToken) => {
+const adminFetchIt = async (route, accessToken, options = {}) => {
   return await fetchIt(route, {
+    ...options,
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 };
