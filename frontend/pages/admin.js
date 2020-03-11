@@ -2,11 +2,11 @@ import React from "react";
 import { mutate } from "swr";
 import { useAuth, withLoginRequired } from "use-auth0-hooks";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
-import AdminPage from "../components/AdminPage";
+import AdminPage from "../components/AdminPages";
 import RegistryForm from "../components/RegistryForm";
 import { AUTH0_API_IDENTIFIER, fetchIt } from "../utils";
 
-const Admin = () => {
+export default withLoginRequired(function Admin() {
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
   const submitFunc = registry => formData => {
@@ -34,7 +34,7 @@ const Admin = () => {
           <>
             <AdminPage.Header
               icon={<RegistryIcon />}
-              title="Registry details"
+              title="Registry Details"
             />
             <AdminPage.Main>
               {!registry ? (
@@ -48,6 +48,4 @@ const Admin = () => {
       }}
     </AdminPage>
   );
-};
-
-export default withLoginRequired(Admin);
+});

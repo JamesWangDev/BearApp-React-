@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useAuth, withLoginRequired } from "use-auth0-hooks";
 import useSWR from "swr";
-import { authType } from "../../types";
+import { useAuth, withLoginRequired } from "use-auth0-hooks";
+
 import colors from "../../css/colors";
+import { authType } from "../../types";
 import { AUTH0_API_IDENTIFIER, adminFetchIt } from "../../utils";
+
 import SideBar from "./SideBar";
 import Nav from "./Nav";
 import Footer from "../Footer";
@@ -16,7 +18,7 @@ const AdminPage = withLoginRequired(({ children }) => {
   const { accessToken, user } = useAuth({ audience });
   const { data } = useSWR(["/registry/admin", accessToken], { fetcher });
 
-  if (!user || !data) return null;
+  if (!user) return null;
 
   return (
     <div>

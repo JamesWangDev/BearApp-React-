@@ -85,5 +85,5 @@ export default function SideBar({ data }) {
 }
 
 SideBar.propTypes = {
-  data: PropTypes.any.isRequired,
+  data: PropTypes.any,
 };
