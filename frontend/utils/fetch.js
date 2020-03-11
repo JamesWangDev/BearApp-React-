@@ -15,7 +15,7 @@ const makeOptions = ({ method = "GET", body, headers = {} }) => ({
 // since our API responses will be in JSON, we can create a ...
 // ... fetch wrapper to avoid re-writing the same logic
 // MUST start route with '/' which equals '/api/'
-export default async function fetchIt(route, givenOptions = {}) {
+const fetchIt = async (route, givenOptions = {}) => {
   // create the fetch url
   const url = backendURL + route;
   // create fetch options
@@ -28,4 +28,13 @@ export default async function fetchIt(route, givenOptions = {}) {
   if (!resp.ok) throw data;
   // otherwise return the results
   return data;
-}
+};
+
+const adminFetchIt = async (route, accessToken, options = {}) => {
+  return await fetchIt(route, {
+    ...options,
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+};
+
+export { fetchIt, adminFetchIt };

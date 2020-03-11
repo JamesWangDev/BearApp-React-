@@ -14,7 +14,7 @@ const Modal = props => {
           unmountOnExit
         >
           <div
-            className="modal fixed inset-0 z-10"
+            className="modal flex justify-center items-center fixed inset-0 z-10"
             role="dialog"
             aria-modal="true"
             onClick={props.handleClose}
@@ -94,7 +94,7 @@ const InnerModal = ({ children, handleClose }) => {
   return (
     <div
       ref={modalRef}
-      className="w-600 bg-white shadow-lg border-solid rounded-lg h-auto mx-auto my-0 mt-4 overflow-hidden"
+      className="w-600 bg-white shadow-lg border-solid rounded-lg h-auto m-2 overflow-hidden"
       onClick={e => {
         e.preventDefault();
         e.stopPropagation();
