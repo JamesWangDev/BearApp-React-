@@ -7,6 +7,7 @@ import colors from "../../css/colors";
 import { AUTH0_API_IDENTIFIER, adminFetchIt } from "../../utils";
 import SideBar from "./SideBar";
 import Nav from "./Nav";
+import Footer from "../Footer";
 
 const audience = AUTH0_API_IDENTIFIER;
 const fetcher = adminFetchIt;
@@ -18,30 +19,23 @@ const AdminPage = withLoginRequired(({ children }) => {
   if (!user || !data) return null;
 
   return (
-    <div className="grid-container">
-      <Nav />
+    <div>
+      <div className="grid-container">
+        <Nav />
 
-      <SideBar data={data} />
+        <SideBar data={data} />
 
-      <main>{children(data)}</main>
+        <main className="px-2 pb-10">{children(data)}</main>
+      </div>
 
-      <footer>
-        <div className="footer__copyright">&copy; 2020 Bears Team 04</div>
-        <div className="footer__signature">
-          Made with love for Chingu Voyage 16
-        </div>
-      </footer>
+      <Footer />
 
       <style jsx>{`
         .grid-container {
           display: grid;
           grid-template-columns: 1fr; /* Side nav is hidden on mobile */
-          grid-template-rows: 100px 1fr 50px;
-          grid-template-areas:
-            "header"
-            "main"
-            "footer";
-          height: 100vh;
+          grid-template-rows: 100px 1fr;
+          grid-template-areas: "header" "main";
           z-index: 2;
         }
 
@@ -49,28 +43,12 @@ const AdminPage = withLoginRequired(({ children }) => {
           background-color: ${colors.backgroundSecondary};
         }
 
-        footer {
-          grid-area: footer;
-        }
-
-        header,
-        footer {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 16px;
-          background-color: ${colors.backgroundPrimary};
-        }
-
         /* Non-mobile styles, 750px breakpoint */
         @media only screen and (min-width: 46.875em) {
           /* Show the sidenav */
           .grid-container {
             grid-template-columns: 200px 1fr; /* Show the side nav for non-mobile screens */
-            grid-template-areas:
-              "sidenav header"
-              "sidenav main"
-              "sidenav footer";
+            grid-template-areas: "sidenav header" "sidenav main";
           }
         }
       `}</style>
