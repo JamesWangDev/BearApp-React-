@@ -64,24 +64,15 @@ AdminPage.propTypes = {
 AdminPage.Header = ({ icon, title }) => {
   const Icon = React.cloneElement(icon, { color: "#fff", size: 30 });
   return (
-    <header className="header flex py-10 px-5 text-size text-xl">
-      <div className="header__icon">{Icon}</div>
-      <div className="pl-5">
-        <h1>{title}</h1>
+    <header className="flex items-center py-10 px-5 text-2xl">
+      <div className="flex items-center justify-center w-12 h-12 rounded-lg">
+        {Icon}
       </div>
-      <style jsx>{`
-        .header .header__icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 49px;
-          height: 49px;
-          border-radius: 8px;
-          background-image: linear-gradient(180deg, #6fe3ff 0%, #2fc7f5 100%);
-        }
+      <h1 className="pl-5 leading-none capitalize">{title}</h1>
 
-        .header h1 {
-          line-height: 49px;
+      <style jsx>{`
+        div {
+          background: linear-gradient(180deg, #6fe3ff 0%, #2fc7f5 100%);
         }
       `}</style>
     </header>
@@ -95,8 +86,6 @@ AdminPage.Header.propTypes = {
 
 AdminPage.Main = ({ children }) => <div className="px-5">{children}</div>;
 AdminPage.Main.displayName = "AdminPage__Main";
-AdminPage.Main.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+AdminPage.Main.propTypes = { children: PropTypes.node.isRequired };
 
 export default AdminPage;
