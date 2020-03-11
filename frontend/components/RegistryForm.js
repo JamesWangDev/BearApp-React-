@@ -5,9 +5,8 @@ import InputText from "./InputText";
 import Button from "./Button";
 
 const RegistryForm = ({ defaultValues, onSubmit }) => {
-  const { register, handleSubmit, errors } = useForm({
-    defaultValues,
-  });
+  const { register, handleSubmit, errors } = useForm({ defaultValues });
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <InputText
@@ -18,9 +17,9 @@ const RegistryForm = ({ defaultValues, onSubmit }) => {
         Title
       </InputText>
       <InputText
+        type="textarea"
         id="description"
         error={errors.description}
-        type="textarea"
         ref={register}
       >
         Description
@@ -40,21 +39,22 @@ const RegistryForm = ({ defaultValues, onSubmit }) => {
         Partner 2 full name
       </InputText>
       <InputText
+        type="email"
         id="email"
         error={errors.email}
         ref={register({ required: "Email is required" })}
       >
         Email
       </InputText>
-      <InputText id="phoneNumber" error={errors.phone} ref={register}>
-        Phone number
-      </InputText>
       <InputText
-        id="tyMessage"
-        type="text"
-        error={errors.tyMessage}
+        type="tel"
+        id="phoneNumber"
+        error={errors.phone}
         ref={register}
       >
+        Phone number
+      </InputText>
+      <InputText id="tyMessage" error={errors.tyMessage} ref={register}>
         Thank you message
       </InputText>
       <InputText
@@ -63,6 +63,9 @@ const RegistryForm = ({ defaultValues, onSubmit }) => {
         ref={register({ required: "Custom URL is required" })}
       >
         Custom URL
+      </InputText>
+      <InputText id="coverImage" error={errors.coverImage} ref={register}>
+        Cover Image
       </InputText>
       <Button type="submit">Submit</Button>
     </form>

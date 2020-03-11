@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyToken, checkPaidUser, checkOwnership } from "../../middleware";
+import { verifyToken, checkOwnership } from "../../middleware";
 import {
   getEveryItem,
   getOneItem,
@@ -25,9 +25,7 @@ router
 router
   .route("/registry/:registryId")
   .get(verifyToken, checkOwnership, getItemsByRegistry)
-  .post(verifyToken, checkPaidUser, createItem)
+  .post(verifyToken, createItem)
   .delete(verifyToken, checkOwnership, deleteMultipleItems);
-// router
-//   .route("/registry/:registryId")
 
 export default router;

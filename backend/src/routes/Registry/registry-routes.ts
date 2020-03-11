@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyToken, checkPaidUser, checkOwnership } from "../../middleware";
+import { verifyToken, checkOwnership } from "../../middleware";
 import {
   getEveryRegistry,
   createRegistry,
@@ -12,7 +12,7 @@ import {
 const router = Router();
 
 router.get("/", getEveryRegistry);
-router.post("/", verifyToken, checkPaidUser, createRegistry);
+router.post("/", verifyToken, createRegistry);
 router.get("/admin", verifyToken, getMyRegistry);
 router.get("/:customUrl", getOneRegistry);
 router.put("/:registryId", verifyToken, checkOwnership, updateOneRegistry);

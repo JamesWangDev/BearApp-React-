@@ -8,7 +8,7 @@ import RegistryForm from "../components/RegistryForm";
 import { fetchIt } from "../utils";
 import { AUTH0_API_IDENTIFIER } from "../utils";
 
-const Create = () => {
+export default withLoginRequired(function Create() {
   const { push } = useRouter();
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
@@ -32,7 +32,7 @@ const Create = () => {
     <AdminPage isCreating>
       {() => (
         <>
-          <AdminPage.Header icon={<RegistryIcon />} title="Create registry" />
+          <AdminPage.Header icon={<RegistryIcon />} title="Create Registry" />
           <AdminPage.Main>
             <RegistryForm onSubmit={onSubmit} />
           </AdminPage.Main>
@@ -40,6 +40,4 @@ const Create = () => {
       )}
     </AdminPage>
   );
-};
-
-export default withLoginRequired(Create);
+});

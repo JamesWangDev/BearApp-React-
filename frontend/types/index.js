@@ -10,6 +10,7 @@ const {
   shape,
   instanceOf,
   arrayOf,
+  Date,
 } = PropTypes;
 
 export const itemType = {
@@ -18,11 +19,18 @@ export const itemType = {
   price: number.isRequired,
   link: string,
   image: string,
-  isPurchased: bool.isRequired,
   isReserved: bool.isRequired,
   addedOn: string,
   reservedOn: string,
-  purchasedOn: string,
+  purchasers: arrayOf(
+    shape({
+      name: string,
+      email: string,
+      message: string,
+      purchasedOn: string,
+      pricePaid: number.isRequired,
+    })
+  ),
 };
 
 export const userType = shape({
