@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export const styles = `
+const defaultBgColor = "bg-purple-500 hover:bg-purple-400";
+
+const getClassName = (color = defaultBgColor) => `
   inline-block
   shadow
-  bg-purple-500
-  hover:bg-purple-400
+  ${color}
   focus:shadow-outline
   focus:outline-none
   text-white
@@ -15,22 +16,35 @@ export const styles = `
   rounded
 `;
 
-const Button = ({ type, onClick, children }) => (
-  <button className={styles} type={type} onClick={onClick}>
-    {children}
-  </button>
-);
+export const styles = getClassName();
+
+const Button = ({ type, onClick, children, bgColor, addStyles }) => {
+  const color = bgColor || defaultBgColor;
+  const className = getClassName(color);
+  return (
+    <button
+      className={`${className} ${addStyles}`}
+      type={type}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+};
 
 Button.propTypes = {
   type: PropTypes.oneOf(["submit", "button"]),
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  additionalStyles: PropTypes.string,
+  addStyles: PropTypes.string,
+  bgColor: PropTypes.string,
 };
 
 Button.defaultProps = {
   type: "button",
   onClick: () => {},
+  bgColor: "",
+  addStyles: "",
 };
 
 export default Button;
