@@ -6,14 +6,14 @@ import AdminItemsTable from "../../components/AdminItemsTable";
 
 const Gifts = () => (
   <AdminPage>
-    {register => (
+    {registry => (
       <>
         <AdminPage.Header icon={<GiftIcon />} title="Registry Gifts" />
         <AdminPage.Main>
-          {!register ? (
+          {!registry ? (
             <div>Loading...</div>
           ) : (
-            <AdminItemsTable items={register.items} />
+            <AdminItemsTable registry={registry} />
           )}
         </AdminPage.Main>
       </>

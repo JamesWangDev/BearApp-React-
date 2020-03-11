@@ -4,7 +4,7 @@ import { useAuth, withLoginRequired } from "use-auth0-hooks";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
 import AdminPage from "../components/AdminPage";
 import RegistryForm from "../components/RegistryForm";
-import { AUTH0_API_IDENTIFIER, fetchIt } from "../utils";
+import { AUTH0_API_IDENTIFIER, adminFetchIt } from "../utils";
 
 export default withLoginRequired(function Admin() {
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
@@ -12,16 +12,15 @@ export default withLoginRequired(function Admin() {
   const submitFunc = registry => formData => {
     mutate("/registry/admin", async () => {
       try {
-        const updatedRegistry = await fetchIt(`/registry/${registry._id}`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-          method: "PUT",
-          body: JSON.stringify({
-            ...formData,
-          }),
-        });
-        return updatedRegistry;
+        const updatedRegistry = await adminFetchIt(
+          `/registry/${registry._id}`,
+          accessToken,
+          { method: "PUT", body: JSON.stringify({ ...formData }) }
+        );
+        return { ...updatedRegistry, items: registry.items };
       } catch (err) {
-        console.error(err);
+        console.log(err);
+        return registry;
       }
     });
   };
