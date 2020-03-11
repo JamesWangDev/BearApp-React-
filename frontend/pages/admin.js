@@ -2,7 +2,7 @@ import React from "react";
 import { mutate } from "swr";
 import { useAuth, withLoginRequired } from "use-auth0-hooks";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
-import AdminPage from "../components/AdminPages";
+import AdminPage from "../components/AdminPage";
 import RegistryForm from "../components/RegistryForm";
 import { AUTH0_API_IDENTIFIER, fetchIt } from "../utils";
 

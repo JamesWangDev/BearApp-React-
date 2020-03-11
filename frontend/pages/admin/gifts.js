@@ -1,7 +1,7 @@
 import React from "react";
 import { withLoginRequired } from "use-auth0-hooks";
 import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
-import AdminPage from "../../components/AdminPages";
+import AdminPage from "../../components/AdminPage";
 import AdminItemsTable from "../../components/AdminItemsTable";
 
 const Gifts = () => (

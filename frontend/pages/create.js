@@ -3,7 +3,7 @@ import { mutate } from "swr";
 import { useRouter } from "next/router";
 import { useAuth, withLoginRequired } from "use-auth0-hooks";
 import RegistryIcon from "@iconscout/react-unicons/icons/uil-diary";
-import AdminPage from "../components/AdminPages";
+import AdminPage from "../components/AdminPage";
 import RegistryForm from "../components/RegistryForm";
 import { fetchIt } from "../utils";
 import { AUTH0_API_IDENTIFIER } from "../utils";
