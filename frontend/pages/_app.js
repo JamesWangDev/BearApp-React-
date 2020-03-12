@@ -2,11 +2,19 @@ import React from "react";
 import App from "next/app";
 import { Auth0Provider } from "use-auth0-hooks";
 import { SWRConfig } from "swr";
-import { DOMAIN, CLIENTID, REDIRECTURI, AUTH0_API_IDENTIFIER } from "../utils";
-import { fetchIt } from "../utils";
+
+import SnackProvider from "../components/AdminPage/Context";
+import {
+  DOMAIN,
+  CLIENTID,
+  REDIRECTURI,
+  AUTH0_API_IDENTIFIER,
+  fetchIt,
+} from "../utils";
 import "../css/tailwind.css";
 
 const swrConfigValue = { fetcher: fetchIt };
+
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
@@ -18,7 +26,9 @@ class MyApp extends App {
         audience={AUTH0_API_IDENTIFIER}
       >
         <SWRConfig value={swrConfigValue}>
-          <Component {...pageProps} />
+          <SnackProvider>
+            <Component {...pageProps} />
+          </SnackProvider>
         </SWRConfig>
       </Auth0Provider>
     );
