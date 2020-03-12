@@ -24,7 +24,11 @@ export default function NavMenu() {
         <ul className="m-0 p-0 list-none">
           <NavMenuLink text="my profile" icon={<ProfileIcon />} />
           <NavMenuLink text="my account" icon={<AccountIcon />} />
-          <NavMenuLink text="logout" icon={<LogoutIcon />} onClick={logout} />
+          <NavMenuLink
+            text="logout"
+            icon={<LogoutIcon />}
+            handleClick={logout}
+          />
         </ul>
       </div>
 

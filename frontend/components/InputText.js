@@ -6,7 +6,7 @@ const convertNameToId = string =>
   string.replace(/([A-Z])/g, "-$1").toLowerCase();
 
 const WrappedComponent = React.forwardRef(function TextInput(
-  { id, type, error, children },
+  { id, type, error, min, children },
   ref
 ) {
   const label = convertNameToId(id);
@@ -40,6 +40,7 @@ const WrappedComponent = React.forwardRef(function TextInput(
           id={id}
           name={id}
           type={type}
+          min={min}
           className={`
             gb-gray-200
             appearance-none
@@ -69,6 +70,7 @@ WrappedComponent.propTypes = {
   type: PropTypes.string,
   children: PropTypes.string.isRequired,
   error: formErrorType,
+  min: PropTypes.string,
 };
 
 WrappedComponent.defaultProps = {
