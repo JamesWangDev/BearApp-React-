@@ -3,6 +3,7 @@ import { fetchIt } from "../utils";
 import PropTypes from "prop-types";
 import { registryType } from "../types";
 
+import "../css/main.css";
 /*
 This is the main React component, the HTML that gets returned from this function is what
 will show on the browser.
@@ -224,11 +225,7 @@ function RegistryPage({ registry }) {
       }
       <div>{registry.title}</div>
       {/* // Anything inside curly brackets { } is how we insert variables into react HTML. Like above. */}
-      <style jsx>{`
-        .classNameName {
-          padding: 0;
-        }
-      `}</style>
+      <style jsx>{``}</style>
     </>
   );
 }
