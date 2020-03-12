@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { adminFetchIt } from "../utils";
-import { useAuth, withLoginRequired, withAuth } from "use-auth0-hooks";
-import { AUTH0_API_IDENTIFIER } from "../utils";
+import { useAuth, withLoginRequired } from "use-auth0-hooks";
+import Loader from "../components/Loader";
+import { adminFetchIt, AUTH0_API_IDENTIFIER } from "../utils";
 
-const Welcome = () => {
+export default withLoginRequired(function Welcome() {
   const { push } = useRouter();
   const { accessToken } = useAuth({ audience: AUTH0_API_IDENTIFIER });
 
@@ -23,7 +23,5 @@ const Welcome = () => {
     checkUsersRegistry();
   }, []);
 
-  return <div>Loading...</div>;
-};
-
-export default withLoginRequired(withAuth(Welcome));
+  return <Loader size={70} text="Please wait. We're redirecting you." />;
+});
