@@ -48,7 +48,9 @@ export default function SnackProvider({ children }) {
     if (isSnackOpen) {
       id = setTimeout(() => closeSnack(), 8000);
     }
-    return () => clearTimeout(id);
+    return () => {
+      clearTimeout(id);
+    };
   }, [isSnackOpen]);
 
   return (
@@ -74,6 +76,7 @@ export default function SnackProvider({ children }) {
           bottom: 0;
           width: 100%;
           max-width: 295px;
+          text-align: center;
           /* need to add 30px to account for margin */
           transform: translateY(${isSnackOpen ? 0 : `calc(100% + 30px)`});
           transition: transform 0.3s;

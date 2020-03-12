@@ -3,7 +3,7 @@ import App from "next/app";
 import { Auth0Provider } from "use-auth0-hooks";
 import { SWRConfig } from "swr";
 
-import SnackProvider from "../components/AdminPage/Context";
+import SnackProvider from "../components/Snack";
 import {
   DOMAIN,
   CLIENTID,
