@@ -18,7 +18,7 @@ const data = [
     svg: <GiftSendSVG />,
     heading: "Ease of Use",
     subheading: "Industry best practices",
-    description: `We make it easy for your friends and family to contribute to the things that yout actually want.`,
+    description: `We make it easy for your friends and family to contribute to the things that you actually want.`,
   },
 ];
 
