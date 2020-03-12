@@ -2,11 +2,12 @@ import React, { useReducer, useCallback } from "react";
 import { mutate } from "swr";
 import PropTypes from "prop-types";
 import { useAuth } from "use-auth0-hooks";
-import { registryType } from "../types";
+import { itemType } from "../types";
 import { adminFetchIt, AUTH0_API_IDENTIFIER } from "../utils";
 import Button from "./Button";
 import Modal from "./Modal";
 import Link from "./Link";
+import Loader from "./Loader";
 
 const audience = AUTH0_API_IDENTIFIER;
 
@@ -28,14 +29,12 @@ const reducer = (state, action) => {
   }
 };
 
-export default function AdminItemsTable({ registry }) {
+export default function AdminItemsTable({ items }) {
   const { accessToken } = useAuth({ audience });
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // state and props
   const { isConfirmOpen, deleteItemId, deleteItemName } = state;
-  const { items, _id } = registry;
-  const registryId = _id;
 
   // closes the delete modal
   const handleDeleteClose = useCallback(() => {
@@ -48,14 +47,21 @@ export default function AdminItemsTable({ registry }) {
   };
 
   // deletes item and updates our cache
-  const handleDeletion = id => {
-    mutate("/registry/admin", async items => {
+  const handleDeletion = () => {
+    mutate(["/registry/admin", accessToken], async registry => {
       try {
-        await adminFetchIt(`/item/${id}/registry/${registryId}`, accessToken, {
-          method: "DELETE",
-        });
+        // create the delete one item url here
+        const url = `/item/${deleteItemId}/registry/${registry._id}`;
+        // make the fetch request
+        await adminFetchIt(url, accessToken, { method: "DELETE" });
+        // if it's successful ...
+        // ... close the dialog box
         handleDeleteClose();
-        const updatedItems = items && items.filter(item => item._id !== id);
+        // ... remove the deleted item and update our items array
+        const updatedItems =
+          registry.items &&
+          registry.items.filter(item => item._id !== deleteItemId);
+        // mutate the cache by sending the updated items
         return { ...registry, items: updatedItems };
       } catch (err) {
         console.log(err);
@@ -64,6 +70,14 @@ export default function AdminItemsTable({ registry }) {
       }
     });
   };
+
+  if (!items.length) {
+    return (
+      <Loader text="No gifts found">
+        <Button addStyles="mt-8">Add Gift</Button>
+      </Loader>
+    );
+  }
 
   return (
     <>
@@ -113,7 +127,7 @@ export default function AdminItemsTable({ registry }) {
             from this list?
           </p>
           <div className="flex justify-end mt-5">
-            <Button onClick={() => handleDeletion(deleteItemId)}>Delete</Button>
+            <Button onClick={handleDeletion}>Delete</Button>
             <Button
               onClick={handleDeleteClose}
               bgColor="bg-red-500 hover:bg-red-400"
@@ -159,5 +173,5 @@ export default function AdminItemsTable({ registry }) {
 }
 
 AdminItemsTable.propTypes = {
-  registry: PropTypes.shape(registryType),
+  items: PropTypes.arrayOf(PropTypes.shape(itemType)),
 };

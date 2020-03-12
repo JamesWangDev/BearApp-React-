@@ -6,6 +6,7 @@ const links = [
   { href: "/create", title: "Create Registry", needRegistry: false },
   { href: "/admin", title: "Edit Registry", needRegistry: true },
   { href: "/admin/gifts", title: "Manage Gifts", needRegistry: true },
+  { href: "/admin/gifts/create", title: "Add Gift", needRegistry: true },
 ];
 
 export default function SideBarLinks({ userHasRegistry }) {

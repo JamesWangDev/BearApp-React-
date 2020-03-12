@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import useSWR from "swr";
-import { useAuth, withLoginRequired } from "use-auth0-hooks";
+import { useAuth } from "use-auth0-hooks";
 
 import colors from "../../css/colors";
 import { authType } from "../../types";
@@ -14,7 +14,7 @@ import Footer from "../Footer";
 const audience = AUTH0_API_IDENTIFIER;
 const fetcher = adminFetchIt;
 
-const AdminPage = withLoginRequired(({ children }) => {
+export default function AdminPage({ children }) {
   const { accessToken, user } = useAuth({ audience });
   const { data } = useSWR(["/registry/admin", accessToken], { fetcher });
 
@@ -27,6 +27,7 @@ const AdminPage = withLoginRequired(({ children }) => {
 
         <SideBar data={data} />
 
+        {/* Passing the registry object down using render props */}
         <main className="px-2 pb-10">{children(data)}</main>
       </div>
 
@@ -43,6 +44,8 @@ const AdminPage = withLoginRequired(({ children }) => {
 
         main {
           background-color: ${colors.backgroundSecondary};
+          /* 100=HEADER, 267=FOOTER */
+          min-height: calc(100vh - 100px - 267px);
         }
 
         /* Non-mobile styles, 750px breakpoint */
@@ -56,7 +59,7 @@ const AdminPage = withLoginRequired(({ children }) => {
       `}</style>
     </div>
   );
-});
+}
 
 AdminPage.propTypes = {
   auth: authType,
@@ -80,6 +83,9 @@ AdminPage.Header = ({ icon, title }) => {
     </header>
   );
 };
+
+AdminPage.displayName = "AdminPage";
+
 AdminPage.Header.displayName = "AdminPage__Header";
 AdminPage.Header.propTypes = {
   icon: PropTypes.node.isRequired,
@@ -89,5 +95,3 @@ AdminPage.Header.propTypes = {
 AdminPage.Main = ({ children }) => <div className="px-5">{children}</div>;
 AdminPage.Main.displayName = "AdminPage__Main";
 AdminPage.Main.propTypes = { children: PropTypes.node.isRequired };
-
-export default AdminPage;
