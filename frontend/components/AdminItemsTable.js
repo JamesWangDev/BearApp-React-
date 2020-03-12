@@ -8,6 +8,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import Link from "./Link";
 import Loader from "./Loader";
+import { useSnacks } from "./Snack";
 
 const audience = AUTH0_API_IDENTIFIER;
 
@@ -32,6 +33,7 @@ const reducer = (state, action) => {
 export default function AdminItemsTable({ items }) {
   const { accessToken } = useAuth({ audience });
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { openSnack } = useSnacks();
 
   // state and props
   const { isConfirmOpen, deleteItemId, deleteItemName } = state;
@@ -62,9 +64,11 @@ export default function AdminItemsTable({ items }) {
           registry.items &&
           registry.items.filter(item => item._id !== deleteItemId);
         // mutate the cache by sending the updated items
+        openSnack("Success! We deleted that gift", "success");
         return { ...registry, items: updatedItems };
       } catch (err) {
         console.log(err);
+        openSnack("Sorry! We couldn't delete that gift", "error");
         handleDeleteClose();
         return registry;
       }

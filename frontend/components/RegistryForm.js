@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "use-auth0-hooks";
 import InputText from "./InputText";
 import Button from "./Button";
+import { useSnacks } from "./Snack";
 
 export default function RegistryForm({
   defaultValues = {},
@@ -14,6 +15,7 @@ export default function RegistryForm({
 }) {
   const { push } = useRouter();
   const { accessToken, user } = useAuth({ audience: AUTH0_API_IDENTIFIER });
+  const { openSnack } = useSnacks();
 
   const method = isCreating ? "POST" : "PUT";
   const email = isCreating ? user.email : defaultValues.email || "";
@@ -41,9 +43,21 @@ export default function RegistryForm({
             // ... want the item OBJECTs still
             items: isCreating ? [] : registry.items,
           };
+
+          openSnack(
+            `Success! ${isCreating ? "Created" : "Updated"} your registry`,
+            "success"
+          );
+
           return modifiedRegistry;
         } catch (err) {
           console.log(err);
+          openSnack(
+            `Sorry! We couldn't ${
+              isCreating ? "create" : "edit"
+            } that registry`,
+            "error"
+          );
           return registry;
         }
       }

@@ -9,6 +9,7 @@ import InputText from "./InputText";
 import Button from "./Button";
 import Link from "./Link";
 import { adminFetchIt, AUTH0_API_IDENTIFIER } from "../utils";
+import { useSnacks } from "./Snack";
 
 const audience = AUTH0_API_IDENTIFIER;
 
@@ -20,6 +21,7 @@ export default function ItemForm({ defaultValues = {}, isCreating = false }) {
   const { register, handleSubmit, errors, reset } = useForm({
     defaultValues,
   });
+  const { openSnack } = useSnacks();
 
   //      update and create url structure
   // PUT  - api/item/:itemId/registry/:registryId
@@ -49,14 +51,20 @@ export default function ItemForm({ defaultValues = {}, isCreating = false }) {
         // this will reset the form to allow the user to create ...
         // ... multiple items or return the user to see their updated gifts
         if (isCreating) {
+          openSnack("Success! Added your gift", "success");
           reset(defaultValues);
         } else {
+          openSnack("Success! Updated your gift", "success");
           push("/admin/gifts");
         }
 
         return { ...registry, items: updatedItems };
       } catch (err) {
         console.log(err);
+        openSnack(
+          `Sorry! We couldn't ${isCreating ? "create" : "edit"} that gift`,
+          "error"
+        );
         return registry;
       }
     });
