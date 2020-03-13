@@ -17,14 +17,16 @@ function RegistryPage({ registry }) {
   return (
     <>
       <div className="page">
-        <header></header>
+        <header>{/* header stuff goes in here */}</header>
         <main>
-          <section></section>
+          <section>{/* image and title go in here */}</section>
           <section>
             <Items items={registry.items} />
           </section>
         </main>
-        <footer></footer>
+        <footer>
+          {/* footer stuff can go in here. We can reuse Dan's footer component */}
+        </footer>
       </div>
       {/* <div>
           <header id="header">
@@ -110,15 +112,14 @@ function RegistryPage({ registry }) {
           flex-direction: column;
           width: 100%;
         }
-        header {
-          height: 70px;
-          width: 100%;
-        }
-        main {
-        }
+        header,
         footer {
           height: 70px;
           width: 100%;
+          background-color: gray;
+        }
+        main {
+          min-height: calc(100vh - 70px - 70px);
         }
       `}</style>
     </>
