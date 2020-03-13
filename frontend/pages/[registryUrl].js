@@ -1,8 +1,11 @@
+/* eslint-disable */
 import React from "react";
-import { fetchIt } from "../utils";
 import PropTypes from "prop-types";
-import { registryType } from "../types";
 import Items from "../components/Items";
+import { fetchIt } from "../utils";
+import { registryType } from "../types";
+
+import Footer from "../components/Footer";
 /*
 This is the main React component, the HTML that gets returned from this function is what
 will show on the browser.
@@ -15,25 +18,9 @@ function RegistryPage({ registry }) {
   console.log(registry);
   return (
     <>
-      {
-        /* // Any code that you put inside the return is just HTML.
-      // The only requrements with React is that everything needs to be nested under a parent component.
-      //    i.e.
-      //        <div>
-      //          // all your html
-      //        </div>
-
-      // You can't do something like
-      //      return (
-      //        <div>Hello</div>
-      //        <div>World</div>
-      //      )
-      // Notice how there are two divs side-by-side, you can't do that, you need to surround both of
-      // them with another div, or React's special <> tag. (google React fragment if you want to know more.) */
-
-        <>
-          {/* nav bar */}
-
+      <div className="page">
+        <header>
+          {" "}
           <div className="flex mb-4">
             <div className="w-1/2  h-12 navBarLogo">v16 Bears 04</div>
             <div className="w-1/2  h-12 .text-left .text-xs .text-right">
@@ -43,47 +30,51 @@ function RegistryPage({ registry }) {
               </a>
             </div>
           </div>
+        </header>
+      </div>
 
-          {/* title and cover image */}
+      <main>
+        <section>
+          <img src={registry.coverImage} />
+        </section>
 
-          <div className="flex mb-4">
-            <div className="w-full h-12">
-              <div className="title">
-                <img src={registry.coverImage} />
-              </div>
-            </div>
-          </div>
+        <section>
+          <Items items={registry.items} />
+        </section>
+      </main>
 
-          {/* registry items */}
+      <footer>
+        <Footer />
+      </footer>
 
-          <div className="flex mb-4 flex-wrap">
-            <div className="w-full h-12">
-              <Items items={registry.items} />
-            </div>
-          </div>
-
-          {/* Contact details */}
-
-          <div> </div>
-        </>
-      }
-
-      {/* // Anything inside curly brackets { } is how we insert variables into react HTML. Like above. */}
-      <style jsx>{`
-        @import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
-
-        .navBarTitle, .navBarLogo {
-          font-family: "Josefin Sans", sans-serif;
-          q
-        }
-
-        .navBarTitle {
-          text-align: right;
-        }
-      `}</style>
+      <div className="flex mb-4">
+        <div className="w-full h-12">
+          <div className="title"></div>
+        </div>
+      </div>
     </>
   );
 }
+
+{
+  /* // Anything inside curly brackets { } is how we insert variables into react HTML. Like above. */
+}
+<style jsx>{`
+  .page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  header,
+  footer {
+    height: 70px;
+    width: 100%;
+    background-color: gray;
+  }
+  main {
+    min-height: calc(100vh - 70px - 70px);
+  }
+`}</style>;
 
 // This is a function specific to next.js (the react framework we're using), and basically says:
 // before we render this component in the browser, run this function first, and then return any values
