@@ -14,9 +14,15 @@ const links = [
   },
 ];
 
-export default function SideBarLinks({ userHasRegistry }) {
+export default function SideBarLinks({ userHasRegistry, registryUrl }) {
   return (
     <ul>
+      <SideBarLink
+        href={`/${registryUrl}`}
+        title="View Registry"
+        userHasRegistry={userHasRegistry}
+        needRegistry
+      />
       {links.map(link => (
         <SideBarLink
           key={link.href}
@@ -38,4 +44,5 @@ export default function SideBarLinks({ userHasRegistry }) {
 
 SideBarLinks.propTypes = {
   userHasRegistry: PropTypes.bool.isRequired,
+  registryUrl: PropTypes.string,
 };
