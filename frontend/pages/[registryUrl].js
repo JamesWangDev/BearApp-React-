@@ -15,66 +15,61 @@ like a parameter to a function
 */
 function RegistryPage({ registry }) {
   /* any javascript you want to do you can do here before the return statement */
-  console.log(registry);
   return (
     <>
-      <div className="page">
-        <header>
-          {" "}
-          <div className="flex mb-4">
-            <div className="w-1/2  h-12 navBarLogo">v16 Bears 04</div>
-            <div className="w-1/2  h-12 .text-left .text-xs .text-right">
-              {" "}
-              <a href="" className="navBarTitle .uppercase. justify-between">
-                {registry.p1FullName} & {registry.p2FullName}
-              </a>
-            </div>
-          </div>
-        </header>
-      </div>
-
       <main>
-        <section>
-          <img src={registry.coverImage} />
+        <section className="cover">
+          <h1>{registry.title}</h1>
+          <h2>{registry.description}</h2>
         </section>
-
-        <section>
+        <section className="items">
           <Items items={registry.items} />
         </section>
       </main>
-
-      <footer>
-        <Footer />
-      </footer>
-
-      <div className="flex mb-4">
-        <div className="w-full h-12">
-          <div className="title"></div>
-        </div>
-      </div>
+      <Footer />
+      <style jsx>{`
+        .page {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+        header,
+        footer {
+          height: 70px;
+          width: 100%;
+          background-color: gray;
+        }
+        main {
+          min-height: calc(100vh - 70px - 70px);
+        }
+        main section.cover {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-size: cover;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+          background-repeat: no-repeat;
+          background-position: top;
+          background-image: url("${registry.coverImage}");
+          height: 100vh;
+          color: #fff;
+        }
+        h1 {
+          font-size: 4rem;
+        }
+        h2 {
+          font-size: 2rem;
+        }
+        .items {
+          padding: 100px 20px;
+        }
+      `}</style>
     </>
   );
 }
-
-{
-  /* // Anything inside curly brackets { } is how we insert variables into react HTML. Like above. */
-}
-<style jsx>{`
-  .page {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  header,
-  footer {
-    height: 70px;
-    width: 100%;
-    background-color: gray;
-  }
-  main {
-    min-height: calc(100vh - 70px - 70px);
-  }
-`}</style>;
 
 // This is a function specific to next.js (the react framework we're using), and basically says:
 // before we render this component in the browser, run this function first, and then return any values
