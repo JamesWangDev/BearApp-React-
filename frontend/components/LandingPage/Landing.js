@@ -2,7 +2,7 @@ import React from "react";
 import NavBar from "../../components/NavBar";
 import Hero from "./Hero";
 import Info from "./Info";
-import Footer from "./Footer";
+import Footer from "../Footer";
 
 export default function LandingPage() {
   return (
