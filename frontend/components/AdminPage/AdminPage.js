@@ -28,7 +28,7 @@ export default function AdminPage({ children }) {
         <SideBar data={data} />
 
         {/* Passing the registry object down using render props */}
-        <main className="px-2 pb-10">{children(data)}</main>
+        <main className="px-2 pb-4 sm:pb-8 md:pb-10">{children(data)}</main>
       </div>
 
       <Footer />
@@ -69,11 +69,13 @@ AdminPage.propTypes = {
 AdminPage.Header = ({ icon, title }) => {
   const Icon = React.cloneElement(icon, { color: "#fff", size: 30 });
   return (
-    <header className="flex items-center py-10 px-5 text-2xl">
+    <header className="flex flex-col sm:flex-row items-center py-6 sm:py-10 px-5 text-2xl">
       <div className="flex items-center justify-center w-12 h-12 rounded-lg">
         {Icon}
       </div>
-      <h1 className="pl-5 leading-none capitalize">{title}</h1>
+      <h1 className="sm:pl-5 leading-8 sm:leading-none capitalize text-center sm:text-left">
+        {title}
+      </h1>
 
       <style jsx>{`
         div {
@@ -92,6 +94,6 @@ AdminPage.Header.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-AdminPage.Main = ({ children }) => <div className="px-5">{children}</div>;
+AdminPage.Main = ({ children }) => <div className="sm:px-5">{children}</div>;
 AdminPage.Main.displayName = "AdminPage__Main";
 AdminPage.Main.propTypes = { children: PropTypes.node.isRequired };

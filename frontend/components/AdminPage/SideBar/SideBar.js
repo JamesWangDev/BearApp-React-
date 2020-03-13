@@ -21,7 +21,10 @@ export default function SideBar({ data }) {
         >
           <CloseMenuIcon />
         </div>
-        <SideBarLinks userHasRegistry={!!data} />
+        <SideBarLinks
+          registryUrl={data && data.customUrl}
+          userHasRegistry={!!data}
+        />
       </aside>
 
       <style jsx>{`
