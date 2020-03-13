@@ -7,11 +7,22 @@ const links = [
   { href: "/admin", title: "Edit Registry", needRegistry: true },
   { href: "/admin/gifts", title: "Manage Gifts", needRegistry: true },
   { href: "/admin/gifts/create", title: "Add Gift", needRegistry: true },
+  {
+    href: "/admin/gifts/purchases",
+    title: "View Purchases",
+    needRegistry: true,
+  },
 ];
 
-export default function SideBarLinks({ userHasRegistry }) {
+export default function SideBarLinks({ userHasRegistry, registryUrl }) {
   return (
     <ul>
+      <SideBarLink
+        href={`/${registryUrl}`}
+        title="View Registry"
+        userHasRegistry={userHasRegistry}
+        needRegistry
+      />
       {links.map(link => (
         <SideBarLink
           key={link.href}
@@ -33,4 +44,5 @@ export default function SideBarLinks({ userHasRegistry }) {
 
 SideBarLinks.propTypes = {
   userHasRegistry: PropTypes.bool.isRequired,
+  registryUrl: PropTypes.string,
 };

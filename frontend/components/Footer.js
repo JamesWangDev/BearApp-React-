@@ -28,7 +28,7 @@ export default function Footer() {
           >
             <GithubIcon size="32" />
           </a>
-          <Link href="docs/api">
+          <Link href="/docs/api">
             <a>
               <DocumentIcon size="32" />
             </a>

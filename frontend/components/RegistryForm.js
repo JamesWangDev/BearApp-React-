@@ -19,9 +19,12 @@ export default function RegistryForm({
 
   const method = isCreating ? "POST" : "PUT";
   const email = isCreating ? user.email : defaultValues.email || "";
+  const weddingDate = defaultValues.weddingDate
+    ? defaultValues.weddingDate.substring(0, 10)
+    : "";
 
   const { register, handleSubmit, errors } = useForm({
-    defaultValues: { email, ...defaultValues },
+    defaultValues: { email, ...defaultValues, weddingDate },
   });
 
   const onSubmit = async formData => {
@@ -115,13 +118,24 @@ export default function RegistryForm({
       >
         Phone Number
       </InputText>
+      <InputText
+        type="date"
+        id="weddingDate"
+        error={errors.weddingDate}
+        ref={register}
+      >
+        Wedding Date
+      </InputText>
       <InputText id="tyMessage" error={errors.tyMessage} ref={register}>
         Thank You Message
       </InputText>
       <InputText
         id="customUrl"
         error={errors.customUrl}
-        ref={register({ required: "Custom URL is required" })}
+        ref={register({
+          required: "Custom URL is required",
+          pattern: { value: /^\S*$/, message: "No spaces allowed" },
+        })}
       >
         Custom URL
       </InputText>
