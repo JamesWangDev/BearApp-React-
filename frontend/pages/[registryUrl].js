@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
 import Items from "../components/Items";
@@ -32,26 +31,49 @@ function RegistryPage({ registry }) {
           </div>
         </header>
       </div>
-
       <main>
         <section>
           <img src={registry.coverImage} />
+          <div className="centered"> {registry.title} </div>
+          <div className="centered"> {registry.description} </div>
         </section>
 
         <section>
           <Items items={registry.items} />
         </section>
       </main>
-
       <footer>
         <Footer />
       </footer>
-
       <div className="flex mb-4">
         <div className="w-full h-12">
           <div className="title"></div>
         </div>
       </div>
+      <style jsx>{`
+        .page {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+        header,
+        footer {
+          height: 70px;
+          width: 100%;
+          background-color: gray;
+        }
+        main {
+          min-height: calc(100vh - 70px - 70px);
+        }
+
+        .centered {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      `}</style>
+      ;
     </>
   );
 }
@@ -59,22 +81,6 @@ function RegistryPage({ registry }) {
 {
   /* // Anything inside curly brackets { } is how we insert variables into react HTML. Like above. */
 }
-<style jsx>{`
-  .page {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  header,
-  footer {
-    height: 70px;
-    width: 100%;
-    background-color: gray;
-  }
-  main {
-    min-height: calc(100vh - 70px - 70px);
-  }
-`}</style>;
 
 // This is a function specific to next.js (the react framework we're using), and basically says:
 // before we render this component in the browser, run this function first, and then return any values
