@@ -2,11 +2,12 @@ import { RequestHandler } from "express";
 import mongoose from "mongoose";
 import createError from "http-errors";
 import { Item, Registry } from "../../models";
+import { structureItem } from "../../utils";
 
 export const getOneItem: RequestHandler = async (req, res, next) => {
   try {
     const { itemId } = req.params;
-    const item = await Item.findById(itemId);
+    const item = await Item.findById(itemId).lean();
     if (!item) throw createError(404, `Item (${itemId}) not found`);
     res.status(200).json(item);
   } catch (err) {
@@ -16,7 +17,7 @@ export const getOneItem: RequestHandler = async (req, res, next) => {
 
 export const getEveryItem: RequestHandler = async (_req, res, next) => {
   try {
-    const items = await Item.find();
+    const items = await Item.find().lean();
     res.status(200).json(items);
   } catch (err) {
     next(err);
@@ -192,7 +193,7 @@ export const madeItemPurchase: RequestHandler = async (req, res, next) => {
 
     await item.save();
 
-    res.status(200).json(item);
+    res.status(200).json(structureItem(item));
   } catch (err) {
     next(err);
   }

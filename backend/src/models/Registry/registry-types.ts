@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { ItemI } from "../Item";
 
 export interface RegistryI extends Document {
   title: string;
@@ -11,6 +12,6 @@ export interface RegistryI extends Document {
   email: string;
   userId: string;
   customUrl: string;
-  items: string[];
+  items: (string | ItemI)[];
   coverImage: string;
 }

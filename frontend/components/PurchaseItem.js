@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { mutate } from "swr";
 import InputText from "./InputText";
@@ -17,14 +16,14 @@ const PurchaseItem = ({
   image,
   handleClose,
   priceLeft,
+  swrKey,
 }) => {
-  const { query } = useRouter();
   const { register, handleSubmit, errors } = useForm();
   const { openSnack } = useSnacks();
   const formRef = useRef();
 
   const onFormSubmit = async formData => {
-    mutate(`/registry/${query.registryUrl}`, async registry => {
+    mutate(swrKey, async registry => {
       try {
         const updatedItem = await fetchIt(`/item/${_id}`, {
           method: "POST",
@@ -140,7 +139,10 @@ const PurchaseItem = ({
             Amount ($)
           </InputText>
           <div className="flex flex-col sm:flex-row justify-center">
-            <Button onClick={onSubmit} addStyles="w-full sm:w-1/3 sm:mr-3">
+            <Button
+              onClick={onSubmit}
+              addStyles="w-full sm:w-1/3 mb-2 sm:mb-0 sm:mr-3"
+            >
               Checkout
             </Button>
             <Button
@@ -161,6 +163,7 @@ PurchaseItem.propTypes = {
   ...itemType,
   handleClose: PropTypes.func.isRequired,
   priceLeft: PropTypes.number.isRequired,
+  swrKey: PropTypes.string.isRequired,
 };
 
 export default PurchaseItem;

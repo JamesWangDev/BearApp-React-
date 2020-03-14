@@ -79,7 +79,9 @@ describe("Registry Endpoint Test", () => {
       const foundRegistry = await getRegistrybyUrl(customUrl, 200);
       expect(foundRegistry.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundRegistry.body).toStrictEqual(foundRegistry.body);
+      expect(foundRegistry.body._id).toBe(newRegistry.body._id);
+      expect(foundRegistry.body.title).toBe(newRegistry.body.title);
+      expect(foundRegistry.body.description).toBe(newRegistry.body.description);
     });
 
     test("expected to not find a single invalid registry", async () => {
@@ -106,7 +108,9 @@ describe("Registry Endpoint Test", () => {
       const foundRegistry = await getRegistrybyUrl(customUrl, 200);
       expect(foundRegistry.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundRegistry.body).toStrictEqual(newRegistry.body);
+      expect(foundRegistry.body._id).toBe(newRegistry.body._id);
+      expect(foundRegistry.body.title).toBe(newRegistry.body.title);
+      expect(foundRegistry.body.description).toBe(newRegistry.body.description);
 
       const deletedRegistry = await deleteRegistry(registryId, 200, token);
       expect(deletedRegistry.body).not.toBeNull();
@@ -124,7 +128,9 @@ describe("Registry Endpoint Test", () => {
       const foundRegistry = await getRegistrybyUrl(customUrl, 200);
       expect(foundRegistry.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundRegistry.body).toStrictEqual(newRegistry.body);
+      expect(foundRegistry.body._id).toBe(newRegistry.body._id);
+      expect(foundRegistry.body.title).toBe(newRegistry.body.title);
+      expect(foundRegistry.body.description).toBe(newRegistry.body.description);
 
       const deletedRegistry = await deleteRegistry(
         "invalid-id-string",
@@ -147,7 +153,9 @@ describe("Registry Endpoint Test", () => {
       const foundRegistry = await getRegistrybyUrl(customUrl, 200);
       expect(foundRegistry.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundRegistry.body).toStrictEqual(newRegistry.body);
+      expect(foundRegistry.body._id).toBe(newRegistry.body._id);
+      expect(foundRegistry.body.title).toBe(newRegistry.body.title);
+      expect(foundRegistry.body.description).toBe(newRegistry.body.description);
 
       const updateObj = {
         title: "New Title",
@@ -176,7 +184,9 @@ describe("Registry Endpoint Test", () => {
       const foundRegistry = await getRegistrybyUrl(customUrl, 200);
       expect(foundRegistry.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundRegistry.body).toStrictEqual(newRegistry.body);
+      expect(foundRegistry.body._id).toBe(newRegistry.body._id);
+      expect(foundRegistry.body.title).toBe(newRegistry.body.title);
+      expect(foundRegistry.body.description).toBe(newRegistry.body.description);
 
       const updateObj = {
         title: "New Title",

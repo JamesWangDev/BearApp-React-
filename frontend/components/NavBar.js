@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "use-auth0-hooks";
-
 import GiftIcon from "@iconscout/react-unicons/icons/uil-gift";
 import BarsIcon from "@iconscout/react-unicons/icons/uil-bars";
 import TimesIcon from "@iconscout/react-unicons/icons/uil-times";
@@ -71,8 +70,7 @@ export default function NavBar() {
             isMenuOpen ? "flex" : "hidden"
           } md:flex flex flex-col md:flex-row items-center mt-3 md:mt-0 p-2 md:p-0 bg-purple-100 md:bg-gray-200`}
         >
-          <StyledLink href="/items" text="View All Registries" />
-          <StyledLink href="/welcome" text="Admin" />
+          {isAuthenticated && <StyledLink href="/welcome" text="Registry" />}
           {!isLoading && (
             <StyledItem>
               <button
@@ -82,7 +80,7 @@ export default function NavBar() {
                     : login({ appState: { returnTo: { pathname, query } } })
                 }
               >
-                {isAuthenticated ? "Log Out" : "Register"}
+                {isAuthenticated ? "Log Out" : "Register / Login"}
               </button>
             </StyledItem>
           )}

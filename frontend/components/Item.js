@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Modal from "./Modal";
 import { itemType } from "../types";
 import PurchaseItem from "./PurchaseItem";
-import { getTotalPricePaid } from "../utils";
 
 const classItem = `
 group
@@ -23,12 +23,11 @@ cursor-pointer
 `;
 
 export default function Item(props) {
-  const { name, price, image, purchasers } = props;
+  const { name, price, image, totalPurchased, swrKey } = props;
 
   const [isPurchaseOpen, setIsPurchaseOpen] = useState(false);
 
-  const totalPricePaid = getTotalPricePaid(purchasers);
-  const priceLeft = price - totalPricePaid;
+  const priceLeft = price - totalPurchased;
   const isBought = priceLeft < 1;
 
   // don't open the modal if the item is already purchased
@@ -79,10 +78,14 @@ export default function Item(props) {
           handleClose={handleClose}
           {...props}
           priceLeft={priceLeft}
+          swrKey={swrKey}
         />
       </Modal>
     </>
   );
 }
 
-Item.propTypes = itemType;
+Item.propTypes = {
+  swrKey: PropTypes.string.isRequired,
+  ...itemType,
+};

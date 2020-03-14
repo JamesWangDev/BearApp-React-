@@ -1,11 +1,12 @@
 import { RequestHandler } from "express";
 import createError from "http-errors";
 import { Registry, Item } from "../../models";
-import { AuthHandler } from "../../utils";
+import { AuthHandler, structureItem } from "../../utils";
+import { ItemI } from "../../models/Item/item-types";
 
 export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   try {
-    const registry = await Registry.find();
+    const registry = await Registry.find().lean();
     res.status(200).json(registry);
   } catch (err) {
     next(err);
@@ -22,6 +23,7 @@ export const createRegistry: AuthHandler = async (req, res, next) => {
       ...req.body,
       userId,
     });
+
     res.status(201).json(newRegistry);
   } catch (err) {
     next(err);
@@ -34,7 +36,9 @@ export const getMyRegistry: AuthHandler = async (req, res, next) => {
 
     if (!userId) throw createError(404, "User is not valid");
 
-    const registry = await Registry.findOne({ userId }).populate("items");
+    const registry = await Registry.findOne({ userId })
+      .populate("items")
+      .lean();
     if (!registry) throw createError(404, "You don't have a registry");
 
     res.status(200).json(registry);
@@ -46,8 +50,17 @@ export const getMyRegistry: AuthHandler = async (req, res, next) => {
 export const getOneRegistry: RequestHandler = async (req, res, next) => {
   try {
     const { customUrl } = req.params;
-    const registry = await Registry.findOne({ customUrl }).populate("items");
+
+    const registry = await Registry.findOne(
+      { customUrl },
+      { email: 0, phoneNumber: 0, userId: 0 }
+    )
+      .populate("items")
+      .lean();
     if (!registry) throw createError(404, `Registry (${customUrl}) not found`);
+
+    registry.items = registry.items.map((item: ItemI) => structureItem(item));
+
     res.status(200).json(registry);
   } catch (err) {
     next(err);
@@ -68,7 +81,9 @@ export const updateOneRegistry: RequestHandler = async (req, res, next) => {
         new: true,
         runValidators: true,
       }
-    );
+    )
+      .lean()
+      .populate("items");
     if (!updatedRegistry) {
       throw createError(400, `Error updating Registry (${registryId})`);
     }

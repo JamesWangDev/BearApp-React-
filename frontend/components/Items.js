@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import Item from "./Item";
 import { itemType } from "../types";
 
-function Items({ items }) {
+function Items({ items, swrKey }) {
   return (
     <div className="flex justify-center flex-wrap">
       {items.map(item => (
-        <Item key={item._id} {...item} />
+        <Item key={item._id} swrKey={swrKey} {...item} />
       ))}
     </div>
   );
@@ -15,6 +15,7 @@ function Items({ items }) {
 
 Items.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape(itemType)),
+  swrKey: PropTypes.string.isRequired,
 };
 
 export default Items;
