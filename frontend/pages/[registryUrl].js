@@ -7,6 +7,7 @@ import { fetchIt } from "../utils";
 import Footer from "../components/Footer";
 import { publicRegistryType } from "../types";
 import colors from "../css/colors";
+import Header from "../components/Header";
 
 /*
 This is the main React component, the HTML that gets returned from this function is what
@@ -20,12 +21,13 @@ export default function RegistryPage({ registryUrl, initialData, error }) {
   const swrKey = `/registry/${registryUrl}`;
   // pass in the server rendered registry instead of making...
   // ... an unnecessary client side call
-  const { data } = useSWR(swrKey, undefined, { initialData });
+  const { data } = useSWR(swrKey, { initialData });
 
   if (error) return <ErrorPage statusCode="404" title="Registry Not Found" />;
 
   return (
     <>
+      <Header title={initialData.title} />
       <main>
         <section className="cover">
           <div className="cover-text">
@@ -91,7 +93,6 @@ RegistryPage.getInitialProps = async ctx => {
   const { registryUrl } = ctx.query;
   try {
     const initialData = await fetchIt(`/registry/${registryUrl}`);
-    console.log(initialData);
     return { registryUrl, initialData };
   } catch (error) {
     return { registryUrl, error };

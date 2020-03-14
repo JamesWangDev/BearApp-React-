@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAuth, withLoginRequired } from "use-auth0-hooks";
 import Loader from "../components/Loader";
+import Header from "../components/Header";
 import { adminFetchIt, AUTH0_API_IDENTIFIER } from "../utils";
 
 export default withLoginRequired(function Welcome() {
@@ -23,5 +24,10 @@ export default withLoginRequired(function Welcome() {
     checkUsersRegistry();
   }, []);
 
-  return <Loader size={70} text="Please wait. We're redirecting you." />;
+  return (
+    <>
+      <Header title="Redirecting..." />
+      <Loader size={70} text="Please wait. We're redirecting you." />;
+    </>
+  );
 });
