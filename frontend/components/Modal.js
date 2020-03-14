@@ -94,7 +94,7 @@ const InnerModal = ({ children, handleClose }) => {
   return (
     <div
       ref={modalRef}
-      className="w-600 bg-white shadow-lg border-solid rounded-lg my-2 top-0 absolute"
+      className="w-full md:w-600 bg-white shadow-lg border-solid rounded-lg my-2 top-0 absolute"
       onClick={e => {
         e.preventDefault();
         e.stopPropagation();

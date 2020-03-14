@@ -5,7 +5,7 @@ import { itemType } from "../types";
 
 function Items({ items }) {
   return (
-    <div className="flex flex-wrap">
+    <div className="flex justify-center flex-wrap">
       {items.map(item => (
         <Item key={item._id} {...item} />
       ))}
