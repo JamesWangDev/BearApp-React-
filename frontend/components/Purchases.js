@@ -2,16 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { itemType } from "../types";
 import colors from "../css/colors";
+import { getTotalPricePaid } from "../utils";
 
 export default function Purchases({ items }) {
   return (
     <div className="flex flex-wrap justify-center">
       {items.map(({ name, description, image, price, purchasers }) => {
         // cumulative price paid for this item
-        const totalPricePaid = purchasers.reduce(
-          (acc, { pricePaid }) => acc + pricePaid,
-          0
-        );
+        const totalPricePaid = getTotalPricePaid(purchasers);
 
         return (
           <div
