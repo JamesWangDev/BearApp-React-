@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import createError from "http-errors";
 import { Registry, Item } from "../../models";
 import { AuthHandler } from "../../utils";
+import { PurchaserI } from "../../models/Item/item-types";
 
 export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   try {
@@ -46,8 +47,38 @@ export const getMyRegistry: AuthHandler = async (req, res, next) => {
 export const getOneRegistry: RequestHandler = async (req, res, next) => {
   try {
     const { customUrl } = req.params;
-    const registry = await Registry.findOne({ customUrl }).populate("items");
+    const registry = await Registry.findOne(
+      {
+        customUrl,
+      },
+      {
+        email: 0,
+        phoneNumber: 0,
+        userId: 0,
+        // "items.name": 0,
+      }
+    )
+      .populate("items")
+      .lean();
+    // .then(reg => {
     if (!registry) throw createError(404, `Registry (${customUrl}) not found`);
+
+    registry.items = registry.items.map((item: any) => ({
+      _id: item._id,
+      isReserved: item.isReserved,
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      link: item.link,
+      image: item.image,
+      addedOn: item.addedOn,
+      totalPurchased: item.purchasers.reduce(
+        (total: number, purchaser: PurchaserI) =>
+          (total += purchaser.pricePaid),
+        0
+      ),
+    }));
+
     res.status(200).json(registry);
   } catch (err) {
     next(err);

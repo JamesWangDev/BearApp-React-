@@ -6,6 +6,7 @@ import {
   updateOneItem,
   deleteOneItem,
   createItem,
+  addPurchase,
   deleteMultipleItems,
   madeItemPurchase,
   getItemsByRegistry,
@@ -27,5 +28,6 @@ router
   .get(verifyToken, checkOwnership, getItemsByRegistry)
   .post(verifyToken, createItem)
   .delete(verifyToken, checkOwnership, deleteMultipleItems);
+router.route("/:itemId/registry/:registryId/purchase").put(addPurchase);
 
 export default router;

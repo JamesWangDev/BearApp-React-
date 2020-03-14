@@ -1,12 +1,15 @@
 import React, { createRef } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 import PropTypes from "prop-types";
+import { useSnacks } from "./Snack";
 import InputText from "./InputText";
 import Button from "./Button";
+import { fetchIt } from "../utils";
 import { itemType } from "../types";
 
 const PurchaseItem = ({
-  // _id,
+  _id,
   name,
   description,
   link,
@@ -15,11 +18,45 @@ const PurchaseItem = ({
   price,
   image,
   handleClose,
+  swrKey,
 }) => {
   const { register, handleSubmit, errors } = useForm();
-  const formData = data => {
-    console.log(data);
+  const { openSnack } = useSnacks();
+
+  const handleFormSubmit = formData => {
+    //      update and create url structure
+    // PUT  - api/item/:itemId/registry/:registryId
+    // POST - api/item/        registry/:registryId
+
+    mutate(swrKey, async registry => {
+      // creates a url based on if its we're creating/updating
+      const url = `/item/${_id}/registry/${registry._id}/purchase`;
+
+      try {
+        const changedItem = await fetchIt(url, {
+          method: "PUT",
+          body: JSON.stringify(formData),
+        });
+
+        const updatedItems = registry.items.map(item =>
+          item._id === changedItem._id ? changedItem : item
+        );
+
+        handleClose();
+        openSnack("You successfully bought this gift!", "success");
+        return { ...registry, items: updatedItems };
+      } catch (err) {
+        console.log(err);
+        openSnack("Something went wrong. The gift was not purchased.", "error");
+        return registry;
+      }
+    });
   };
+
+  // For some reason, submitting the form inside the modal doesn't work.
+  // I think it has something to do with this form being inside a
+  // react portal, meaning it's injected when the modal is opened.
+  // This function fires the normal form onSubmit event.
   const onSubmit = e => {
     e.preventDefault();
     formRef.current.dispatchEvent(new Event("submit"));
@@ -56,7 +93,7 @@ const PurchaseItem = ({
       <div className="bg-gray-200 p-10 text-gray-700">
         <h2>Thank you for gifting this gift!</h2>
         <p>Please fill out the details below to gift this gift.</p>
-        <form onSubmit={handleSubmit(formData)} ref={formRef}>
+        <form onSubmit={handleSubmit(handleFormSubmit)} ref={formRef}>
           <InputText
             id="name"
             error={errors.name}
@@ -75,9 +112,9 @@ const PurchaseItem = ({
             Message
           </InputText>
           <InputText
-            id="amount"
+            id="pricePaid"
             type="number"
-            error={errors.amount}
+            error={errors.pricePaid}
             ref={register({
               required: "Price is required",
               max: {
@@ -105,6 +142,7 @@ const PurchaseItem = ({
 PurchaseItem.propTypes = {
   ...itemType,
   handleClose: PropTypes.func.isRequired,
+  swrKey: PropTypes.string.isRequired,
 };
 
 export default PurchaseItem;

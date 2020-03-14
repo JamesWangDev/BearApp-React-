@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Modal from "./Modal";
 import { itemType } from "../types";
 import PurchaseItem from "./PurchaseItem";
@@ -29,6 +30,7 @@ const Item = props => {
     // isReserved,
     price,
     image,
+    swrKey,
   } = props;
   const [isEditing, setIsEditing] = useState(false);
   const handleOnClick = () => {
@@ -64,13 +66,14 @@ const Item = props => {
         <div className="border-solid border border-black" />
       </div>
       <Modal isOpen={isEditing} handleClose={handleClose}>
-        <PurchaseItem handleClose={handleClose} {...props} />
+        <PurchaseItem handleClose={handleClose} swrKey={swrKey} {...props} />
       </Modal>
     </>
   );
 };
 
 Item.propTypes = {
+  swrKey: PropTypes.string.isRequired,
   ...itemType,
 };
 

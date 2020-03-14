@@ -44,6 +44,21 @@ export const createItem: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const addPurchase: RequestHandler = async (req, res, next) => {
+  try {
+    const { itemId } = req.params;
+
+    const updatedItem = await Item.findByIdAndUpdate(itemId, {
+      $push: { purchasers: req.body },
+    });
+    if (!updatedItem) throw createError(404, `Item ${itemId} not found`);
+
+    res.status(200).json(updatedItem);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteOneItem: RequestHandler = async (req, res, next) => {
   try {
     const { itemId, registryId } = req.params;
