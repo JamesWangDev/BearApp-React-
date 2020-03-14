@@ -13,8 +13,6 @@ export default function RegistryPage({ registry, error, customUrl }) {
   // ... an unnecessary client side call
   const { data } = useSWR(key, undefined, { initialData: registry });
 
-  console.log(data);
-
   if (error) return <ErrorPage statusCode="404" title="Registry Not Found" />;
 
   return (

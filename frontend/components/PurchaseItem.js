@@ -25,7 +25,6 @@ const PurchaseItem = ({
 
   const onFormSubmit = async formData => {
     mutate(`/registry/${query.registryUrl}`, async registry => {
-      console.log(registry);
       try {
         const updatedItem = await fetchIt(`/item/${_id}`, {
           method: "POST",
