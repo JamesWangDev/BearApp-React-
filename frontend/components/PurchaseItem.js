@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -21,8 +21,9 @@ const PurchaseItem = ({
   const { query } = useRouter();
   const { register, handleSubmit, errors } = useForm();
   const { openSnack } = useSnacks();
+  const formRef = useRef();
 
-  const onSubmit = async formData => {
+  const onFormSubmit = async formData => {
     mutate(`/registry/${query.registryUrl}`, async registry => {
       console.log(registry);
       try {
@@ -30,7 +31,6 @@ const PurchaseItem = ({
           method: "POST",
           body: JSON.stringify(formData),
         });
-        console.log(updatedItem);
         const updatedItems = registry.items.map(item =>
           item._id === _id ? updatedItem : item
         );
@@ -44,6 +44,15 @@ const PurchaseItem = ({
         return registry;
       }
     });
+  };
+
+  // For some reason, submitting the form inside the modal doesn't work.
+  // I think it has something to do with this form being inside a
+  // react portal, meaning it's injected when the modal is opened.
+  // This function fires the normal form onSubmit event.
+  const onSubmit = e => {
+    e.preventDefault();
+    formRef.current.dispatchEvent(new Event("submit"));
   };
 
   return (
@@ -93,7 +102,7 @@ const PurchaseItem = ({
           </span>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onFormSubmit)} ref={formRef}>
           <InputText id="name" error={errors.name} ref={register}>
             Name
           </InputText>
@@ -115,12 +124,12 @@ const PurchaseItem = ({
           </InputText>
           <InputText
             type="number"
-            id="amount"
-            error={errors.amount}
+            id="pricePaid"
+            error={errors.pricePaid}
             ref={register({
               required: "Price is required",
               max: {
-                value: 1000,
+                value: priceLeft,
                 message: `You've exceeded the remaining price of the gift!`,
               },
               min: {
@@ -132,11 +141,7 @@ const PurchaseItem = ({
             Amount ($)
           </InputText>
           <div className="flex flex-col sm:flex-row justify-center">
-            <Button
-              type="submit"
-              // onClick={() => handleSubmit(onSubmit)}
-              addStyles="w-full sm:w-1/3 sm:mr-3"
-            >
+            <Button onClick={onSubmit} addStyles="w-full sm:w-1/3 sm:mr-3">
               Checkout
             </Button>
             <Button
