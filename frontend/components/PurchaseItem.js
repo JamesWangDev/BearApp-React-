@@ -19,15 +19,10 @@ const PurchaseItem = ({
   priceLeft,
 }) => {
   const { query } = useRouter();
-  const { register, handleSubmit, errors, formState } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const { openSnack } = useSnacks();
 
-  console.log(formState);
-  console.log(errors);
-  console.log(handleSubmit);
-
   const onSubmit = async formData => {
-    console.log(formData);
     mutate(`/registry/${query.registryUrl}`, async registry => {
       console.log(registry);
       try {
