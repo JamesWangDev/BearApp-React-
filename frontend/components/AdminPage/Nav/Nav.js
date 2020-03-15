@@ -8,7 +8,7 @@ export default function Header() {
     <header>
       <div className="header__search md:ml-0">
         <SearchIcon className="mr-2" />
-        Search...
+        Search feature coming soon...
       </div>
 
       <NavMenu />
