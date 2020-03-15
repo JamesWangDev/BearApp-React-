@@ -53,15 +53,14 @@ export default function SnackProvider({ children }) {
     };
   }, [isSnackOpen]);
 
+  const color = getColorString(type);
+  const className = `${color} pl-4 pr-6 py-4 m-3 z-50 rounded-lg text-white text-lg`;
+
   return (
     <AdminPageContext.Provider value={handlers}>
       {children}
 
-      <div
-        className={`${getColorString(
-          type
-        )} pl-4 pr-6 py-4 m-3 z-50 rounded-lg text-white text-lg`}
-      >
+      <div className={className}>
         <span>{snack}</span>
         <CloseIcon
           color="#fff"
