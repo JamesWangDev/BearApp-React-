@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "../NavBar";
 import Button from "../Button";
+import Header from "../Header";
 import Endpoints from "./Endpoints";
 import { docs, baseGHURL } from "./data";
 import { getAllEndpoints, filterEndpoints } from "./utils";
@@ -14,6 +15,7 @@ export default function DocsApi() {
 
   return (
     <>
+      <Header title="Developer Docs" />
       <NavBar />
       <div className="p-6 pb-4 bg-gray-100 text-gray-900 min-h-screen">
         <div className="flex flex-col justify-center text-center text-black">

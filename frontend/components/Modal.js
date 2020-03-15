@@ -14,7 +14,7 @@ const Modal = props => {
           unmountOnExit
         >
           <div
-            className="modal flex justify-center items-center fixed inset-0 z-10"
+            className="modal flex justify-center items-center fixed inset-0 z-10 overflow-y-auto"
             role="dialog"
             aria-modal="true"
             onClick={props.handleClose}
@@ -61,7 +61,7 @@ const InnerModal = ({ children, handleClose }) => {
     document.addEventListener("keydown", keyListener);
 
     return () => document.removeEventListener("keydown", keyListener);
-  });
+  }, []);
 
   const modalRef = createRef();
 
@@ -94,13 +94,19 @@ const InnerModal = ({ children, handleClose }) => {
   return (
     <div
       ref={modalRef}
-      className="w-600 bg-white shadow-lg border-solid rounded-lg h-auto m-2 overflow-hidden"
+      className="w-full md:w-600 bg-white shadow-lg border-solid rounded-lg my-2 top-0 absolute"
       onClick={e => {
         e.preventDefault();
         e.stopPropagation();
       }}
     >
       {children}
+
+      <style jsx>{`
+        div {
+          height: fit-content;
+        }
+      `}</style>
     </div>
   );
 };

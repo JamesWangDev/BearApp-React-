@@ -1,46 +1,52 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ErrorPage from "next/error";
+import useSWR from "swr";
 import Items from "../components/Items";
 import { fetchIt } from "../utils";
-import { registryType } from "../types";
-
 import Footer from "../components/Footer";
+import { publicRegistryType } from "../types";
+import colors from "../css/colors";
+import Header from "../components/Header";
+
 /*
 This is the main React component, the HTML that gets returned from this function is what
 will show on the browser.
 
-The "registry" variable is what we call a "prop" in react, and is being passed into the component
+The "registryUrl" variable is what we call a "prop" in react, and is being passed into the component
 like a parameter to a function
 */
-function RegistryPage({ registry }) {
-  /* any javascript you want to do you can do here before the return statement */
+export default function RegistryPage({ registryUrl, initialData, error }) {
+  // this is the key we'll need to mutate when a purchase is made
+  const swrKey = `/registry/${registryUrl}`;
+  // pass in the server rendered registry instead of making...
+  // ... an unnecessary client side call
+  const { data } = useSWR(swrKey, { initialData });
+
+  if (error) return <ErrorPage statusCode="404" title="Registry Not Found" />;
+
   return (
     <>
+      <Header title={initialData.title} />
       <main>
         <section className="cover">
-          <h1>{registry.title}</h1>
-          <h2>{registry.description}</h2>
+          <div className="cover-text">
+            <h1 className="text-6xl mb-4">{data.title}</h1>
+            <h2 className="text-3xl">{data.description}</h2>
+          </div>
         </section>
-        <section className="items">
-          <Items items={registry.items} />
+        <section className="items bg-gray-200">
+          <Items items={data.items} swrKey={swrKey} />
         </section>
       </main>
+
       <Footer />
+
       <style jsx>{`
-        .page {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-        }
-        header,
-        footer {
-          height: 70px;
-          width: 100%;
-          background-color: gray;
-        }
         main {
           min-height: calc(100vh - 70px - 70px);
         }
+
         main section.cover {
           display: flex;
           flex-direction: column;
@@ -52,18 +58,26 @@ function RegistryPage({ registry }) {
           overflow: hidden;
           background-repeat: no-repeat;
           background-position: top;
-          background-image: url("${registry.coverImage}");
+          background-image: url("${data.coverImage ||
+            "https://i.pinimg.com/originals/6f/10/f1/6f10f12395044476a16c9e53e19902da.jpg"}");
           height: 100vh;
           color: #fff;
         }
-        h1 {
-          font-size: 4rem;
-        }
-        h2 {
-          font-size: 2rem;
-        }
         .items {
-          padding: 100px 20px;
+          padding: 40px 20px;
+          background-color: ${colors.backgroundSecondary}
+        }
+        .cover-text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width:100%;
+          min-width: 310px;
+          max-width: 800px;
+          border-radius: 20px;
+          padding:10px;
+          text-shadow: 2px 2px 3px rgba(0,0,0,0.7), 2px 2px 7px rgba(0,0,0,0.4), 2px 2px 10px rgba(0,0,0,0.1), -1px -1px 2px rgba(0,0,0,0.1);
         }
       `}</style>
     </>
@@ -76,8 +90,13 @@ function RegistryPage({ registry }) {
 // We're using this function to fetch the registry from the server, and then return the registry as
 // a "prop" into the React component.
 RegistryPage.getInitialProps = async ctx => {
-  const registry = await fetchIt(`/registry/${ctx.query.registryUrl}`);
-  return { registry };
+  const { registryUrl } = ctx.query;
+  try {
+    const initialData = await fetchIt(`/registry/${registryUrl}`);
+    return { registryUrl, initialData };
+  } catch (error) {
+    return { registryUrl, error };
+  }
 };
 
 // This is how React does types. It's not required, but it tells React what props to expect,
@@ -87,7 +106,7 @@ RegistryPage.getInitialProps = async ctx => {
 // things would obviously break because we're expecting the registryType, not a string.
 // This can help us catch those errors early.
 RegistryPage.propTypes = {
-  registry: PropTypes.shape(registryType),
+  error: PropTypes.string,
+  initialData: PropTypes.shape(publicRegistryType),
+  registryUrl: PropTypes.string.isRequired,
 };
-
-export default RegistryPage;

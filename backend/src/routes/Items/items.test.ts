@@ -75,7 +75,10 @@ describe("Item Endpoint Tests", () => {
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundItem.body).toStrictEqual(newItem.body);
+      expect(foundItem.body._id).toBe(newItem.body._id);
+      expect(foundItem.body.name).toBe(newItem.body.name);
+      expect(foundItem.body.description).toBe(newItem.body.description);
+      expect(foundItem.body.price).toBe(newItem.body.price);
     });
 
     test("expected to not find a single invalid item", async () => {
@@ -100,7 +103,10 @@ describe("Item Endpoint Tests", () => {
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundItem.body).toStrictEqual(newItem.body);
+      expect(foundItem.body._id).toBe(newItem.body._id);
+      expect(foundItem.body.name).toBe(newItem.body.name);
+      expect(foundItem.body.description).toBe(newItem.body.description);
+      expect(foundItem.body.price).toBe(newItem.body.price);
 
       const deletedItem = await deleteItem(itemId, registryId, 200, token);
       expect(deletedItem.body).not.toBeNull();
@@ -121,7 +127,10 @@ describe("Item Endpoint Tests", () => {
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundItem.body).toStrictEqual(newItem.body);
+      expect(foundItem.body._id).toBe(newItem.body._id);
+      expect(foundItem.body.name).toBe(newItem.body.name);
+      expect(foundItem.body.description).toBe(newItem.body.description);
+      expect(foundItem.body.price).toBe(newItem.body.price);
 
       const resp = await deleteItem(
         "invalid-id-string",
@@ -245,7 +254,10 @@ describe("Item Endpoint Tests", () => {
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundItem.body).toStrictEqual(newItem.body);
+      expect(foundItem.body._id).toBe(newItem.body._id);
+      expect(foundItem.body.name).toBe(newItem.body.name);
+      expect(foundItem.body.description).toBe(newItem.body.description);
+      expect(foundItem.body.price).toBe(newItem.body.price);
 
       const updateObj = {
         name: "New BMW",
@@ -276,7 +288,10 @@ describe("Item Endpoint Tests", () => {
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundItem.body).toStrictEqual(newItem.body);
+      expect(foundItem.body._id).toBe(newItem.body._id);
+      expect(foundItem.body.name).toBe(newItem.body.name);
+      expect(foundItem.body.description).toBe(newItem.body.description);
+      expect(foundItem.body.price).toBe(newItem.body.price);
 
       const error = await updateItem(
         itemId,
@@ -304,7 +319,10 @@ describe("Item Endpoint Tests", () => {
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundItem.body).toStrictEqual(newItem.body);
+      expect(foundItem.body._id).toBe(newItem.body._id);
+      expect(foundItem.body.name).toBe(newItem.body.name);
+      expect(foundItem.body.description).toBe(newItem.body.description);
+      expect(foundItem.body.price).toBe(newItem.body.price);
 
       const purchaseInfo = {
         name: "Mr Bean",
@@ -312,10 +330,7 @@ describe("Item Endpoint Tests", () => {
       };
 
       const updatedItem = await purchaseItem(itemId, purchaseInfo, 200);
-      expect(updatedItem.body.purchasers[0].name).toBe(purchaseInfo.name);
-      expect(updatedItem.body.purchasers[0].pricePaid).toBe(
-        purchaseInfo.pricePaid
-      );
+      expect(updatedItem.body.totalPurchased).toBe(purchaseInfo.pricePaid);
     });
 
     test("expected to unsuccessfully make an item 'purchase' - pricePaid", async () => {
@@ -330,7 +345,10 @@ describe("Item Endpoint Tests", () => {
       const foundItem = await getItem(itemId, 200);
       expect(foundItem.body).not.toBeNull();
       // could check each field invidiually here
-      expect(foundItem.body).toStrictEqual(newItem.body);
+      expect(foundItem.body._id).toBe(newItem.body._id);
+      expect(foundItem.body.name).toBe(newItem.body.name);
+      expect(foundItem.body.description).toBe(newItem.body.description);
+      expect(foundItem.body.price).toBe(newItem.body.price);
 
       const purchaseInfo = {
         name: "Mr Bean",
