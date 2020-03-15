@@ -78,7 +78,9 @@ export default function AdminItemsTable({ items }) {
   if (!items.length) {
     return (
       <Loader text="No gifts found">
-        <Button addStyles="mt-8">Add Gift</Button>
+        <Link href="/admin/gifts/create" addStyles="mt-8">
+          Add Gift
+        </Link>
       </Loader>
     );
   }
