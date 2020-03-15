@@ -1,32 +1,60 @@
-import React, { createRef } from "react";
-import { useForm } from "react-hook-form";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
+import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 import InputText from "./InputText";
 import Button from "./Button";
+import { useSnacks } from "./Snack";
 import { itemType } from "../types";
+import { fetchIt } from "../utils";
 
 const PurchaseItem = ({
-  // _id,
+  _id,
   name,
   description,
   link,
-  // isPurchased,
-  // isReserved,
-  price,
   image,
   handleClose,
+  priceLeft,
+  swrKey,
 }) => {
   const { register, handleSubmit, errors } = useForm();
-  const formData = data => {
-    console.log(data);
+  const { openSnack } = useSnacks();
+  const formRef = useRef();
+
+  const onFormSubmit = async formData => {
+    mutate(swrKey, async registry => {
+      try {
+        const updatedItem = await fetchIt(`/item/${_id}`, {
+          method: "POST",
+          body: JSON.stringify(formData),
+        });
+        const updatedItems = registry.items.map(item =>
+          item._id === _id ? updatedItem : item
+        );
+        openSnack("Success! Processed your payment.", "success");
+        handleClose();
+        return { ...registry, items: updatedItems };
+      } catch (err) {
+        console.log(err);
+        openSnack("Sorry! Couldn't process your payment", "error");
+        handleClose();
+        return registry;
+      }
+    });
   };
+
+  // For some reason, submitting the form inside the modal doesn't work.
+  // I think it has something to do with this form being inside a
+  // react portal, meaning it's injected when the modal is opened.
+  // This function fires the normal form onSubmit event.
   const onSubmit = e => {
     e.preventDefault();
     formRef.current.dispatchEvent(new Event("submit"));
   };
-  const formRef = createRef();
+
   return (
-    <div className="">
+    <div>
       <div>
         <img
           className="max-h-full max-w-full my-0 mx-auto"
@@ -34,55 +62,73 @@ const PurchaseItem = ({
           alt={`${name} image`}
         />
       </div>
+
       <div className="px-10 pt-10 pb-2 flex justify-between">
         <div>
-          <h1 className="text-xl">{name}</h1>
-          <div className="text-green-500">${price}</div>
+          <h1 className="text-xl mb-2">{name}</h1>
+          <div className="text-green-500">
+            <span className="text-gray-700">Remaining Goal: </span>${priceLeft}
+          </div>
         </div>
         <div>
           <a
-            href={link}
-            className="p-2 border border-solid cursor-pointer rounded"
+            href={link || null}
+            className={`p-2 border border-solid cursor-pointer rounded ${
+              link ? "cursor-pointer" : "cursor-not-allowed"
+            }`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             View online
           </a>
         </div>
       </div>
-      <div className="px-10 pt-2 pb-4 border border-solid text-gray-700">
-        <div className="" title={description}>
-          {description}
-        </div>
+
+      <div className="px-10 py-4 border border-solid text-gray-700">
+        {description}
       </div>
-      <div className="bg-gray-200 p-10 text-gray-700">
-        <h2>Thank you for gifting this gift!</h2>
-        <p>Please fill out the details below to gift this gift.</p>
-        <form onSubmit={handleSubmit(formData)} ref={formRef}>
-          <InputText
-            id="name"
-            error={errors.name}
-            ref={register({ required: "Name is required" })}
-          >
+
+      <div className="bg-gray-200 py-6 px-10 text-gray-700">
+        <div className="text-center mb-6">
+          <h2 className="text-xl">Thank you for choosing to gift this!</h2>
+          <p className="my-2">
+            Please fill out the details below to gift this gift.
+          </p>
+          <span className="italic text-sm">
+            <span className="font-bold">Note: </span>
+            only the amount is required. Feel free to gift anonymously.
+          </span>
+        </div>
+
+        <form onSubmit={handleSubmit(onFormSubmit)} ref={formRef}>
+          <InputText id="name" error={errors.name} ref={register}>
             Name
           </InputText>
           <InputText
+            type="email"
             id="email"
             error={errors.email}
-            ref={register({ required: "Email is required" })}
+            ref={register}
           >
             Email
           </InputText>
-          <InputText id="message" type="textarea" ref={register}>
+          <InputText
+            type="textarea"
+            id="message"
+            error={errors.message}
+            ref={register}
+          >
             Message
           </InputText>
           <InputText
-            id="amount"
             type="number"
-            error={errors.amount}
+            id="pricePaid"
+            error={errors.pricePaid}
             ref={register({
               required: "Price is required",
               max: {
-                value: price,
-                message: `You've exceeded the price of the gift!`,
+                value: priceLeft,
+                message: `You've exceeded the remaining price of the gift!`,
               },
               min: {
                 value: 1,
@@ -92,9 +138,20 @@ const PurchaseItem = ({
           >
             Amount ($)
           </InputText>
-          <div className="flex justify-around">
-            <Button onClick={onSubmit}>Checkout</Button>
-            <Button onClick={handleClose}>Cancel</Button>
+          <div className="flex flex-col sm:flex-row justify-center">
+            <Button
+              onClick={onSubmit}
+              addStyles="w-full sm:w-1/3 mb-2 sm:mb-0 sm:mr-3"
+            >
+              Checkout
+            </Button>
+            <Button
+              onClick={handleClose}
+              addStyles="w-full sm:w-1/3"
+              bgColor="bg-red-500 hover:bg-red-400"
+            >
+              Cancel
+            </Button>
           </div>
         </form>
       </div>
@@ -105,6 +162,8 @@ const PurchaseItem = ({
 PurchaseItem.propTypes = {
   ...itemType,
   handleClose: PropTypes.func.isRequired,
+  priceLeft: PropTypes.number.isRequired,
+  swrKey: PropTypes.string.isRequired,
 };
 
 export default PurchaseItem;

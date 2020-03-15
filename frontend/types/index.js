@@ -43,19 +43,23 @@ export const userType = shape({
   sub: string.isRequired,
 });
 
-export const registryType = {
+export const publicRegistryType = {
   title: string.isRequired,
   description: string.isRequired,
   tyMessage: string,
   p1FullName: string.isRequired,
   p2FullName: string.isRequired,
   weddingDate: instanceOf(Date),
-  phoneNumber: number,
-  email: string,
-  userId: string.isRequired,
   customUrl: string.isRequired,
   items: arrayOf(shape(itemType)),
   coverImage: string,
+};
+
+export const adminRegistryType = {
+  ...publicRegistryType,
+  phoneNumber: number,
+  email: string,
+  userId: string.isRequired,
 };
 
 export const formErrorType = shape({
