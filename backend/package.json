@@ -5,7 +5,7 @@
   "main": "src/server/index.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config",
-    "start": "node -r dotenv/config dist/server/index.js",
+    "start": "node -r NODE_ENV=production dotenv/config dist/server/index.js",
     "test": "jest --setupFiles dotenv/config --runInBand",
     "test:watch": "yarn test --watch",
     "postinstall": "tsc"
