@@ -7,6 +7,7 @@ import { ItemI } from "../../models/Item/item-types";
 export const getEveryRegistry: RequestHandler = async (_req, res, next) => {
   try {
     const registry = await Registry.find().lean();
+    console.log("registries");
     res.status(200).json(registry);
   } catch (err) {
     next(err);
