@@ -8,7 +8,7 @@ import Header from "../Header";
 export default function LandingPage() {
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header title="Chingu Registry" />
 
       <NavBar />
 
