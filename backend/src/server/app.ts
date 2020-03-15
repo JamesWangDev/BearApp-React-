@@ -16,8 +16,14 @@ if (NODE_ENV === "development" || NODE_ENV === "test:withLogs") {
 }
 
 // EXPRESS MIDDLEWARES
-//Allow all CORS, not recommended for production
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://bears04.now.sh",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
