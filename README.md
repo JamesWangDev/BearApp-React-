@@ -11,7 +11,9 @@ Add-project-description-here | Voyage-16 | https://chingu.io/ | Twitter: https:/
 
 ## Our Project Idea
 
-When having a wedding, a lot of people like to have a wedding registry to let guests know what types would be most needed for the happy couple. This project allows the wedding party to host their own wedding registry where guests can access a public facing page to purchase the gifts.
+When having a wedding, many people like to have a wedding registry so the guests that want to get gifts for the happy couple know what they want and can get them a gift they know they are going to treasure. A member of our team had some friends get married recently and found there wasn't a good option online to create a digital wedding registry.
+
+For our project, we decided to build web application that let's users create a wedding registry with gifts that they can add from any online or physical store. They can then choose a custom url that they send their guests so their guests can purchase those gifts for the wedding.
 
 ## MVP
 
